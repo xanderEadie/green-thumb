@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings</title>
+</head>
+<body>
+
+<div class="settings-container">
+    <!-- Weather/Climate Information -->
+    <div class="section">
+        <h2>Weather/Climate</h2>
+        <p><strong>Current Location:</strong> {{user.location}}</p>
+        <p><strong>Current Weather:</strong> {{user.weather}}</p>
+    </div>
+
+    <!-- Plants Currently Being Grown -->
+    <div class="section">
+        <h2>Plants Currently Being Grown</h2>
+        <ul>
+            {{#each user.currentPlants}}
+            <li>{{this}} <button>Remove</button></li>
+            {{/each}}
+        </ul>
+        <button>Add New Plant</button>
+    </div>
+
+    <!-- Your Garden (View/Remove Plant) -->
+    <div class="section">
+        <h2>Your Garden</h2>
+        <ul>
+            {{#each user.garden}}
+            <li>{{this}} <button>View</button></li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <!-- Favorite Plants -->
+    <div class="section">
+        <h2>Favorite Plants</h2>
+        <ul>
+            {{#each user.favoritePlants}}
+            <li>{{this}} <button>Remove</button></li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <!-- Username/Password Settings -->
+    <div class="section">
+        <h2>Account Settings</h2>
+        <label for="username">Username</label>
+        <input type="text" id="username" value="{{user.username}}">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" value="{{user.password}}">
+        
+        <button>Update Account</button>
+    </div>
+
+    <!-- Delete Account -->
+    <div class="section">
+        <button>Delete Account</button>
+    </div>
+</div>
+
+</body>
+</html>
