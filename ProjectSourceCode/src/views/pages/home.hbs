@@ -1,26 +1,93 @@
-<div id="home-container" class=".container-fluid">
-    <!-- search for plants -->
-    <div class="card">
-        <div class="card-body">
-            <label>Search For Plants</label>
-            <p>Search for plants for your local environment </p>
-            <img src="../../resources/img/leaf_logo.png">
+{{!- 
+TO-DO:
+1. handlebars to insert appropriate images to image carousel (may have to implement homepage GET route first)
+2. create a form (or js function? something else?) to submit a GET request to the plant information page with information on that plant when clicking on carousel image
+
+NOTES:
+- see how the form/ image as a button thing looks with final implementation. If necessary, could possibly switch to adding an onclick attribute with an event listener to call route
+- carousel vs static image for plants of the day - could also just make a separate page with a carousel to simplify things for the homepage - this would also fix the issue of what to display for plant reccomendations when the user is not signed in - or just do general plant reccomendations regardless of whether or not the user is signed in
+ --}}
+<div id="home-container" class="flex-container">
+    <div class="container">
+        <div class="container text-center">
+            <h1 id="home-title">Green Thumb</h1>
+            <p id="home-title-caption">Plan and Design Your Home Garden</p>
+        </div>
+
+        <div id="home-cards-container" class="row row-cols-3 g-3">
+            <div class="col">
+                <!-- search for plants -->
+                
+                <div id="plant-search-card" class="card" onclick="plantSearchCard">
+                    <div class="card-body">
+                        <h2 class="card-title">Search For Plants</h2>
+                        <p class="card-text">Search for plants for your local environment </p>
+                        <a href="/plantSearch">
+                            <img class="card-img-bottom" src="/img/leaf_logo.png">
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="col">
+                <!-- plants of the day -->
+                <div id="plants-of-the-day" class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Plants of the Day</h2>
+                        <p class="card-text">Reccomended plants for your garden</p>
+                        
+                        {{#if plants.length}}
+                            <!-- plant reccomendation carousel -->
+                            <div id="plant-reccomendation-carousel" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    {{#each plants as plant}}
+                                        {{#if (eq @index 0)}}
+                                            <div class="carousel-item active">
+                                                <a href="/plantInformation?plantID={{plant.id}}">
+                                                    <img class="card-img-bottom" src="/img/leaf_logo.png" alt="Primary slide" >
+                                                </a>
+                                            </div>
+                                        {{else}}
+                                            <div class="carousel-item">
+                                                <a href="/plantInformation?plantID={{plant.id}}">
+                                                    <img class="d-block w-100" src="{{plant.image}}" alt="Secondary slide">
+                                                </a>
+                                            </div>
+                                        {{/if}}
+                                    {{/each}}
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        {{else}}
+                            <img class="card-img-bottom" src="/img/leaf_logo.png">
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <!-- my garden -->
+                <div id="my-garden-card" class="card">
+                    
+                        <div class="card-body">
+                            <h2 class="card-title">My Garden</h2>
+                            <p class="card-text">Track plants in my garden</p>
+                            <a href="/garden">
+                                <img class="card-img-bottom" src="/img/leaf_logo.png">
+                            </a>
+                        </div>
+                    
+                </div>
+            </div>
         </div>
     </div>
-    <!-- plants of the day -->
-    <div class="card">
-        <div class="card-body">
-            <label>Plants of the Day</label>
-            <p>Reccomended plants for your garden</p>
-            <img src="../../resources/img/leaf_logo.png">
-        </div>
-    </div>
-    <!-- my garden -->
-    <div class="card">
-        <div class="card-body">
-            <label>My Garden</label>
-            <p>Track plants in my garden</p>
-            <img src="../../resources/img/leaf_logo.png">
-        </div>
-    </div>
+    
 </div>
