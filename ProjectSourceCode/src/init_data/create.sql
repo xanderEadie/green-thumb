@@ -33,3 +33,10 @@ CREATE TABLE user_to_location(
     FOREIGN KEY (user_id) REFERENCES userInfo(user_id),
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
+CREATE TABLE user_to_garden(
+    user_id INT NOT NULL,
+    plant_id INT NOT NULL,
+    PRIMARY KEY (user_id, plant_id),
+    FOREIGN KEY (user_id) REFERENCES userInfo(user_id),
+    FOREIGN KEY (plant_id) REFERENCES plants(plant_id)
+)
