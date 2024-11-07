@@ -1,29 +1,31 @@
-CREATE TABLE plants(
+CREATE TABLE garden(
     --temporary to fill in for plants for userInfo
     --Ideally the API will have it's own table to take from and connect to users
-    plant_id SERIAL PRIMARY KEY NOT NULL,
+    garden_id SERIAL PRIMARY KEY NOT NULL,
     image_url VARCHAR(300) NOT NULL,
     name VARCHAR(100),
     moistureNeed INT NOT NULL,
     comfTemp DECIMAL,
     lightLevel INT NOT NULL,
     lifespan INT NOT NULL,
-    SIZE DECIMAL,
+    plantSize DECIMAL,
     rainReq DECIMAL
 );
+--lightlevel is rated out of 3, 1 being low, 3 being high, same scale applies to locations
 CREATE TABLE userInfo(
     user_id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(100),
     username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    password CHAR(60) NOT NULL
+    password CHAR(60) NOT NULL,
+    garden_id INT NOT NULL
 );
 CREATE TABLE location(
     location_id SERIAL PRIMARY KEY NOT NULL,
     avgHumidity INT NOT NULL,
     rainfall DECIMAL,
     avgTemp DECIMAL,
-    daysOfSun INT NOT NULL,
+    lightAmount INT NOT NULL,
     elevation INT NOT NULL
 );
 CREATE TABLE user_to_location(
@@ -33,10 +35,3 @@ CREATE TABLE user_to_location(
     FOREIGN KEY (user_id) REFERENCES userInfo(user_id),
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
-CREATE TABLE user_to_garden(
-    user_id INT NOT NULL,
-    plant_id INT NOT NULL,
-    PRIMARY KEY (user_id, plant_id),
-    FOREIGN KEY (user_id) REFERENCES userInfo(user_id),
-    FOREIGN KEY (plant_id) REFERENCES plants(plant_id)
-)
