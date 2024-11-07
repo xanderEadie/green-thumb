@@ -4,63 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/daisyui@2.14.0/dist/full.js"></script>
 </head>
-<body>
+<body class="bg-base-200">
 
-<div class="settings-container">
+<div class="container mx-auto p-6 bg-base-100 shadow-xl rounded-lg space-y-6">
     <!-- Weather/Climate Information -->
-    <div class="section">
-        <h2>Weather/Climate</h2>
+    <div class="card bg-base-100 shadow-lg p-4">
+        <h2 class="card-title text-xl">Weather/Climate</h2>
         <p><strong>Current Location:</strong> {{user.location}}</p>
         <p><strong>Current Weather:</strong> {{user.weather}}</p>
     </div>
 
     <!-- Plants Currently Being Grown -->
-    <div class="section">
-        <h2>Plants Currently Being Grown</h2>
-        <ul>
+    <div class="card bg-base-100 shadow-lg p-4">
+        <h2 class="card-title text-xl">Plants Currently Being Grown</h2>
+        <ul class="list-disc pl-5 space-y-2">
             {{#each user.currentPlants}}
-            <li>{{this}} <button>Remove</button></li>
+            <li class="flex justify-between items-center">
+                {{this}}
+                <button class="btn btn-sm btn-error">Remove</button>
+            </li>
             {{/each}}
         </ul>
-        <button>Add New Plant</button>
+        <button class="btn btn-primary mt-4">Add New Plant</button>
     </div>
 
     <!-- Your Garden (View/Remove Plant) -->
-    <div class="section">
-        <h2>Your Garden</h2>
-        <ul>
+    <div class="card bg-base-100 shadow-lg p-4">
+        <h2 class="card-title text-xl">Your Garden</h2>
+        <ul class="list-disc pl-5 space-y-2">
             {{#each user.garden}}
-            <li>{{this}} <button>View</button></li>
+            <li class="flex justify-between items-center">
+                {{this}}
+                <button class="btn btn-sm btn-info">View</button>
+            </li>
             {{/each}}
         </ul>
     </div>
 
     <!-- Favorite Plants -->
-    <div class="section">
-        <h2>Favorite Plants</h2>
-        <ul>
+    <div class="card bg-base-100 shadow-lg p-4">
+        <h2 class="card-title text-xl">Favorite Plants</h2>
+        <ul class="list-disc pl-5 space-y-2">
             {{#each user.favoritePlants}}
-            <li>{{this}} <button>Remove</button></li>
+            <li class="flex justify-between items-center">
+                {{this}}
+                <button class="btn btn-sm btn-error">Remove</button>
+            </li>
             {{/each}}
         </ul>
     </div>
 
     <!-- Username/Password Settings -->
-    <div class="section">
-        <h2>Account Settings</h2>
-        <label for="username">Username</label>
-        <input type="text" id="username" value="{{user.username}}">
-
-        <label for="password">Password</label>
-        <input type="password" id="password" value="{{user.password}}">
-        
-        <button>Update Account</button>
+    <div class="card bg-base-100 shadow-lg p-4">
+        <h2 class="card-title text-xl">Account Settings</h2>
+        <div class="form-control w-full mb-4">
+            <label class="label" for="username">Username</label>
+            <input type="text" id="username" class="input input-bordered w-full" value="{{user.username}}">
+        </div>
+        <div class="form-control w-full mb-4">
+            <label class="label" for="password">Password</label>
+            <input type="password" id="password" class="input input-bordered w-full" value="{{user.password}}">
+        </div>
+        <button class="btn btn-primary">Update Account</button>
     </div>
 
     <!-- Delete Account -->
-    <div class="section">
-        <button>Delete Account</button>
+    <div class="card bg-base-100 shadow-lg p-4">
+        <button class="btn btn-error w-full">Delete Account</button>
     </div>
 </div>
 
