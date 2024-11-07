@@ -16,7 +16,6 @@ CREATE TABLE userInfo(
     name VARCHAR(100),
     username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL
-    yourGarden int[] NOT NULL
 );
 CREATE TABLE location(
     location_id SERIAL PRIMARY KEY NOT NULL,
