@@ -29,4 +29,7 @@ CREATE TABLE location(
 CREATE TABLE user_to_location(
     user_id INT NOT NULL,
     location_id INT NOT NULL,
+    PRIMARY KEY (user_id, location_id),
+    FOREIGN KEY (user_id) REFERENCES userInfo(user_id),
+    FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
