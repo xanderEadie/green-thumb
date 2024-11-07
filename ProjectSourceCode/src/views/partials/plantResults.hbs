@@ -1,18 +1,22 @@
-<div class="card bg-base-100 w-96 shadow-xl">
-  <figure>
-    <img
-      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-      alt="Placeholder image" />
-  </figure>
-  <div class="card-body">
-    <h2 class="card-title">
-      Placeholder plant name
-      <!--<div class="badge badge-secondary">NEW</div>-->
-    </h2>
-    <p>Placeholder plant description text</p>
-    <div class="card-actions justify-end">
-      <div class="badge badge-outline">Watering: Once/week</div>
-      <div class="badge badge-outline">Sun: Indirect</div>
+<div class="results-container" class="">
+  {{#if plants.length}}
+    {{#each plants as plant}}
+    <div class="card bg-base-100 w-96 shadow-xl">
+      <figure>
+        <img src="{{plant.img}}" class="w-full" />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">
+          {{plant.name}}
+        </h2>
+        <div class="card-actions justify-end">
+          <div class="badge badge-outline">Watering: {{plant.moistureNeed}}</div>
+          <div class="badge badge-outline">Light Level: {{plant.lightLevel}}</div>
+        </div>
+      </div>
     </div>
-  </div>
+    {{/each}}
+  {{else}}
+    <img class="card-img-bottom" src="../../resources/img/leaf_logo.png">
+  {{/if}}
 </div>
