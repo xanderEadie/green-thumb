@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Search</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@1.14.0/dist/full.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-4">
+  <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <h1 class="text-2xl font-bold mb-4 text-center">Plant Search</h1>
+
+    <!-- Plant Name Search -->
+    <div class="form-control mb-4">
+      <label class="label" for="plantName">
+        <span class="label-text">Plant Name</span>
+      </label>
+      <input type="text" id="plantName" class="input input-bordered" placeholder="Enter plant name" />
+    </div>
+
+    <h3 class="text-xl font-semibold mb-4">Filters</h3>
+
+    <!-- Light Level Filter -->
+    <div class="form-control mb-4">
+      <label class="label" for="lightLevel">
+        <span class="label-text">Light Level</span>
+      </label>
+      <select id="lightLevel" class="select select-bordered">
+        <option value="">Any</option>
+        <option value="1">Low</option>
+        <option value="2">Medium</option>
+        <option value="3">High</option>
+      </select>
+    </div>
+
+    <!-- Moisture Need Filter -->
+    <div class="form-control mb-4">
+      <label class="label" for="moistureNeed">
+        <span class="label-text">Moisture Need</span>
+      </label>
+      <select id="moistureNeed" class="select select-bordered">
+        <option value="">Any</option>
+        <option value="1">Low</option>
+        <option value="2">Medium</option>
+        <option value="3">High</option>
+      </select>
+    </div>
+
+    <!-- Comfort Temperature Filter (Range) -->
+    <div class="form-control mb-4">
+      <label class="label">
+        <span class="label-text">Comfort Temperature (°C)</span>
+      </label>
+      <div class="flex gap-2">
+        <input type="number" id="comfTempMin" class="input input-bordered w-1/2" placeholder="Min" step="0.1" />
+        <input type="number" id="comfTempMax" class="input input-bordered w-1/2" placeholder="Max" step="0.1" />
+      </div>
+    </div>
+
+    <!-- Lifespan Filter (Range) -->
+    <div class="form-control mb-4">
+      <label class="label">
+        <span class="label-text">Lifespan (years)</span>
+      </label>
+      <div class="flex gap-2">
+        <input type="number" id="lifespanMin" class="input input-bordered w-1/2" placeholder="Min" />
+        <input type="number" id="lifespanMax" class="input input-bordered w-1/2" placeholder="Max" />
+      </div>
+    </div>
+
+    <!-- Size Filter (Range) -->
+    <div class="form-control mb-4">
+      <label class="label">
+        <span class="label-text">Size (cm)</span>
+      </label>
+      <div class="flex gap-2">
+        <input type="number" id="sizeMin" class="input input-bordered w-1/2" placeholder="Min" step="0.1" />
+        <input type="number" id="sizeMax" class="input input-bordered w-1/2" placeholder="Max" step="0.1" />
+      </div>
+    </div>
+
+    <!-- Rain Requirement Filter (Range) -->
+    <div class="form-control mb-4">
+      <label class="label">
+        <span class="label-text">Rain Requirement (mm)</span>
+      </label>
+      <div class="flex gap-2">
+        <input type="number" id="rainReqMin" class="input input-bordered w-1/2" placeholder="Min" step="0.1" />
+        <input type="number" id="rainReqMax" class="input input-bordered w-1/2" placeholder="Max" step="0.1" />
+      </div>
+    </div>
+
+    <!-- Search Button -->
+    <div class="form-control mt-4">
+      <button onclick="performSearch()" class="btn btn-primary w-full">Search</button>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results" class="mt-6"></div>
+  </div>
+
+  <script>
+    async function performSearch() {
+      const searchParams = {
+        name: document.getElementById('plantName').value,
+        lightLevel: document.getElementById('lightLevel').value,
+        moistureNeed: document.getElementById('moistureNeed').value,
+        comfTempMin: document.getElementById('comfTempMin').value,
+        comfTempMax: document.getElementById('comfTempMax').value,
+        lifespanMin: document.getElementById('lifespanMin').value,
+        lifespanMax: document.getElementById('lifespanMax').value,
+        sizeMin: document.getElementById('sizeMin').value,
+        sizeMax: document.getElementById('sizeMax').value,
+        rainReqMin: document.getElementById('rainReqMin').value,
+        rainReqMax: document.getElementById('rainReqMax').value
+      };
+
+      document.getElementById('results').innerHTML = output;
+    }
+  </script>
+</body>
+</html>
