@@ -1,0 +1,16 @@
+#home-container
+{
+    background-image: url('/img/home_background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#home-title
+{
+    color: #A5CA7A;
+    font-size: 100px;
+}
+#home-title-caption
+{
+    color: #A5CA7A;
+    font-size: 30px;
+}
