@@ -1,28 +1,71 @@
-<header>
- <nav class="navbar navbar-expand-sm border-bottom">
-   <div class="container-fluid">
-     <button
-       class="navbar-toggler ms-auto"
-       type="button"
-       data-bs-toggle="collapse"
-       data-bs-target="#navbar-collapse"
-       aria-controls="navbar"
-       aria-expanded="false"
-       aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-     </button>
-     <div class="collapse navbar-collapse" id="navbar-collapse">
-       <ul class="navbar-nav me-auto">
-         <li class="nav-item">
-           <!-- For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
-           <a href="/discover" class="nav-link">Discover</a>
-         </li>
-       </ul>
-       <div class="nav-item me-1">
-         <!-- For Logout, add a <a> tag with an attribute href to call the '/logout API -->
-         <a href="/logout" class="nav-link">Logout</a>
-       </div>
-     </div>
-   </div>
- </nav>
-</header>
+<div class="navbar bg-base-300">
+  <div class="navbar-start">
+    {{!-- <div class=""> --}}
+      <a href="/home">
+        <img class="btn btn-ghost btn-circle object-contain" src="/img/leaf_logo.png">
+      </a>
+      {{!-- <p class="test-xl m-2">Green Thumb</p> --}}
+    {{!-- </div> --}}
+  </div>
+    
+
+  <div class="navbar-end">
+    <!-- menu -->
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h8m-8 6h16"/>
+        </svg>
+      </div>
+      <ul
+        tabindex="0"
+        class="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <li><a>Home</a></li>
+        <li><a>Plant Search</a></li>
+        <li><a>Item 3</a></li>
+      </ul>
+    </div>
+    <!-- profile icon/ dropdown -->
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+        <div class="w-10 rounded-full">
+          {{#if user}}
+            <img src="{{user.profile_photo}}">
+          {{else}}
+            <!-- icon from https://heroicons.com/ -->
+            <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke-width="1.5" 
+            stroke="currentColor" 
+            class="size-10">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          {{/if}}
+        </div>
+      </div>
+      <ul
+        tabindex="0"
+        class="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        {{#if user}}
+          <li><a href="/settings">Profile</a></li>
+          <li><a href="/settings">Settings</a></li>
+          <li><a href="/logout">Logout</a></li>
+        {{else}}
+          <li><a href="/login">Login</a></li>
+          <li><a href="/register">Register</a></li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</div>
