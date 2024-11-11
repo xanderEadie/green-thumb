@@ -87,6 +87,70 @@ app.get('/',(req,res) => {
 app.get('/home',(req,res) => {
     res.render('pages/home',{plants: []});
 })
+app.get('/', (req, res) => {
+  res.render('pages/register')
+});
+
+// Register
+app.post('/register', async (req, res) => {
+  const hash = await bcrypt.hash(req.body.password, 10);
+
+  const username = req.body.username;
+
+  db.task('register-user', task => {
+      const insertUser = 'INSERT INTO userInfo (name, username, email, password) VALUES ($1, $2, $3);';
+      return task.none(insertUser, [username, hash])
+      .then(() => {
+          res.redirect('/login');
+      })
+  })
+  .catch(function (err){
+      console.log(err)
+  });
+});
+
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  db.task('login', async (t) => {
+    const user = await t.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
+
+    if (!user) {
+      res.redirect('/register');
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      return res.render('login', { message: 'Incorrect username or password.' });
+    }
+
+    req.session.user = user;
+    req.session.save(err => {
+      if (err) {
+        console.error('Session save error:', err);
+      }
+      res.redirect('/discover');
+    });
+  })
+  .catch(error => {
+    console.error('Error during login:', error);
+    res.render('login', { message: 'An error occurred. Please try again.' });
+  });
+});
+
+app.get('/register', (req, res) => {
+  res.render('pages/register')
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.render('pages/logout');
+});
 
 // *****************************************************
 // <!-- Section 5 : Start Server-->
