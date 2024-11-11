@@ -134,7 +134,7 @@ app.post('/login', (req, res) => {
       if (err) {
         console.error('Session save error:', err);
       }
-      res.redirect('/discover');
+      res.redirect('/home');
     });
   })
   .catch(error => {
