@@ -30,28 +30,34 @@
             <p><strong>Elevation:</strong> {{location.elevation}} meters</p>
         </div>
 
-        <!-- Plants Currently Being Grown -->
+        <!-- My Garden Section -->
         <div class="card bg-base-100 shadow-lg p-4">
-            <h2 class="card-title text-xl">Plants Currently Being Grown</h2>
-            <ul class="space-y-4">
-                {{#each userPlants}}
-                <li class="flex items-center space-x-4">
-                    <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
-                    <div>
-                        <p><strong>Name:</strong> {{this.name}}</p>
-                        <p><strong>Moisture Need:</strong> {{this.moistureNeed}}%</p>
-                        <p><strong>Comfort Temperature:</strong> {{this.comfTemp}} °C</p>
-                        <p><strong>Light Level:</strong> {{this.lightLevel}}</p>
-                        <p><strong>Lifespan:</strong> {{this.lifespan}} days</p>
-                        <p><strong>Size:</strong> {{this.SIZE}} cm</p>
-                        <p><strong>Rain Requirement:</strong> {{this.rainReq}} mm</p>
-                    </div>
-                    <button class="btn btn-sm btn-error">Remove</button>
-                </li>
-                {{/each}}
-            </ul>
-            <button class="btn btn-primary mt-4">Add New Plant</button>
+            <h2 class="card-title text-xl">My Garden</h2>
+
+            <!-- Plants Currently Being Grown -->
+            <div class="bg-base-100 shadow-lg p-4 mt-4 rounded-lg">
+                <h3 class="text-lg font-semibold mb-4">Plants Currently Being Grown</h3>
+                <ul class="space-y-4">
+                    {{#each userPlants}}
+                    <li class="flex items-center space-x-4">
+                        <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
+                        <div>
+                            <p><strong>Name:</strong> {{this.name}}</p>
+                            <p><strong>Moisture Need:</strong> {{this.moistureNeed}}%</p>
+                            <p><strong>Comfort Temperature:</strong> {{this.comfTemp}} °C</p>
+                            <p><strong>Light Level:</strong> {{this.lightLevel}}</p>
+                            <p><strong>Lifespan:</strong> {{this.lifespan}} days</p>
+                            <p><strong>Size:</strong> {{this.SIZE}} cm</p>
+                            <p><strong>Rain Requirement:</strong> {{this.rainReq}} mm</p>
+                        </div>
+                        <button class="btn btn-sm btn-error">Remove</button>
+                    </li>
+                    {{/each}}
+                </ul>
+                <button class="btn btn-primary mt-4">Add New Plant</button>
+            </div>
         </div>
+
 
         <!-- Favorite Plants -->
         <div class="card bg-base-100 shadow-lg p-4">
