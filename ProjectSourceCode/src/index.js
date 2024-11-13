@@ -80,7 +80,7 @@ app.get('/welcome', (req, res) => {
 
 // when navigating to website, redirect to home
 app.get('/',(req,res) => {
-    res.redirect('/home');
+    res.status(200).redirect('/home');
 })
 
 // GET home
@@ -90,7 +90,7 @@ app.get('/home',(req,res) => {
     // TODO: if a session user does not exist, get random plants from API 
 
     // currently, just pass an empty list of plants
-    res.render('pages/home',{plants: []});
+    res.status(200).render('pages/home',{plants: []});
   }
   else
   {
@@ -99,13 +99,13 @@ app.get('/home',(req,res) => {
     // currently, just get plants from the users garden
     let q_get_plant_recs = "SELECT * FROM plants INNER JOIN users_to_plants ON plants.plant_id = users_to_plants.plant_id INNER JOIN users ON users_to_plants.user_id = users.user_id LIMIT 5;";
     db.any(q_get_plant_recs)
-    .then(data => {res.render('pages/home',{plants:data[0]})})
+    .then(data => {res.status(200).render('pages/home',{plants:data[0]})})
   }
 })
 
 // redirect to login
 app.get('/login',(req,res) => {
-  res.render('pages/login');
+  res.status(200).render('pages/login');
 })
 
 app.post('/login', async (req, res) => 
@@ -126,79 +126,30 @@ app.post('/login', async (req, res) =>
           req.session.save((err) => {
               if (err) {
                   console.log('Session save error:', err);
+                  res.status(500);
               }
               else
               {
-                  res.redirect('/home');
+                  res.status(200).redirect('/home');
                   console.log("successful login");                      
               }
           })
       }
       else 
       {
-        res.render('pages/login',{message:"Password is incorrect. Please try again."});
+        res.status(409).render('pages/login',{message:"Password is incorrect. Please try again."});
       }
   }
   catch(err)
   {
       console.log(err);
-      res.render('pages/login',{message:"User does not exist. Please try again."});
-  }
-});
-
-// verify login
-app.post('/login', async (req, res) => 
-{
-  try
-  {
-      // find user from users table for req username
-      let find_usr_q = "SELECT * FROM users WHERE username=$1 LIMIT 1;";
-      let values = [req.body.username];
-      const found_user = await db.oneOrNone(find_usr_q,values);
-      // if user exists, attempt to validate password
-      if(found_user != undefined)
-      // user exists
-      {
-          const pwd_match = await bcrypt.compare(req.body.password, found_user.password);
-          if(pwd_match == true)
-          // password is correct - successful login
-          {
-              //save user details in session
-              req.session.user = found_user;
-              req.session.save((err) => {
-                  if (err) {
-                      console.log('Session save error:', err);
-                  }
-                  else
-                  {
-                      res.redirect('/home');
-                      console.log("successful login");                      
-                  }
-              })
-          }
-          // password is incorrect - alert user to try again
-          else
-          {
-              console.log("incorrect password, unsuccessful login");
-              res.render('pages/login',{message:"Password is incorrect. Please try again."});
-          }
-      }
-      else
-      // user does not exist - redirect to register
-      {
-          res.render('pages/login',{message:"Username does not exist. Please try again."});
-      }
-  }
-  catch(err)
-  {
-      console.log(err);
-      res.render('pages/login');
+      res.status(404).render('pages/login',{message:"User does not exist. Please try again."});
   }
 });
 
 // GET register
 app.get('/register',(req,res) => {
-  res.render('pages/register');
+  res.status(200).render('pages/register');
 })
 
 // POST register - register user into database
@@ -220,17 +171,19 @@ app.post('/register', async (req, res) => {
       let insert_user_values = [req.body.first_name,req.body.last_name,req.body.username,req.body.email,req.body.username,hash];
 
       const added_user = await db.none(insert_user_q,insert_user_values);
+
+      res.status(200);
     }
     catch
     {
       console.log(err);
-      res.render('pages/login',{message:"Registration failed! Please try again."});
+      res.status(500).render('pages/login',{message:"Registration failed! Please try again."});
     }
   } 
   catch (error) 
   {
       console.log(err);
-      res.render('pages/login',{message:"That username already exists!"});
+      res.status(409).render('pages/login',{message:"That username already exists!"});
   }
 });
 
@@ -250,7 +203,7 @@ app.use(auth);
 
 app.get('/logout', async (req,res) => {
   req.session.destroy();
-  res.render('pages/logout',{message:"Logged out successfully"});
+  res.status(200).render('pages/logout',{message:"Logged out successfully"});
 })
 
 app.get('/plantSearch',(req,res) => {
