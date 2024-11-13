@@ -88,7 +88,7 @@ app.get('/home',(req,res) => {
     res.render('pages/home',{plants: []});
 })
 
-app.get('/searchPlant',(req,res) => {
+app.get('/plantSearch',(req,res) => {
   res.render('pages/search',{plants: []});
 })
 
