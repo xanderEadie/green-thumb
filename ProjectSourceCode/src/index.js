@@ -168,7 +168,7 @@ app.post('/login', async (req, res) =>
                   }
                   else
                   {
-                      res.redirect('/discover');
+                      res.redirect('/home');
                       console.log("successful login");                      
                   }
               })
