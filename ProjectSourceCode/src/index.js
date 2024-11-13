@@ -88,6 +88,10 @@ app.get('/home',(req,res) => {
     res.render('pages/home',{plants: []});
 })
 
+app.get('/searchPlant',(req,res) => {
+  res.render('pages/search',{plants: []});
+})
+
 // *****************************************************
 // <!-- Section 5 : Start Server-->
 // *****************************************************
