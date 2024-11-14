@@ -1,16 +1,14 @@
 <div class="navbar bg-base-300">
+  <!-- logo button -->
   <div class="navbar-start">
-    {{!-- <div class=""> --}}
       <a href="/home">
         <img class="btn btn-ghost btn-circle object-contain" src="/img/leaf_logo.png">
       </a>
-      {{!-- <p class="test-xl m-2">Green Thumb</p> --}}
-    {{!-- </div> --}}
   </div>
     
 
   <div class="navbar-end">
-    <!-- menu -->
+    <!-- dropdown menu -->
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
         <svg
@@ -40,11 +38,12 @@
         ">Garden</a></li>
       </ul>
     </div>
-    <!-- profile icon/ dropdown -->
+    <!-- profile icon/ dropdown menu -->
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
-          {{#if user}}
+          <!-- display generic profile icon if no profile photo -->
+          {{#if user.profile_photo}}
             <img src="{{user.profile_photo}}">
           {{else}}
             <!-- icon from https://heroicons.com/ -->
@@ -63,6 +62,7 @@
       <ul
         tabindex="0"
         class="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <!-- display options when logged in vs logged out -->
         {{#if user}}
           <li><a href="/settings">Profile</a></li>
           <li><a href="/settings">Settings</a></li>
