@@ -106,6 +106,10 @@ app.get('/home',(req,res) => {
   }
 })
 
+app.get('/profile',(req, res) => {
+  res.status(200).render('pages/profile')
+})
+
 // redirect to login
 app.get('/login',(req,res) => {
   res.status(200).render('pages/login');
