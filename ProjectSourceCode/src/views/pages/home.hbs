@@ -73,7 +73,7 @@ NOTES:
                 <div class="card-body">
                     <h2 class="card-title">My Garden</h2>
                     <p class="card-text pb-4">Track plants in my garden</p>
-                    <a href="/garden">
+                    <a href="{{#if user}}/garden{{else}}/login{{/if}}">
                         <img class="bg-base-200 rounded-lg" src="/img/leaf_logo.png">
                     </a>
                 </div>
