@@ -206,6 +206,27 @@ app.get('/logout', async (req,res) => {
   res.status(200).render('pages/logout',{message:"Logged out successfully"});
 })
 
+app.post('/location/add', async (req, res) => {
+  const avgHumidity = req.body.avgHumidity;
+  const rainfall = req.body.rainfall;
+  const avgTemp = req.body.avgTemp;
+  const lightAmount = req.body.lightAmount;
+  const elevation = req.body.elevation;
+
+  db.task('create-location', task => {
+      const insertLocation = 'INSERT INTO location (avgHumidity, rainfall, avgTemp, lightAmount, elevation) VALUES ($1, $2, $3, $4, $5) RETURNING id;';
+      const location = task.one(insertLocation, [avgHumidity, rainfall, avgTemp, lightAmount, elevation]);
+
+      const toOtherTable = 'INSERT INTO user_to_location (user_id, location_id) VALUES ($1, $2);';
+      return task.none(toOtherTable, [req.session.user.student_id, location]);
+
+      res.redirect('/home');
+  })
+  .catch(function (err){
+      console.log(err)
+  });
+});
+
 app.get('/plantSearch',(req,res) => {
   res.render('pages/search',{plants: []});
 })
