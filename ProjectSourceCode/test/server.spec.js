@@ -38,13 +38,26 @@ describe('Server!', () => {
 // and expects the API to return a status of 200 along with the "Success" message.
 
 describe('testing register API', () => {
-  it('positive : /register', done => {
+  it('[positive : /register] register a valid user', done => {
     chai
       .request(server)
       .post('/register')
       .send({username: 'john_doe',password:'12345', cpassword: '12345',first_name: 'john', last_name: 'doe', email: 'jdoe@gmail.com'})
       .end((err, res) => {
         expect(res).to.have.status(200);
+        done();
+      });
+  });
+});
+
+describe('testing register API', () => {
+  it('[negative : /register] register an invalid user - duplicate', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({username: 'john_doe',password:'12345', cpassword: '12345',first_name: 'john', last_name: 'doe', email: 'jdoe@gmail.com'})
+      .end((err, res) => {
+        expect(res).to.have.status(409);
         done();
       });
   });
