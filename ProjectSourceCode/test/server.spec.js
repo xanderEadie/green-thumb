@@ -37,7 +37,10 @@ describe('Server!', () => {
 // Explanation: The testcase will call the /add_user API with the following input
 // and expects the API to return a status of 200 along with the "Success" message.
 
-describe('testing register API', () => {
+
+// TODO: figure out how to send both a status code and a json message that can be read by the test case to differentiate between different responses w/ same status code - see both 409 responses in /register tests
+describe('test register API', () => {
+  // WARNING - will only pass when initially starting db, otherwise it'll already be in the db and fail - TODO: any way to mitigate this?
   it('[positive : /register] register a valid user', done => {
     chai
       .request(server)
@@ -48,9 +51,6 @@ describe('testing register API', () => {
         done();
       });
   });
-});
-
-describe('testing register API', () => {
   it('[negative : /register] register an invalid user - duplicate', done => {
     chai
       .request(server)
@@ -61,6 +61,39 @@ describe('testing register API', () => {
         done();
       });
   });
+  it('[negative : /register] register an invalid user - password and confirm password fields are different', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({username: 'bob_ross',password:'12345', cpassword: '54321',first_name: 'bob', last_name: 'ross', email: 'bross@gmail.com'})
+      .end((err, res) => {
+        expect(res).to.have.status(409);
+        done();
+      });
+  });
 });
 
+
+describe('test login API', () => {
+  it('[positive : /login] login a valid user', done => {
+    chai
+    .request(server)
+    .post('/login')
+    .send({username: 'john_doe',password:'12345', cpassword: '12345',first_name: 'john', last_name: 'doe', email: 'jdoe@gmail.com'})
+    .end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+  });
+  it('[negative : /login] login an invalid user - user does not exist', done => {
+    chai
+    .request(server)
+    .post('/login')
+    .send({username: 'some_guy',password:'h@ck3r', cpassword: 'h@ck3r',first_name: 'john', last_name: 'smith', email: 'jsm@gmail.com'})
+    .end((err, res) => {
+      expect(res).to.have.status(404);
+      done();
+    });
+  });
+})
 // ********************************************************************************
