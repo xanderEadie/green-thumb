@@ -42,7 +42,7 @@ describe('testing register API', () => {
     chai
       .request(server)
       .post('/register')
-      .send({username: 'john_doe'})
+      .send({username: 'john_doe',password:'12345', cpassword: '12345',first_name: 'john', last_name: 'doe', email: 'jdoe@gmail.com'})
       .end((err, res) => {
         expect(res).to.have.status(200);
         done();
