@@ -210,11 +210,11 @@ app.post('/register', async (req, res) => {
         res.status(500).render('pages/login',{message:"Registration failed! Please try again."});
       }
     } 
-    catch (error) 
+    catch (err) 
     {
+      console.log(err);
       console.log("username already exists")
-        console.log(err);
-        res.status(409).render('pages/login',{message:"That username already exists!"});
+      res.status(409).render('pages/register',{message:"That username already exists!"});
     }
   }
   catch (err)
