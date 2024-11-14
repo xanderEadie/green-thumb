@@ -70,13 +70,14 @@ app.use(
       resave: false,
     })
 );
-app.get('/welcome', (req, res) => {
-  res.json({status: 'success', message: 'Welcome!'});
-});
 
 // *****************************************************
 // <!-- Section 4 : API Routes -->
 // *****************************************************
+
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
 
 // when navigating to website, redirect to home
 app.get('/',(req,res) => {
@@ -97,7 +98,7 @@ app.get('/home',(req,res) => {
     // TODO: if a session user exists, get personalized plant reccomendations
 
     // currently, just get plants from the users garden
-    let q_get_plant_recs = "SELECT * FROM plants INNER JOIN users_to_plants ON plants.plant_id = users_to_plants.plant_id INNER JOIN users ON users_to_plants.user_id = users.user_id LIMIT 5;";
+    let q_get_plant_recs = "SELECT * FROM plants INNER JOIN user_to_plants ON plants.plant_id = user_to_plants.plant_id INNER JOIN userInfo ON user_to_plants.user_id = userInfo.user_id LIMIT 5;";
     db.any(q_get_plant_recs)
     .then(data => {res.status(200).render('pages/home',{plants:data[0]})})
   }
@@ -113,7 +114,7 @@ app.post('/login', async (req, res) =>
   try
   {
       // find user from users table for req username
-      let find_usr_q = "SELECT * FROM users WHERE username=$1 LIMIT 1;";
+      let find_usr_q = "SELECT * FROM userInfo WHERE username=$1 LIMIT 1;";
       let values = [req.body.username];
       const found_user = await db.one(find_usr_q,values);
 
@@ -157,7 +158,7 @@ app.post('/register', async (req, res) => {
   try 
   {
     // Is username already taken?
-    let get_username_q = "SELECT * FROM users WHERE username=$1 LIMIT 1;";
+    let get_username_q = "SELECT * FROM userInfo WHERE username=$1 LIMIT 1;";
     let get_username_values = [req.body.username];
     const found_duplicate_username = await db.none(get_username_q, get_username_values);
 
@@ -167,8 +168,10 @@ app.post('/register', async (req, res) => {
       const hash = await bcrypt.hash(req.body.password, 10);
 
       // add user to users database table
-      let insert_user_q = "INSERT INTO users (first_name, last_name, email, username, password) VALUES ($1,$2,$3,$4,$5);";
-      let insert_user_values = [req.body.first_name,req.body.last_name,req.body.username,req.body.email,req.body.username,hash];
+      // let insert_user_q = "INSERT INTO userInfo (first_name, last_name, email, username, password) VALUES ($1,$2,$3,$4,$5);";
+      let insert_user_q = "INSERT INTO userInfo (email, username, password) VALUES ($1,$2,$3,$4,$5);";
+      // let insert_user_values = [req.body.first_name,req.body.last_name,req.body.email,req.body.username,hash];
+      let insert_user_values = [req.body.email,req.body.username,hash];
 
       const added_user = await db.none(insert_user_q,insert_user_values);
 
