@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcryptjs'); //  To hash passwords
 const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part C.
+const { error } = require('console');
 
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
@@ -95,12 +96,13 @@ app.get('/home',(req,res) => {
   }
   else
   {
-    // TODO: if a session user exists, get personalized plant reccomendations
+    // TODO: if a session user exists, pass personalized plant reccomendations
+    // TODO: check that data[0] accurately passes info to home page, once we have user plant data
 
     // currently, just get plants from the users garden
     let q_get_plant_recs = "SELECT * FROM plants INNER JOIN user_to_plants ON plants.plant_id = user_to_plants.plant_id INNER JOIN userInfo ON user_to_plants.user_id = userInfo.user_id LIMIT 5;";
     db.any(q_get_plant_recs)
-    .then(data => {res.status(200).render('pages/home',{plants:data[0]})})
+    .then(data => {res.status(200).render('pages/home',{user: true, plants: data[0]})})
   }
 })
 
@@ -111,35 +113,47 @@ app.get('/login',(req,res) => {
 
 app.post('/login', async (req, res) => 
 {
+  console.log("attempting to log in user");
   try
   {
+    console.log("finding user in users table");
       // find user from users table for req username
       let find_usr_q = "SELECT * FROM userInfo WHERE username=$1 LIMIT 1;";
       let values = [req.body.username];
       const found_user = await db.one(find_usr_q,values);
 
-      // user exists, attempt to validate password
-      const pwd_match = await bcrypt.compare(req.body.password, found_user.password);
-      if(pwd_match == true)
+      try
       {
-          //save user details in session
-          req.session.user = found_user;
-          req.session.save((err) => {
-              if (err) {
-                  console.log('Session save error:', err);
-                  res.status(500);
-              }
-              else
-              {
-                  res.status(200).redirect('/home');
-                  console.log("successful login");                      
-              }
-          })
+        // user exists, attempt to validate password
+        console.log("user exists, validating password");
+        const pwd_match = await bcrypt.compare(req.body.password, found_user.password);
+        if(pwd_match == true)
+        {
+            //save user details in session
+            req.session.user = found_user;
+            req.session.save((err) => {
+                if (err) {
+                    console.log('session save error:', err);
+                    res.status(500);
+                }
+                else
+                {
+                    res.status(200).redirect('/home');
+                    console.log("successful login");                      
+                }
+            })
+        }
+        else 
+        {
+          throw new Error('password is incorrect')
+        }
       }
-      else 
+      catch (err)
       {
+        console.log("incorrect password");
         res.status(409).render('pages/login',{message:"Password is incorrect. Please try again."});
       }
+      
   }
   catch(err)
   {
@@ -155,39 +169,61 @@ app.get('/register',(req,res) => {
 
 // POST register - register user into database
 app.post('/register', async (req, res) => {
-  try 
+  console.log("attempting to register user");
+  try
   {
-    // Is username already taken?
-    let get_username_q = "SELECT * FROM userInfo WHERE username=$1 LIMIT 1;";
-    let get_username_values = [req.body.username];
-    const found_duplicate_username = await db.none(get_username_q, get_username_values);
-
-    try
+    // does the password field match the confirm password field?
+    if(req.body.password != req.body.cpassword)
     {
-      //hash the password using bcrypt library 
-      const hash = await bcrypt.hash(req.body.password, 10);
-
-      // add user to users database table
-      // let insert_user_q = "INSERT INTO userInfo (first_name, last_name, email, username, password) VALUES ($1,$2,$3,$4,$5);";
-      let insert_user_q = "INSERT INTO userInfo (email, username, password) VALUES ($1,$2,$3,$4,$5);";
-      // let insert_user_values = [req.body.first_name,req.body.last_name,req.body.email,req.body.username,hash];
-      let insert_user_values = [req.body.email,req.body.username,hash];
-
-      const added_user = await db.none(insert_user_q,insert_user_values);
-
-      res.status(200);
+      throw new Error('password field does not match confirm password field');
     }
-    catch
+
+    try 
+    { 
+      console.log("determining if username is taken");
+      // Is username already taken?
+      let get_username_q = "SELECT * FROM userInfo WHERE username=$1 LIMIT 1;";
+      let get_username_values = [req.body.username];
+      const found_duplicate_username = await db.none(get_username_q, get_username_values);
+      console.log("username not taken, inserting into database");
+
+      try 
+      {
+        console.log("hashing password")
+        //hash the password using bcrypt library 
+        const hash = await bcrypt.hash(req.body.password, 10);
+
+        console.log("adding to users table")
+        // add user to users database table
+        let insert_user_q = "INSERT INTO userInfo (first_name, last_name, email, username, password) VALUES ($1,$2,$3,$4,$5);";
+        let insert_user_values = [req.body.first_name,req.body.last_name,req.body.email,req.body.username,hash];
+
+        const added_user = await db.none(insert_user_q,insert_user_values);
+
+        console.log("successfully registered")
+        res.status(200).render('pages/login',{message:"Successfully registered!"})
+      }
+      catch
+      {
+        console.log("unexpected registration error")
+        console.log(err);
+        res.status(500).render('pages/login',{message:"Registration failed! Please try again."});
+      }
+    } 
+    catch (error) 
     {
-      console.log(err);
-      res.status(500).render('pages/login',{message:"Registration failed! Please try again."});
+      console.log("username already exists")
+        console.log(err);
+        res.status(409).render('pages/login',{message:"That username already exists!"});
     }
-  } 
-  catch (error) 
-  {
-      console.log(err);
-      res.status(409).render('pages/login',{message:"That username already exists!"});
   }
+  catch (err)
+  {
+    console.log("Password field does not match confirm password field: \n password: " + req.body.password + "\nconfirm password: " + req.body.cpassword)
+    console.log(err);
+    res.status(409).render('pages/login',{message:"password field does not match confirm password field"});
+  }
+  
 });
 
 // Authentication Middleware.
