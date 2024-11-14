@@ -258,8 +258,11 @@ app.post('/location/add', async (req, res) => {
 
       const toOtherTable = 'INSERT INTO user_to_location (user_id, location_id) VALUES ($1, $2);';
       return task.none(toOtherTable, [req.session.user.student_id, location]);
-
-      res.redirect('/home');
+  })
+  .then(location => {
+    res.redirect('/home', {
+      message: `Successfully added location ${req.body.location_id}`,
+    });
   })
   .catch(function (err){
       console.log(err)
