@@ -1,0 +1,11 @@
+# Test Plan
+
+- Register
+  - Positive: We will test our register route by inputting a known good user to the /add_user API. The test is expected to pass, and if it does it will return a status of 200. This is useful as it will help us determine if our /register route and implementation works correctly.
+  - Negative: We will test our register route by inputting the same user again to the /add_user API. This test is expected to fail as the user already exists in the DB, and it should return status 409. We also have a test case that tries to register an invalid user by having the "Password" and "Confirm Password" fields different. This will again return a 409 error. These cases are useful as it will help us make sure our route properly deals with users that should not be added to the database, such as duplicates or ones with mismatching passwords.
+- Login
+  - Positive: We will test our login route by inputting a known user to the /login API. This test is expected to pass and will return status 200 if it does. This is useful as it will help us determine if our /login route and implementation works, allowing existing users to log in to the site properly.
+  - Negative: We will test our login route by inputting a user that does not exist to the /login API. This test is expected to fail and return status 404, as the user is not found in the database. This is useful for ensuring only existing users can log in, and ensuring non-existing users have to register first.
+- PlantInformation
+  - Positive: We will test our plantInformation route by inputting a known plant ID to the /plantInformation API. This test is expected to pass and will return 200 if it does. This is useful as it will help us determine if our /plantInformation API allows us to pull up plants by ID when expected, as that will be the easiest way to pull plants from our database.
+  - Negative: We will test our plantInformation route by inputting a plant ID that doesn't exist to the /plantInformation API. This test is expected to fail and return status 404 as the plant is not found in the database. This is useful for helping us make sure our database is working correctly and not accidentally pulling data it's not supposed to.
