@@ -2,14 +2,16 @@ CREATE TABLE plants(
     --temporary to fill in for plants for userInfo
     --Ideally the API will have it's own table to take from and connect to users
     plant_id SERIAL PRIMARY KEY NOT NULL,
-    image_url VARCHAR(300) NOT NULL,
-    name VARCHAR(100),
-    moistureNeed INT NOT NULL,
-    comfTemp DECIMAL,
-    lightLevel INT NOT NULL,
-    lifespan INT NOT NULL,
-    plantSize DECIMAL,
-    rainReq DECIMAL
+    common_name VARCHAR(150) NOT NULL,
+    scientific_name VARCHAR(150) NOT NULL,
+    height DECIMAL NOT NULL,
+    cycle VARCHAR(25) NOT NULL,
+    hardiness INT NOT NULL,
+    watering INT NOT NULL,
+    sunlight VARCHAR(25),
+    flowers BOOL,
+    edible BOOL,
+    img VARCHAR(300)
 );
 --lightlevel is rated out of 3, 1 being low, 3 being high, same scale applies to locations
 CREATE TABLE userInfo(
