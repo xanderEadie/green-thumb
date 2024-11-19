@@ -271,7 +271,45 @@ app.post('/location/add', async (req, res) => {
 
 app.get('/plantSearch',(req,res) => {
   res.render('pages/search',{plants: []});
-})
+});
+
+app.post('/removePlant', async (req,res) => {
+  const plant_id = req.body.plant_id;
+
+  try{
+    const plantAlreadyIn = 'SELECT * FROM plants WHERE plant_id = $1;';
+    const inGarden = db.oneOrNone(plantAlreadyIn, [plant_id]);
+    if(!inGarden){
+      return res.status(400).json({ message: 'Not in your garden' });
+    }
+
+    const remove = 'DELETE FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
+    await db.none(remove, [req.session.user.user_id, plantId]);
+    res.status(200).redirect(`/pages/profile`);
+  }
+  catch (error){
+    res.status(500).json({ message: 'Failed to remove plant' });
+  }
+});
+
+app.post('/addPlant', async (req,res) => {
+  const plant_id = req.body.plant_id;
+
+  try{
+    const plantAlreadyIn = 'SELECT * FROM plants WHERE plant_id = $1;';
+    const inGarden = db.oneOrNone(plantAlreadyIn, [plant_id]);
+    if(inGarden){
+      return res.status(400).json({ message: 'Already in your garden' });
+    }
+
+    const insert = 'INSERT INTO user_to_plants (user_id, plant_id) VALUES ($1, $2);';
+    await db.none(insert, [req.session.user.user_id, plantId]);
+    res.status(200).redirect(`/pages/profile`);
+  }
+  catch (error){
+    res.status(500).json({ message: 'Failed to add plant' });
+  }
+});
 
 // *****************************************************
 // <!-- Section 5 : Start Server-->
