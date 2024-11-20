@@ -1,0 +1,29 @@
+<div class="carousel w-full">
+    {{#each plants as plant}}
+        <div id="slide{{@index}}" class="carousel-item relative w-full">
+            <a href="/plantInformation?plantID={{plant.id}}">
+                <img class="bg-base-200 rounded-lg" src="{{plant.img}}" class="w-full" />
+            </a>
+            <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+
+                <a href="#slide
+                    {{#if (eq @index 0)}}
+                        5
+                    {{else}}
+                        {{increment @index}}
+                    {{/if}}
+                    " class="btn btn-circle">❮
+                </a>
+
+                <a href="#slide
+                    {{#if (eq @index 4)}}
+                        1
+                    {{else}}
+                        {{@index}}
+                    {{/if}}
+                    " class="btn btn-circle">❯
+                </a>
+            </div>
+        </div>
+    {{/each}}
+</div>
