@@ -288,18 +288,30 @@ app.get('/plantInformation',(req,res) => {
   }
 });
 
+app.get('/profile',(req,res) => {
+  res.render('pages/profile', { title: 'Profile' });
+});
+
+app.get('/setting',(req,res) => {
+  res.render('pages/setting', { title: 'Setting' });
+});
+
+app.post('/setting', (req, res) => {
+  
+});
+
 app.post('/removePlant', async (req,res) => {
   const plant_id = req.body.plant_id;
 
   try{
-    const plantAlreadyIn = 'SELECT * FROM plants WHERE plant_id = $1;';
-    const inGarden = db.oneOrNone(plantAlreadyIn, [plant_id]);
+    const plantAlreadyIn = 'SELECT * FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
+    const inGarden = db.oneOrNone(plantAlreadyIn, [req.session.user.user_id, plant_id]);
     if(!inGarden){
       return res.status(400).json({ message: 'Not in your garden' });
     }
 
     const remove = 'DELETE FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
-    await db.none(remove, [req.session.user.user_id, plantId]);
+    await db.none(remove, [req.session.user.user_id, plant_id]);
     res.status(200).redirect(`/pages/profile`);
   }
   catch (error){
@@ -311,8 +323,8 @@ app.post('/addPlant', async (req,res) => {
   const plant_id = req.body.plant_id;
 
   try{
-    const plantAlreadyIn = 'SELECT * FROM plants WHERE plant_id = $1;';
-    const inGarden = db.oneOrNone(plantAlreadyIn, [plant_id]);
+    const plantAlreadyIn = 'SELECT * FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
+    const inGarden = db.oneOrNone(plantAlreadyIn, [req.session.user.user_id, plant_id]);
     if(inGarden){
       return res.status(400).json({ message: 'Already in your garden' });
     }
