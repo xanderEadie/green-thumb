@@ -273,6 +273,21 @@ app.get('/plantSearch',(req,res) => {
   res.render('pages/search',{plants: []});
 });
 
+app.get('/plantInformation',(req,res) => {
+  const plant_id = req.query.plant_id;
+  const plantQuery = 'SELECT * FROM plants WHERE plant_id = $1';
+  const plant = db.one(plantQuery, [plant_id]);
+  console.log(plant);
+  res.render('pages/plantInformation',{plant: plant});
+
+  try{
+    
+  }
+  catch (error){
+    res.status(404).json({ message: 'Plant not found' });
+  }
+});
+
 app.post('/removePlant', async (req,res) => {
   const plant_id = req.body.plant_id;
 
