@@ -227,7 +227,7 @@ app.post('/register', async (req, res) => {
 });
 
 // Authentication Middleware.
-const auth = (req, res, next) => 
+/*const auth = (req, res, next) => 
 {
     if (!req.session.user) {
         // Default to login page.
@@ -238,7 +238,7 @@ const auth = (req, res, next) =>
 }; 
     
 // Authentication Required
-app.use(auth);
+app.use(auth);*/
 
 app.get('/logout', async (req,res) => {
   req.session.destroy();
@@ -269,8 +269,24 @@ app.post('/location/add', async (req, res) => {
   });
 });
 
-app.get('/plantSearch',(req,res) => {
+app.get('/search',(req,res) => {
   res.render('pages/search',{plants: []});
+});
+
+app.get('/plantInformation',(req,res) => {
+  const plant_id = req.query.plant_id;
+
+  try{
+    const plantQuery = 'SELECT * FROM plants WHERE plant_id = $1';
+    const plant = t.one(plantQuery, [plant_id]);
+    console.log(plant);
+    res.render('pages/plantInformation',{plant: plant,});
+    
+
+  }
+  catch (error){
+    res.status(404).json({ message: 'Plant not found' });
+  }
 });
 
 app.post('/removePlant', async (req,res) => {

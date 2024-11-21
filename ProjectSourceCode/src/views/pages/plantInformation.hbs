@@ -1,39 +1,49 @@
 <div id="plantInfo-container" class="container w-screen max-w-full flex-none place-content-center">
     <body>
-        <h2 id="plant-name"> {{ plant.name }} </h2>
+        <h2 id="plant-name"> {{ plant.common_name }} </h2>
+        <h6 id="scientific-name"> {{ plant.scientific_name }}</h6>
         <img src="{{ plant.img }}"/>
         <div class="overflow-x-auto">
             <table class="table table-zebra">
                 <tbody>
                 <!-- row 1 -->
                 <tr>
-                    <th>Light Level</th>
-                    <td> {{ plant.lightLevel }}</td>
+                    <th>Height</th>
+                    <td> {{ plant.height }} feet</td>
                 </tr>
                   <!-- row 2 -->
                 <tr>
-                    <th>Ideal Temperature</th>
-                    <td> {{ plant.comfTemp }}</td>
+                    <th>Cycle</th>
+                    <td> {{ plant.cycle }}</td>
                 </tr>
                   <!-- row 3 -->
                 <tr>
-                    <th>Moisture need</th>
-                    <td> {{ plant.moistureNeed }}</td>
+                    <th>Hardiness</th>
+                    <td> {{ plant.hardiness }}</td>
                 </tr>
                   <!-- row 4 -->
                 <tr>
-                    <th>Size</th>
-                    <td> {{ plant.SIZE }}</td>
+                    <th>Watering</th>
+                    <td> {{ plant.watering }}</td>
                 </tr>
                   <!-- row 5 -->
                 <tr>
-                    <th>Lifespan</th>
-                    <td> {{ plant.lifespan }}</td>
+                    <th>Sunlight</th>
+                    <td> {{ plant.sunlight }}</td>
+                </tr>
+                <tr>
+                    <th>Flowers</th>
+                    <td> {{ plant.flowers }}</td>
+                </tr>
+                <tr>
+                    <th>Edible</th>
+                    <td> {{ plant.edible }}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-    <button class="btn">
+    <br>
+    <button class="btn btn-active" type="submit" formaction="/addPlant?plant_id={{plant.id}}">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6"
