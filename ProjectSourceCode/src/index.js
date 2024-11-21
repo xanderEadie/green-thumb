@@ -280,9 +280,86 @@ app.get('/profile',(req,res) => {
 app.get('/setting',(req,res) => {
   res.render('pages/setting', { title: 'Setting' });
 })
-app.post('/setting', (req, res) => {
-  
-})
+
+app.put('/setting', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: 'Unauthorized. Please log in.' });
+  }
+
+  const userId = req.session.user.user_id; // Retrieve the logged-in user's ID from the session
+  const { section, data } = req.body;
+
+  try {
+    switch (section) {
+      case 'account':
+        // Update username or password in `userInfo`
+        if (data.username) {
+          const updateUsernameQuery = 'UPDATE userInfo SET username = $1 WHERE user_id = $2;';
+          await db.none(updateUsernameQuery, [data.username, userId]);
+        }
+        if (data.password) {
+          const hashedPassword = await bcrypt.hash(data.password, 10);
+          const updatePasswordQuery = 'UPDATE userInfo SET password = $1 WHERE user_id = $2;';
+          await db.none(updatePasswordQuery, [hashedPassword, userId]);
+        }
+        return res.status(200).json({ message: 'Account settings updated successfully.' });
+
+      case 'weather':
+        // Update weather data in the `location` table
+        const { avgHumidity, rainfall, avgTemp, lightAmount, elevation } = data;
+        const updateWeatherQuery = `
+          UPDATE location 
+          SET avgHumidity = $1, rainfall = $2, avgTemp = $3, lightAmount = $4, elevation = $5
+          WHERE location_id = (SELECT location_id FROM user_to_location WHERE user_id = $6);
+        `;
+        await db.none(updateWeatherQuery, [avgHumidity, rainfall, avgTemp, lightAmount, elevation, userId]);
+        return res.status(200).json({ message: 'Weather information updated successfully.' });
+
+      case 'plants':
+        // Update plants in the user's garden (clear and replace in `user_to_plants`)
+        const { plants } = data; // Array of plant IDs
+        const deleteExistingPlantsQuery = 'DELETE FROM user_to_plants WHERE user_id = $1;';
+        await db.none(deleteExistingPlantsQuery, [userId]);
+        const insertPlantQuery = 'INSERT INTO user_to_plants (user_id, plant_id) VALUES ($1, $2);';
+        for (const plantId of plants) {
+          await db.none(insertPlantQuery, [userId, plantId]);
+        }
+        return res.status(200).json({ message: 'Garden updated successfully.' });
+
+      case 'removePlant':
+        // Remove a specific plant from the user's garden
+        const { plantId } = data;
+        const removePlantQuery = 'DELETE FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
+        await db.none(removePlantQuery, [userId, plantId]);
+        return res.status(200).json({ message: 'Plant removed successfully.' });
+
+      case 'favorites':
+        // Update favorite plants (manual implementation with a string array or similar)
+        const { favoritePlants } = data;
+        const updateFavoritesQuery = 'UPDATE userInfo SET favorite_plants = $1 WHERE user_id = $2;';
+        await db.none(updateFavoritesQuery, [JSON.stringify(favoritePlants), userId]);
+        return res.status(200).json({ message: 'Favorite plants updated successfully.' });
+
+      case 'deleteAccount':
+        // Delete the user's account and all associated data
+        const deleteUserQuery = 'DELETE FROM userInfo WHERE user_id = $1;';
+        const deleteUserLocationsQuery = 'DELETE FROM user_to_location WHERE user_id = $1;';
+        const deleteUserPlantsQuery = 'DELETE FROM user_to_plants WHERE user_id = $1;';
+        await db.none(deleteUserLocationsQuery, [userId]);
+        await db.none(deleteUserPlantsQuery, [userId]);
+        await db.none(deleteUserQuery, [userId]);
+        req.session.destroy();
+        return res.status(200).json({ message: 'Account deleted successfully.' });
+
+      default:
+        return res.status(400).json({ message: 'Invalid section specified.' });
+    }
+  } catch (err) {
+    console.error('Error processing /setting update:', err);
+    res.status(500).json({ message: 'An error occurred while updating settings.' });
+  }
+});
+
 
 app.post('/removePlant', async (req,res) => {
   const plant_id = req.body.plant_id;
