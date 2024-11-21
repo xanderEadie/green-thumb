@@ -227,7 +227,7 @@ app.post('/register', async (req, res) => {
 });
 
 // Authentication Middleware.
-/*const auth = (req, res, next) => 
+const auth = (req, res, next) => 
 {
     if (!req.session.user) {
         // Default to login page.
@@ -238,7 +238,7 @@ app.post('/register', async (req, res) => {
 }; 
     
 // Authentication Required
-app.use(auth);*/
+app.use(auth);
 
 app.get('/logout', async (req,res) => {
   req.session.destroy();
