@@ -273,6 +273,14 @@ app.get('/plantSearch',(req,res) => {
   res.render('pages/search',{plants: []});
 })
 
+app.get('/profile',(req,res) => {
+  res.render('pages/profile', { title: 'Profile' });
+})
+
+app.get('/location',(req,res) => {
+  res.render('pages/location', { title: 'Profile' });
+})
+
 // *****************************************************
 // <!-- Section 5 : Start Server-->
 // *****************************************************
