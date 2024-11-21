@@ -1,8 +1,28 @@
+<script>
+    async function addToGarden(plantId){
+        const plant_id = plantId;
+        try{
+            const response = await fetch('/addPlant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ plant_id: plantId }),
+            });
+            if (response.ok) {
+                window.location.href = '/pages/profile'; //redirect
+            }
+        }
+        catch(error){
+            console.error(error);
+        }
+    }
+</script>
 <div id="plantInfo-container" class="container w-screen max-w-full flex-none place-content-center">
     <body>
         <h2 id="plant-name"> {{ plant.common_name }} </h2>
         <h6 id="scientific-name"> {{ plant.scientific_name }}</h6>
-        <img src="{{ plant.img }}"/>
+        <!--img src="{{ plant.img }}"/-->
         <div class="overflow-x-auto">
             <table class="table table-zebra">
                 <tbody>
@@ -43,7 +63,7 @@
             </table>
         </div>
     <br>
-    <button class="btn btn-active" type="submit" formaction="/addPlant?plant_id={{plant.id}}">
+    <button id='add' class="btn" onclick="addToGarden({{plant.plant_id}})">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6"
