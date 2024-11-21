@@ -295,17 +295,17 @@ app.post('/addPlant', async (req,res) => {
   }
 });
 
-app.get('/reccomendations', async (req,res) => {
+app.get('/reccommendations', async (req,res) => {
 
-  // currently, just get plants from the users garden
-  let q_get_plant_recs = "SELECT * FROM plants INNER JOIN user_to_plants ON plants.plant_id = user_to_plants.plant_id INNER JOIN userInfo ON user_to_plants.user_id = userInfo.user_id LIMIT 5;";
-  db.any(q_get_plant_recs)
-  .then(data => {res.status(200).render('pages/home',{user: true, plants: data[0]})})
-
+  // // currently, just get plants from the users garden
+  // let q_get_plant_recs = "SELECT * FROM plants INNER JOIN user_to_plants ON plants.plant_id = user_to_plants.plant_id INNER JOIN userInfo ON user_to_plants.user_id = userInfo.user_id LIMIT 5;";
+  // db.any(q_get_plant_recs)
+  // .then(data => {res.status(200).render('pages/home',{user: true, plants: data[0]})})
   try
   {
     // get plants from plants table that match the user's location data
     let q_get_location_data = "SELECT * FROM "
+    res.render('pages/reccommendations')
   }
   catch
   {
