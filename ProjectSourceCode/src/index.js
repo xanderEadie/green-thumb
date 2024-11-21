@@ -275,14 +275,13 @@ app.get('/search',(req,res) => {
 
 app.get('/plantInformation',(req,res) => {
   const plant_id = req.query.plant_id;
+  const plantQuery = 'SELECT * FROM plants WHERE plant_id = $1';
+  const plant = db.one(plantQuery, [plant_id]);
+  console.log(plant);
+  res.render('pages/plantInformation',{plant: plant});
 
   try{
-    const plantQuery = 'SELECT * FROM plants WHERE plant_id = $1';
-    const plant = t.one(plantQuery, [plant_id]);
-    console.log(plant);
-    res.render('pages/plantInformation',{plant: plant,});
     
-
   }
   catch (error){
     res.status(404).json({ message: 'Plant not found' });
