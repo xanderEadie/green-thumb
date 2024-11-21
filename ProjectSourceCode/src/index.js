@@ -87,23 +87,7 @@ app.get('/',(req,res) => {
 
 // GET home
 app.get('/home',(req,res) => {
-  if(!req.session.user)
-  {
-    // TODO: if a session user does not exist, get random plants from API 
-
-    // currently, just pass an empty list of plants
-    res.status(200).render('pages/home',{plants: []});
-  }
-  else
-  {
-    // TODO: if a session user exists, pass personalized plant reccomendations
-    // TODO: check that data[0] accurately passes info to home page, once we have user plant data
-
-    // currently, just get plants from the users garden
-    let q_get_plant_recs = "SELECT * FROM plants INNER JOIN user_to_plants ON plants.plant_id = user_to_plants.plant_id INNER JOIN userInfo ON user_to_plants.user_id = userInfo.user_id LIMIT 5;";
-    db.any(q_get_plant_recs)
-    .then(data => {res.status(200).render('pages/home',{user: true, plants: data[0]})})
-  }
+  res.status(200).render('pages/home')
 })
 
 // redirect to login
@@ -231,8 +215,8 @@ const auth = (req, res, next) =>
 {
     if (!req.session.user) {
         // Default to login page.
-        console.log("no session user, returning to home");
-        return res.redirect('home');
+        console.log("no session user, redirecting to login");
+        return res.redirect('login');
     }
     next();
 }; 
@@ -310,6 +294,24 @@ app.post('/addPlant', async (req,res) => {
     res.status(500).json({ message: 'Failed to add plant' });
   }
 });
+
+app.get('/reccomendations', async (req,res) => {
+
+  // currently, just get plants from the users garden
+  let q_get_plant_recs = "SELECT * FROM plants INNER JOIN user_to_plants ON plants.plant_id = user_to_plants.plant_id INNER JOIN userInfo ON user_to_plants.user_id = userInfo.user_id LIMIT 5;";
+  db.any(q_get_plant_recs)
+  .then(data => {res.status(200).render('pages/home',{user: true, plants: data[0]})})
+
+  try
+  {
+    // get plants from plants table that match the user's location data
+    let q_get_location_data = "SELECT * FROM "
+  }
+  catch
+  {
+
+  }
+})
 
 // *****************************************************
 // <!-- Section 5 : Start Server-->
