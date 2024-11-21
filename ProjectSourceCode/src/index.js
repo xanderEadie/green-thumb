@@ -273,6 +273,17 @@ app.get('/plantSearch',(req,res) => {
   res.render('pages/search',{plants: []});
 });
 
+app.get('/profile',(req,res) => {
+  res.render('pages/profile', { title: 'Profile' });
+})
+
+app.get('/setting',(req,res) => {
+  res.render('pages/setting', { title: 'Setting' });
+})
+app.post('/setting', (req, res) => {
+  
+})
+
 app.post('/removePlant', async (req,res) => {
   const plant_id = req.body.plant_id;
 
