@@ -274,11 +274,27 @@ app.get('/plantSearch',(req,res) => {
 })
 
 app.get('/profile',(req,res) => {
-  res.render('pages/profile', { title: 'Profile' });
+  res.render('pages/settings/profile', { title: 'Profile' });
 })
 
-app.get('/location',(req,res) => {
-  res.render('pages/location', { title: 'Profile' });
+app.get('/settings/location',(req,res) => {
+  res.render('pages/settings/location', { title: 'Location Settings' });
+})
+
+app.get('/settings/accountSettings',(req,res) => {
+  res.render('pages/settings/accountSettings', { title: 'Account Settings' });
+})
+
+app.get('/settings/favoritePlants',(req,res) => {
+  res.render('pages/settings/favoritePlants', { title: 'Favorite Plants' });
+})
+
+app.get('/settings/deleteAccount',(req,res) => {
+  res.render('pages/settings/deleteAccount', { title: 'Delete Account' });
+})
+
+app.get('/settings/plants',(req,res) => {
+  res.render('pages/settings/plants', { title: 'Current Plants' });
 })
 
 // *****************************************************
