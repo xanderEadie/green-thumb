@@ -1,6 +1,7 @@
-<div class="carousel w-full">
+{{#if plants}}
+    <div class="carousel w-full">
     {{#each plants as plant}}
-        <div id="slide{{@index}}" class="carousel-item relative w-full">
+        <div id="slide{{@index}}" class="carousel-item relative w-full"></div>
             <a href="/plantInformation?plantID={{plant.id}}">
                 <img class="bg-base-200 rounded-lg" src="{{plant.img}}" class="w-full" />
             </a>
@@ -26,4 +27,9 @@
             </div>
         </div>
     {{/each}}
+{{else}}
+<div class="text-xl font-bold text-gray-900 bg-gray-300 min-h-screen p-5">
+    No plant data
 </div>
+{{/if}}
+
