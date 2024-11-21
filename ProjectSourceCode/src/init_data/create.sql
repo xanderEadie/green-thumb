@@ -9,8 +9,8 @@ CREATE TABLE plants(
     hardiness INT NOT NULL,
     watering VARCHAR(25) NOT NULL,
     sunlight VARCHAR(25),
-    flowers INT, --CHANGE TO BOOL and update INSERT.SQL
-    edible INT,--CHANGE TO BOOL and update INSERT.SQL
+    flowers BOOL, --CHANGE TO BOOL and update INSERT.SQL
+    edible BOOL,--CHANGE TO BOOL and update INSERT.SQL
     img VARCHAR(300)
 );
 --lightlevel is rated out of 3, 1 being low, 3 being high, same scale applies to locations

@@ -269,21 +269,36 @@ app.post('/location/add', async (req, res) => {
   });
 });
 
-app.get('/plantSearch',(req,res) => {
+app.get('/search',(req,res) => {
   res.render('pages/search',{plants: []});
+});
+
+app.get('/plantInformation',(req,res) => {
+  const plant_id = req.query.plant_id;
+  const plantQuery = 'SELECT * FROM plants WHERE plant_id = $1';
+  const plant = db.one(plantQuery, [plant_id]);
+  console.log(plant);
+  res.render('pages/plantInformation',{plant: plant});
+
+  try{
+    
+  }
+  catch (error){
+    res.status(404).json({ message: 'Plant not found' });
+  }
 });
 
 app.get('/profile',(req,res) => {
   res.render('pages/profile', { title: 'Profile' });
-})
+});
 
 app.get('/setting',(req,res) => {
   res.render('pages/setting', { title: 'Setting' });
-})
+});
 
 app.post('/setting', (req, res) => {
   
-})
+});
 
 app.post('/removePlant', async (req,res) => {
   const plant_id = req.body.plant_id;
