@@ -14,3 +14,8 @@
     color: #A5CA7A;
     font-size: 30px;
 }
+
+.hidden {
+    visibility: hidden;
+    height: 0;
+  }
