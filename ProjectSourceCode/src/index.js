@@ -273,8 +273,13 @@ app.get('/plantSearch',(req,res) => {
   res.render('pages/search',{plants: []});
 });
 
+app.get('/profile',(req,res) => {
+  res.render('pages/profile', { title: 'Profile' });
+})
+
 app.post('/removePlant', async (req,res) => {
   const plant_id = req.body.plant_id;
+
 
   try{
     const plantAlreadyIn = 'SELECT * FROM plants WHERE plant_id = $1;';
