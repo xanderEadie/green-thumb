@@ -296,20 +296,19 @@ app.post('/addPlant', async (req,res) => {
 });
 
 app.get('/reccommendations', async (req,res) => {
-
-  // // currently, just get plants from the users garden
-  // let q_get_plant_recs = "SELECT * FROM plants INNER JOIN user_to_plants ON plants.plant_id = user_to_plants.plant_id INNER JOIN userInfo ON user_to_plants.user_id = userInfo.user_id LIMIT 5;";
-  // db.any(q_get_plant_recs)
-  // .then(data => {res.status(200).render('pages/home',{user: true, plants: data[0]})})
   try
   {
+    console.log("attempting to retrieve climate data");
+    throw new Error("implementation in progress, failed to retrieve climate data");
     // get plants from plants table that match the user's location data
-    let q_get_location_data = "SELECT * FROM "
+    let q_get_location_data = "SELECT * FROM userInfo INNER JOIN user_to_location ON userInfo.user_id = user_to_location.user_id INNER JOIN location ON user_to_location.location_id = location.location_id WHERE userInfo.username = $1 LIMIT 1;";
+
     res.render('pages/reccommendations')
   }
   catch
   {
-
+    //console.log(err); 
+    res.status(500).render('pages/reccommendations',{message:"Server failed to retrieve climate data."})
   }
 })
 
