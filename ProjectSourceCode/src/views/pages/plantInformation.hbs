@@ -1,22 +1,28 @@
 <script>
     async function addToGarden(plantId){
         const plant_id = plantId;
-        try{
+        try {
             const response = await fetch('/addPlant', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ plant_id: plantId }),
+                body: JSON.stringify(plantData),
             });
+
             if (response.ok) {
-                window.location.href = '/pages/profile'; //redirect
+                window.location.href = '/pages/profile'; // Redirect on success
+            } else {
+                const errorMessage = await response.json();
+                console.error('Error adding plant:', errorMessage.message);
             }
+        } catch (error) {
+            console.error('Error adding plant:', error);
         }
         catch(error){
             console.error(error);
         }
-    }
+    } //function to help use addPlant in index.js, help from Zhuoheng with the idea and formatting
 </script>
 <div id="plantInfo-container" class="container w-screen max-w-full flex-none place-content-center">
     <body>

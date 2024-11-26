@@ -301,7 +301,7 @@ app.post('/setting', (req, res) => {
 });
 
 app.post('/removePlant', async (req,res) => {
-  const plant_id = req.body.plant_id;
+  const plant_id = req.query.plant_id;
 
   try{
     const plantAlreadyIn = 'SELECT * FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
@@ -320,7 +320,7 @@ app.post('/removePlant', async (req,res) => {
 });
 
 app.post('/addPlant', async (req,res) => {
-  const plant_id = req.body.plant_id;
+  const plant_id = req.query.plant_id;
 
   try{
     const plantAlreadyIn = 'SELECT * FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
@@ -330,10 +330,11 @@ app.post('/addPlant', async (req,res) => {
     }
 
     const insert = 'INSERT INTO user_to_plants (user_id, plant_id) VALUES ($1, $2);';
-    await db.none(insert, [req.session.user.user_id, plantId]);
-    res.status(200).redirect(`/pages/profile`);
+    await db.none(insert, [req.session.user.user_id, plant_id]);
+    res.status(200).json({ message: 'Plant added successfully' });
   }
   catch (error){
+    console.error('Failed to add plant:', error);
     res.status(500).json({ message: 'Failed to add plant' });
   }
 });
