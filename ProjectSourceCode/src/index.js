@@ -300,7 +300,7 @@ app.post('/setting', (req, res) => {
   
 });
 
-app.post('/removePlant', async (req,res) => {
+app.delete('/removePlant', async (req,res) => {
   const plant_id = req.query.plant_id;
 
   try{
