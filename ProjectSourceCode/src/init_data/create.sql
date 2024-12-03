@@ -23,12 +23,10 @@ CREATE TABLE userInfo(
     password CHAR(60) NOT NULL
 );
 CREATE TABLE location(
-    location_id SERIAL PRIMARY KEY NOT NULL,
-    avgHumidity INT NOT NULL,
-    rainfall DECIMAL,
-    avgTemp DECIMAL,
-    lightAmount INT NOT NULL,
-    elevation INT NOT NULL
+    minHardiness INT NOT NULL,
+    maxHardiness INT NOT NULL,
+    watering VARCHAR(25) NOT NULL,
+    sunlight VARCHAR(25) NOT NULL
 );
 CREATE TABLE user_to_location(
     user_id INT NOT NULL,
