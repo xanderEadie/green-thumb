@@ -15,7 +15,13 @@
     font-size: 30px;
 }
 
-.hidden {
+.hidden 
+{
     visibility: hidden;
     height: 0;
-  }
+}
+
+#alert
+{
+    position: absolute;
+}
