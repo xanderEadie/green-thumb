@@ -24,19 +24,19 @@ CREATE TABLE userInfo(
 );
 CREATE TABLE location(
     location_id SERIAL PRIMARY KEY NOT NULL,
-    avgHumidity INT NOT NULL,
-    rainfall DECIMAL,
-    avgTemp DECIMAL,
-    lightAmount INT NOT NULL,
-    elevation INT NOT NULL
+    user_id INT REFERENCES userInfo(user_id),
+    minHardiness INT NOT NULL,
+    maxHardiness INT NOT NULL,
+    watering VARCHAR(25) NOT NULL,
+    sunlight VARCHAR(25) NOT NULL
 );
-CREATE TABLE user_to_location(
-    user_id INT NOT NULL,
-    location_id INT NOT NULL,
-    PRIMARY KEY (user_id, location_id),
-    FOREIGN KEY (user_id) REFERENCES userInfo(user_id),
-    FOREIGN KEY (location_id) REFERENCES location(location_id)
-);
+-- CREATE TABLE user_to_location(
+--     user_id INT NOT NULL,
+--     location_id INT NOT NULL,
+--     PRIMARY KEY (user_id, location_id),
+--     FOREIGN KEY (user_id) REFERENCES userInfo(user_id),
+--     FOREIGN KEY (location_id) REFERENCES location(location_id)
+-- );
 CREATE TABLE user_to_plants(
     user_id INT NOT NULL,
     plant_id INT NOT NULL
