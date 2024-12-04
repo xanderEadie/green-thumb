@@ -1,3 +1,4 @@
+<!-- TODO: randomize plant selection, add links to plant information pages -->
 {{> message}}
 {{#if plants}}
     <div class="container w-screen max-w-full max-h-full flex-none place-content-center">
@@ -6,12 +7,13 @@
                 <h1 id="plant_reccs_title" class="text-center">Plant Reccommendations</h1>
             </div>
 
-            <div id="reccs_div" value={{plants}} class="grid lg:grid-cols-3 md:grid-cols-2 place-content-center">
+            <div id="reccs_div" class="grid lg:grid-cols-3 md:grid-cols-2 place-content-center">
                 {{#each plants}}
                      <div class="card card-compact bg-base-200 w-50 shadow-xl m-10">
                         <figure>
-                            <img
-                            src="{{this.img}}"/>
+                            <a href="/plantInformation?plant_id={{this.plant_id}}">
+                                <img src="{{this.img}}"/>
+                            </a>
                         </figure>
                         <div class="card-body">
                             <h2 class="card-title">{{this.common_name}}</h2>
