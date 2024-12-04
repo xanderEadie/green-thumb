@@ -310,67 +310,99 @@ app.get('/reccommendations', async (req,res) => {
 
     const location_data = await db.oneOrNone(q_get_location_data,values_get_location_data);
 
-    console.log("extracting climate data");
-    // extract minHardiness, maxHardiness, watering, and sunlight values
-    let minHardiness = location_data.minhardiness;
-    let maxHardiness = location_data.maxhardiness;
-    let watering = location_data.watering;
-    let sunlight = location_data.sunlight;
-
-    console.log("writing plant search query");
-    // append the non-null search values to the query - if all values are null or location data does not exist select all plants
-    let q_get_plants = "SELECT * FROM plants";
-    // if query specifiers is true, add an AND before appending next parameter
-    let query_specifiers = false;
-
-    let q_hardiness = "";
-    let q_watering = "";
-    let q_sunlight = "";
-
-    // have both min and max hardiness - search for plants between min and max
-    if(minHardiness != null && maxHardiness != null)
+    try 
     {
-      q_hardiness = ` hardiness BETWEEN ${minHardiness} AND ${maxHardiness}`;
-    }
-    // have only min hardiness - search for plants with hardiness greater than min
-    else if(minHardiness != null)
-    {
-      q_hardiness = ` hardiness >= ${minHardiness}`;
-    }
-    // have only max hardiness - search for plants with hardiness less than max
-    else if(maxHardiness != null)
-    {
-      q_hardiness = ` hardiness <= ${maxHardiness}`;
-    }
-    if(q_hardiness != "") query_specifiers = true;
+      if(location_data)
+      {
+        console.log("extracting climate data");
+        // extract minHardiness, maxHardiness, watering, and sunlight values
+        let minHardiness = location_data.minhardiness;
+        let maxHardiness = location_data.maxhardiness;
+        let watering = location_data.watering;
+        let sunlight = location_data.sunlight;
 
-    // search for watering value 'Minimum', 'Average', or 'Frequent'
-    if(watering != null)
-    {
-      q_watering = ` AND watering = '${watering}'`;
-    }
+        console.log("writing plant search query");
+        // append the non-null search values to the query - if all values are null or location data does not exist select all plants
+        let q_get_plants = "SELECT * FROM plants";
+        // if query specifiers is true, add an AND before appending next parameter
+        let query_specifiers = false;
 
-    // search for sunlight value 'Full Shade', 'Part Shade', or 'Full Sun'
-    if(sunlight)
-    {
-      q_sunlight = ` AND sunlight = '${sunlight}'`;
-    }
+        let q_hardiness = "";
+        let q_watering = "";
+        let q_sunlight = "";
 
-    if(query_specifiers) q_get_plants = q_get_plants + " WHERE" + q_hardiness + q_watering + q_sunlight;
-    q_get_plants = q_get_plants + " LIMIT 6;"
+        // have both min and max hardiness - search for plants between min and max
+        if(minHardiness != null && maxHardiness != null)
+        {
+          q_hardiness = ` hardiness BETWEEN ${minHardiness} AND ${maxHardiness}`;
+        }
+        // have only min hardiness - search for plants with hardiness greater than min
+        else if(minHardiness != null)
+        {
+          q_hardiness = ` hardiness >= ${minHardiness}`;
+        }
+        // have only max hardiness - search for plants with hardiness less than max
+        else if(maxHardiness != null)
+        {
+          q_hardiness = ` hardiness <= ${maxHardiness}`;
+        }
+        if(q_hardiness != "") query_specifiers = true;
 
-    try
-    {
-      console.log("attempting to retrieve matching plants from database")
-      const plant_data = await db.any(q_get_plants);
-      console.log("successfully retrieved plants\n",plant_data);
+        // search for watering value 'Minimum', 'Average', or 'Frequent'
+        if(watering != null)
+        {
+          q_watering = ` AND watering = '${watering}'`;
+        }
 
-      res.status(200).render('pages/reccommendations',{plants:plant_data})
-    }
-    catch (err)
+        // search for sunlight value 'Full Shade', 'Part Shade', or 'Full Sun'
+        if(sunlight)
+        {
+          q_sunlight = ` AND sunlight = '${sunlight}'`;
+        }
+
+        if(query_specifiers) q_get_plants = q_get_plants + " WHERE" + q_hardiness + q_watering + q_sunlight;
+        q_get_plants = q_get_plants + ";"
+
+        try
+        {
+          console.log("attempting to retrieve matching plants from database");
+          const plant_data = await db.any(q_get_plants);
+          //console.log("successfully retrieved plants\n",plant_data);
+
+          let plant_reccs = [];
+          if(plant_data.length > 6)
+          // select random plants from selected plants
+          {
+            
+            let max_idx = plant_data.length - 1;
+            let idx = 0;
+            for(let i = 0; i < 6; i++)
+            {
+              idx = Math.floor(Math.random() * max_idx);
+              let plant = plant_data[idx];
+              if(plant_reccs.includes(plant)) i--;
+              else plant_reccs.push(plant);
+            }
+          }
+          else plant_reccs = plant_data;
+
+          res.status(200).render('pages/reccommendations',{plants:plant_reccs})
+        }
+        catch (err)
+        {
+          console.log(err);
+          res.status().render('pages/reccommendations',{message:"Server failed to retrieve plants from database"});
+        }
+      }
+      else
+      {
+        throw new Error("No location data found for user " + res.session.user);
+      }
+    } 
+    catch (err) 
     {
       console.log(err);
-      res.status().render('pages/reccommendations',{message:"Server failed to retrieve plants from database"});
+      res.status(404).render('pages/reccommendations',{message:"No location data found"});
     }
   }
   catch(err)
