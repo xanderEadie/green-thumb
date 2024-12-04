@@ -72,13 +72,16 @@ app.use(
     })
 );
 
+app.use((req, res, next) => {
+  res.locals.staticData = {
+      user:req.session.user,
+  };
+  next();
+});
+
 // *****************************************************
 // <!-- Section 4 : API Routes -->
 // *****************************************************
-
-app.get('/welcome', (req, res) => {
-  res.json({status: 'success', message: 'Welcome!'});
-});
 
 // when navigating to website, redirect to home
 app.get('/',(req,res) => {
@@ -87,7 +90,8 @@ app.get('/',(req,res) => {
 
 // GET home
 app.get('/home',(req,res) => {
-  res.status(200).render('pages/home')
+  if(!req.session.user) res.status(200).render('pages/home');
+  else res.status(200).render('pages/home',{user:true});
 })
 
 // redirect to login
