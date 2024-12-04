@@ -295,41 +295,6 @@ app.post('/addPlant', async (req,res) => {
   }
 });
 
-// location table:
-// location_id 
-// avgHumidity 
-// rainfall 
-// avgTemp 
-// lightAmount 
-// elevation 
-
-// rainfall -> watering - frequent, average, minimum, none
-/*
-frequent: 
-*/
-
-
-// light level -> sunlight - full_shade, part_shade, sun-part_shade, full_sun
-// light amount should be stored directly as full shade, part shade, full sun
-
-// avgTemp -> hardiness - zones 1-13 (see https://planthardiness.ars.usda.gov/ for info on plant hardiness)
-/* climate zones by min avg temp:
-1: -60 to -50
-2: -50 to -40
-3: -40 to -30
-4: -30 to -20
-5: -20 to -10
-6: -10 to 0
-7: 0 to 10
-8: 10 to 20
-9: 20 to 30
-10: 30 to 40
-11: 40 to 50
-12: 50 to 60
-13: 60 to 70
-*/
-// climate zone is estimated from user location avg temperature by subracting 30 degrees
-
 app.get('/reccommendations', async (req,res) => {
   try
   {
@@ -338,37 +303,73 @@ app.get('/reccommendations', async (req,res) => {
     let q_get_location_data = "SELECT * FROM userInfo INNER JOIN user_to_location ON userInfo.user_id = user_to_location.user_id INNER JOIN location ON user_to_location.location_id = location.location_id WHERE userInfo.username = $1 LIMIT 1;";
     let values_get_location_data = [req.session.username];
 
-    const location_data = await db.one(q_get_location_data,values_get_location_data);
+    const location_data = await db.oneOrNone(q_get_location_data,values_get_location_data);
 
-    // location data exists - check for rainfall, light level, and avg temp,convert to values to search for in plant table, and append to search query
+    // extract minHardiness, maxHardiness, watering, and sunlight values
+    let minHardiness = location_data.minHardiness;
+    let maxHardiness = location_data.maxHardiness;
+    let watering = location_data.watering;
+    let sunlight = location_data.sunlight;
+
+    // append the non-null search values to the query - if all values are null or location data does not exist select all plants
     let q_get_plants = "SELECT * FROM plants";
-    if(location_data.rainfall)
-    {
-      let rainfall;
-      switch(location_data.rainfall)
-      {
+    // if query specifiers is true, add an AND before appending next parameter
+    let query_specifiers = false;
 
-      }
-    }
-    if(location_data.avgTemp)
-    {
-      let avgTemp;
-      switch(location_data.avgTemp)
-      {
+    let q_hardiness = "";
+    let q_watering = "";
+    let q_sunlight = "";
 
-      }
-    }
-    if(location_data.avgTemp)
+    // have both min and max hardiness - search for plants between min and max
+    if(minHardiness != null && maxHardiness != null)
     {
-      let avgTemp;
-      switch(location_data.avgTemp)
-      {
-
-      }
+      q_hardiness = ` WHERE hardiness BETWEEN ${minHardiness} AND ${maxHardiness}`;
     }
-    q_get_plants = q_get_plants + ";";
+    // have only min hardiness - search for plants with hardiness greater than min
+    else if(minHardiness != null)
+    {
+      q_hardiness = ` WHERE hardiness >= ${minHardiness}`;
+    }
+    // have only max hardiness - search for plants with hardiness less than max
+    else if(maxHardiness != null)
+    {
+      q_hardiness = ` WHERE hardiness <= ${maxHardiness}`;
+    }
+    if(q_hardiness != "") query_specifiers = true;
+
+    // search for watering value 'Minimum', 'Average', or 'Frequent'
+    if(watering != null)
+    {
+      q_watering = ` watering = ${watering}`;
+    }
+    if(query_specifiers) q_watering = " AND" + q_watering;
+    else q_watering = " WHERE" + q_watering;
+
+    // search for sunlight value 'Full Shade', 'Part Shade', or 'Full Sun'
+    if(sunlight)
+    {
+      q_sunlight = ` sunlight = ${sunlight}`;
+    }
+    if(query_specifiers) q_sunlight = " AND" + q_sunlight;
+    else q_sunlight = " WHERE" + q_sunlight;
+
+    q_get_plants = q_hardiness + q_watering + q_sunlight + ";";
+
+    try
+    {
+      console.log("attempting to retrieve matching plants from database")
+      const plant_data = await db.any(q_get_plants);
+
+      console.log("successfully retrieved plants");
+      res.status(200).render('pages/reccommendations',{plants:plant_data})
+    }
+    catch (err)
+    {
+      console.log(err);
+      res.status().render('pages/reccommendations',{message:"Server failed to retrieve plants from database"});
+    }
   }
-  catch
+  catch(err)
   {
     console.log(err); 
     res.status(500).render('pages/reccommendations',{message:"Server failed to retrieve user location data."})
