@@ -83,6 +83,10 @@ app.use((req, res, next) => {
 // <!-- Section 4 : API Routes -->
 // *****************************************************
 
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
+
 // when navigating to website, redirect to home
 app.get('/',(req,res) => {
     res.status(200).redirect('/home');
@@ -391,7 +395,7 @@ app.get('/reccommendations', async (req,res) => {
         catch (err)
         {
           console.log(err);
-          res.status().render('pages/reccommendations',{message:"Server failed to retrieve plants from database"});
+          res.status(500).render('pages/reccommendations',{message:"Server failed to retrieve plants from database"});
         }
       }
       else
