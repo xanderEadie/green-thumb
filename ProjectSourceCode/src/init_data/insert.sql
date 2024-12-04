@@ -1105,11 +1105,10 @@ VALUES
 'https://perenual.com/storage/species_image/1595_capsicum_annuum/regular/51677548162_b86511d0e5_b.jpg'
 );
 
+-- TEST USER
 INSERT INTO userInfo (first_name, last_name, username, email, password)
 VALUES ('John', 'Doe', 'jdoe', 'johndoe@example.com','$2a$12$bzVplFpQhE5Dectai0eRQuqpv2Z6RgRXgMdFXNd5ffJm8jfJmeAfm');
 
-INSERT INTO location (minHardiness, maxHardiness, watering, sunlight)
-VALUES (5, 8, 'Average','Full Sun');
-
-INSERT INTO user_to_location (user_id, location_id)
-VALUES ((SELECT currval('userInfo_user_id_seq')), (SELECT currval('location_location_id_seq')));
+INSERT INTO location (user_id, minHardiness, maxHardiness, watering, sunlight)
+VALUES ((SELECT user_id FROM userInfo 
+WHERE username = 'jdoe'), 5, 8, 'Average', 'Full Sun');
