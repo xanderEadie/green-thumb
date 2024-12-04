@@ -90,8 +90,7 @@ app.get('/',(req,res) => {
 
 // GET home
 app.get('/home',(req,res) => {
-  if(!req.session.user) res.status(200).render('pages/home');
-  else res.status(200).render('pages/home',{user:true});
+  res.status(200).render('pages/home');
 })
 
 // redirect to login
@@ -230,7 +229,7 @@ app.use(auth);
 
 app.get('/logout', async (req,res) => {
   req.session.destroy();
-  res.status(200).render('pages/logout',{message:"Logged out successfully"});
+  res.status(200).render('pages/home',{message:"Logged out successfully"});
 })
 
 app.post('/location/add', async (req, res) => {
