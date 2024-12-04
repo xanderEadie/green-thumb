@@ -295,20 +295,83 @@ app.post('/addPlant', async (req,res) => {
   }
 });
 
+// location table:
+// location_id 
+// avgHumidity 
+// rainfall 
+// avgTemp 
+// lightAmount 
+// elevation 
+
+// rainfall -> watering - frequent, average, minimum, none
+/*
+frequent: 
+*/
+
+
+// light level -> sunlight - full_shade, part_shade, sun-part_shade, full_sun
+// light amount should be stored directly as full shade, part shade, full sun
+
+// avgTemp -> hardiness - zones 1-13 (see https://planthardiness.ars.usda.gov/ for info on plant hardiness)
+/* climate zones by min avg temp:
+1: -60 to -50
+2: -50 to -40
+3: -40 to -30
+4: -30 to -20
+5: -20 to -10
+6: -10 to 0
+7: 0 to 10
+8: 10 to 20
+9: 20 to 30
+10: 30 to 40
+11: 40 to 50
+12: 50 to 60
+13: 60 to 70
+*/
+// climate zone is estimated from user location avg temperature by subracting 30 degrees
+
 app.get('/reccommendations', async (req,res) => {
   try
   {
-    console.log("attempting to retrieve climate data");
-    throw new Error("implementation in progress, failed to retrieve climate data");
-    // get plants from plants table that match the user's location data
+    // get user's location data
+    console.log("attempting to retrieve user location data");
     let q_get_location_data = "SELECT * FROM userInfo INNER JOIN user_to_location ON userInfo.user_id = user_to_location.user_id INNER JOIN location ON user_to_location.location_id = location.location_id WHERE userInfo.username = $1 LIMIT 1;";
+    let values_get_location_data = [req.session.username];
 
-    res.render('pages/reccommendations')
+    const location_data = await db.one(q_get_location_data,values_get_location_data);
+
+    // location data exists - check for rainfall, light level, and avg temp,convert to values to search for in plant table, and append to search query
+    let q_get_plants = "SELECT * FROM plants";
+    if(location_data.rainfall)
+    {
+      let rainfall;
+      switch(location_data.rainfall)
+      {
+
+      }
+    }
+    if(location_data.avgTemp)
+    {
+      let avgTemp;
+      switch(location_data.avgTemp)
+      {
+
+      }
+    }
+    if(location_data.avgTemp)
+    {
+      let avgTemp;
+      switch(location_data.avgTemp)
+      {
+
+      }
+    }
+    q_get_plants = q_get_plants + ";";
   }
   catch
   {
-    //console.log(err); 
-    res.status(500).render('pages/reccommendations',{message:"Server failed to retrieve climate data."})
+    console.log(err); 
+    res.status(500).render('pages/reccommendations',{message:"Server failed to retrieve user location data."})
   }
 })
 
