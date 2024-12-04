@@ -261,22 +261,52 @@ app.post('/location/add', async (req, res) => {
   });
 });
 
-app.get('/plantSearch',(req,res) => {
+app.get('/search',(req,res) => {
   res.render('pages/search',{plants: []});
 });
 
-app.post('/removePlant', async (req,res) => {
-  const plant_id = req.body.plant_id;
+app.get('/plantInformation', async (req,res) => {
+  // get plantID from URL query
+  const plant_id = req.query.plant_id;
+  const plantQuery = 'SELECT * FROM plants WHERE plant_id = $1';
 
   try{
-    const plantAlreadyIn = 'SELECT * FROM plants WHERE plant_id = $1;';
-    const inGarden = db.oneOrNone(plantAlreadyIn, [plant_id]);
+    // retrieve plant from database and 
+    console.log("attempting to retrieve plant from database")
+    const plant = await db.one(plantQuery, [plant_id]);
+    console.log("successfully retrieved plant ", plant_id, "\n", plant)
+    res.render('pages/plantInformation',{plant: plant});
+  }
+  catch (error){
+    res.status(404).json({ message: 'Plant not found' });
+  }
+
+});
+
+app.get('/profile',(req,res) => {
+  res.render('pages/profile', { title: 'Profile' });
+});
+
+app.get('/setting',(req,res) => {
+  res.render('pages/setting', { title: 'Setting' });
+});
+
+app.post('/setting', (req, res) => {
+  
+});
+
+app.delete('/removePlant', async (req,res) => {
+  const plant_id = req.query.plant_id;
+
+  try{
+    const plantAlreadyIn = 'SELECT * FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
+    const inGarden = db.oneOrNone(plantAlreadyIn, [req.session.user.user_id, plant_id]);
     if(!inGarden){
       return res.status(400).json({ message: 'Not in your garden' });
     }
 
     const remove = 'DELETE FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
-    await db.none(remove, [req.session.user.user_id, plantId]);
+    await db.none(remove, [req.session.user.user_id, plant_id]);
     res.status(200).redirect(`/pages/profile`);
   }
   catch (error){
@@ -285,20 +315,21 @@ app.post('/removePlant', async (req,res) => {
 });
 
 app.post('/addPlant', async (req,res) => {
-  const plant_id = req.body.plant_id;
+  const plant_id = req.query.plant_id;
 
   try{
-    const plantAlreadyIn = 'SELECT * FROM plants WHERE plant_id = $1;';
-    const inGarden = db.oneOrNone(plantAlreadyIn, [plant_id]);
+    const plantAlreadyIn = 'SELECT * FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
+    const inGarden = db.oneOrNone(plantAlreadyIn, [req.session.user.user_id, plant_id]);
     if(inGarden){
       return res.status(400).json({ message: 'Already in your garden' });
     }
 
     const insert = 'INSERT INTO user_to_plants (user_id, plant_id) VALUES ($1, $2);';
-    await db.none(insert, [req.session.user.user_id, plantId]);
-    res.status(200).redirect(`/pages/profile`);
+    await db.none(insert, [req.session.user.user_id, plant_id]);
+    res.status(200).json({ message: 'Plant added successfully' });
   }
   catch (error){
+    console.error('Failed to add plant:', error);
     res.status(500).json({ message: 'Failed to add plant' });
   }
 });
