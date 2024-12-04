@@ -277,7 +277,7 @@ VALUES
 'https://perenual.com/storage/species_image/565_aesculus_parviflora_var_serotina/regular/28238288795_e001a089c1_b.jpg'
 ),
 (
-'Slenderleaf 0 Foxglove',
+'Slenderleaf False Foxglove',
 'Agalinis tenuifolia',
 1.5,
 'Annual',
