@@ -272,28 +272,28 @@ app.post('/location/add', async (req, res) => {
 app.get('/plantSearch',(req,res) => {
   res.render('pages/search',{plants: []});
 })
-
+do
 app.get('/profile',(req,res) => {
   res.render('pages/settings/profile', { title: 'Profile' });
 })
 
-app.get('/settings/location',(req,res) => {
+app.get('/p-location',(req,res) => {
   res.render('pages/settings/location', { title: 'Location Settings' });
 })
 
-app.get('/settings/accountSettings',(req,res) => {
+app.get('/account-settings',(req,res) => {
   res.render('pages/settings/accountSettings', { title: 'Account Settings' });
 })
 
-app.get('/settings/favoritePlants',(req,res) => {
+app.get('/favorite-plants',(req,res) => {
   res.render('pages/settings/favoritePlants', { title: 'Favorite Plants' });
 })
 
-app.get('/settings/deleteAccount',(req,res) => {
+app.get('/delete-account',(req,res) => {
   res.render('pages/settings/deleteAccount', { title: 'Delete Account' });
 })
 
-app.get('/settings/plants',(req,res) => {
+app.get('/my-garden',(req,res) => {
   res.render('pages/settings/plants', { title: 'Current Plants' });
 })
 
