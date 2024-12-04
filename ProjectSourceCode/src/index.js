@@ -118,6 +118,7 @@ app.post('/login', async (req, res) =>
         {
             //save user details in session
             req.session.user = found_user;
+            req.session.username = req.body.username;
             req.session.save((err) => {
                 if (err) {
                     console.log('session save error:', err);
@@ -126,7 +127,7 @@ app.post('/login', async (req, res) =>
                 else
                 {
                     res.status(200).redirect('/home');
-                    console.log("successful login");                      
+                    console.log("successful login, set session user to",req.session.username);                      
                 }
             })
         }
@@ -302,18 +303,21 @@ app.get('/reccommendations', async (req,res) => {
   try
   {
     // get user's location data
-    console.log("attempting to retrieve user location data");
-    let q_get_location_data = "SELECT * FROM userInfo INNER JOIN user_to_location ON userInfo.user_id = user_to_location.user_id INNER JOIN location ON user_to_location.location_id = location.location_id WHERE userInfo.username = $1 LIMIT 1;";
+    console.log("attempting to retrieve user location data for", req.session.username);
+    
+    let q_get_location_data = `SELECT * FROM userInfo INNER JOIN location ON userInfo.user_id = location.user_id WHERE userInfo.username = $1 LIMIT 1;`;
     let values_get_location_data = [req.session.username];
 
     const location_data = await db.oneOrNone(q_get_location_data,values_get_location_data);
 
+    console.log("extracting climate data");
     // extract minHardiness, maxHardiness, watering, and sunlight values
-    let minHardiness = location_data.minHardiness;
-    let maxHardiness = location_data.maxHardiness;
+    let minHardiness = location_data.minhardiness;
+    let maxHardiness = location_data.maxhardiness;
     let watering = location_data.watering;
     let sunlight = location_data.sunlight;
 
+    console.log("writing plant search query");
     // append the non-null search values to the query - if all values are null or location data does not exist select all plants
     let q_get_plants = "SELECT * FROM plants";
     // if query specifiers is true, add an AND before appending next parameter
@@ -326,44 +330,41 @@ app.get('/reccommendations', async (req,res) => {
     // have both min and max hardiness - search for plants between min and max
     if(minHardiness != null && maxHardiness != null)
     {
-      q_hardiness = ` WHERE hardiness BETWEEN ${minHardiness} AND ${maxHardiness}`;
+      q_hardiness = ` hardiness BETWEEN ${minHardiness} AND ${maxHardiness}`;
     }
     // have only min hardiness - search for plants with hardiness greater than min
     else if(minHardiness != null)
     {
-      q_hardiness = ` WHERE hardiness >= ${minHardiness}`;
+      q_hardiness = ` hardiness >= ${minHardiness}`;
     }
     // have only max hardiness - search for plants with hardiness less than max
     else if(maxHardiness != null)
     {
-      q_hardiness = ` WHERE hardiness <= ${maxHardiness}`;
+      q_hardiness = ` hardiness <= ${maxHardiness}`;
     }
     if(q_hardiness != "") query_specifiers = true;
 
     // search for watering value 'Minimum', 'Average', or 'Frequent'
     if(watering != null)
     {
-      q_watering = ` watering = ${watering}`;
+      q_watering = ` AND watering = '${watering}'`;
     }
-    if(query_specifiers) q_watering = " AND" + q_watering;
-    else q_watering = " WHERE" + q_watering;
 
     // search for sunlight value 'Full Shade', 'Part Shade', or 'Full Sun'
     if(sunlight)
     {
-      q_sunlight = ` sunlight = ${sunlight}`;
+      q_sunlight = ` AND sunlight = '${sunlight}'`;
     }
-    if(query_specifiers) q_sunlight = " AND" + q_sunlight;
-    else q_sunlight = " WHERE" + q_sunlight;
 
-    q_get_plants = q_hardiness + q_watering + q_sunlight + ";";
+    if(query_specifiers) q_get_plants = q_get_plants + " WHERE" + q_hardiness + q_watering + q_sunlight;
+    q_get_plants = q_get_plants + " LIMIT 6;"
 
     try
     {
       console.log("attempting to retrieve matching plants from database")
       const plant_data = await db.any(q_get_plants);
+      console.log("successfully retrieved plants\n",plant_data);
 
-      console.log("successfully retrieved plants");
       res.status(200).render('pages/reccommendations',{plants:plant_data})
     }
     catch (err)
