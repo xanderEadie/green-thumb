@@ -24,11 +24,14 @@
         }
     } //function to help use addPlant in index.js, help from Zhuoheng with the idea and formatting
 </script>
+{{> message}}
 <div id="plantInfo-container" class="container w-screen max-w-full flex-none place-content-center">
+    <div class="container mx-auto m-10 place-content-center">
+        <h2><b id="plant-name" style="font-size: 40px;"> {{ plant.common_name }} </b></h2>
+        <i id="scientific-name"> {{ plant.scientific_name }}</i>
     <body>
-        <h2 id="plant-name"> {{ plant.common_name }} </h2>
-        <h6 id="scientific-name"> {{ plant.scientific_name }}</h6>
-        <!--img src="{{ plant.img }}"/-->
+        
+        <img src="{{ plant.img }}" width="400px"/>
         <div class="overflow-x-auto">
             <table class="table table-zebra">
                 <tbody>
@@ -87,4 +90,5 @@
     Add to Garden
     </button>
     </body>
+    </div>
 </div>

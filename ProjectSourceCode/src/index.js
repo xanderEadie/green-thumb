@@ -273,19 +273,22 @@ app.get('/search',(req,res) => {
   res.render('pages/search',{plants: []});
 });
 
-app.get('/plantInformation',(req,res) => {
+app.get('/plantInformation', async (req,res) => {
+  // get plantID from URL query
   const plant_id = req.query.plant_id;
   const plantQuery = 'SELECT * FROM plants WHERE plant_id = $1';
-  const plant = db.one(plantQuery, [plant_id]);
-  console.log(plant);
-  res.render('pages/plantInformation',{plant: plant});
 
   try{
-    
+    // retrieve plant from database and 
+    console.log("attempting to retrieve plant from database")
+    const plant = await db.one(plantQuery, [plant_id]);
+    console.log("successfully retrieved plant ", plant_id, "\n", plant)
+    res.render('pages/plantInformation',{plant: plant});
   }
   catch (error){
     res.status(404).json({ message: 'Plant not found' });
   }
+
 });
 
 app.get('/profile',(req,res) => {
