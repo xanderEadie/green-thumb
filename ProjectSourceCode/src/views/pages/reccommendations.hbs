@@ -1,33 +1,29 @@
 {{> message}}
 {{#if plants}}
-    <div class="carousel w-full">
-    {{#each plants as plant}}
-        <div id="slide{{@index}}" class="carousel-item relative w-full"></div>
-            <a href="/plantInformation?plantID={{plant.id}}">
-                <img class="bg-base-200 rounded-lg" src="{{plant.img}}" class="w-full" />
-            </a>
-            <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+    <div class="container w-screen max-w-full max-h-full flex-none place-content-center">
+        <div class="container mx-auto m-10 place-content-center">
+            <div class="container mx-auto">
+                <h1 id="plant_reccs_title" class="text-center">Plant Reccommendations</h1>
+            </div>
 
-                <a href="#slide
-                    {{#if (eq @index 0)}}
-                        5
-                    {{else}}
-                        {{increment @index}}
-                    {{/if}}
-                    " class="btn btn-circle">❮
-                </a>
-
-                <a href="#slide
-                    {{#if (eq @index 4)}}
-                        1
-                    {{else}}
-                        {{@index}}
-                    {{/if}}
-                    " class="btn btn-circle">❯
-                </a>
+            <div id="reccs_div" value={{plants}} class="grid lg:grid-cols-3 md:grid-cols-2 place-content-center">
+                {{#each plants}}
+                     <div class="card card-compact bg-base-200 w-50 shadow-xl m-10">
+                        <figure>
+                            <img
+                            src="{{this.img}}"/>
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">{{this.common_name}}</h2>
+                            <div class="card-actions justify-end">
+                            </div>
+                        </div>
+                    </div> 
+                {{/each}}
             </div>
         </div>
-    {{/each}}
+    </div>
+
 {{else}}
 <div class="text-xl font-bold text-gray-900 bg-gray-300 min-h-screen p-5">
     No plant data
