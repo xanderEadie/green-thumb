@@ -1,13 +1,5 @@
-{{!- 
-TO-DO:
-1. handlebars to insert appropriate images to image carousel (may have to implement homepage GET route first)
-2. create a form (or js function? something else?) to submit a GET request to the plant information page with information on that plant when clicking on carousel image
-
-NOTES:
-- see how the form/ image as a button thing looks with final implementation. If necessary, could possibly switch to adding an onclick attribute with an event listener to call route
-- carousel vs static image for plants of the day - could also just make a separate page with a carousel to simplify things for the homepage - this would also fix the issue of what to display for plant reccomendations when the user is not signed in - or just do general plant reccomendations regardless of whether or not the user is signed in
- --}}
-<div id="home-container" class="container w-screen max-w-full flex-none place-content-center">
+{{>message}}
+<div id="home-container" class="container w-screen max-w-full max-h-full flex-none place-content-center">
     <div class="container mx-auto m-10">
         <div class="container mx-auto">
             <h1 id="home-title" class="text-center">Green Thumb</h1>
@@ -16,7 +8,7 @@ NOTES:
 
         <div id="home-cards-container" class="grid lg:grid-cols-3">
             <!-- search for plants -->
-            <div id="plant-search-card" class="card bg-base-300 flex-1 m-10" onclick="plantSearchCard">
+            <div id="plant-search-card" class="card bg-base-300 flex-1 m-10">
                 <div class="card-body">
                     <h2 class="card-title">Search For Plants</h2>
                     <p class="card-text pb-4">Search for plants for your local environment </p>
@@ -30,41 +22,10 @@ NOTES:
             <div id="plants-of-the-day" class="card bg-base-300 flex-1 m-10">
                 <div class="card-body">
                     <h2 class="card-title">Plants of the Day</h2>
-                    <p class="card-text pb-4">Reccomended plants for your garden</p>
-                    {{#if plants.length}}
-                        <!-- plant reccomendation carousel -->
-                        <div class="carousel w-full">
-                            {{#each plants as plant}}
-                                <div id="slide{{@index}}" class="carousel-item relative w-full">
-                                    <a href="/plantInformation?plantID={{plant.id}}">
-                                        <img class="bg-base-200 rounded-lg" src="{{plant.img}}" class="w-full" />
-                                    </a>
-                                    <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-
-                                        <a href="#slide
-                                            {{#if (eq @index 0)}}
-                                                5
-                                            {{else}}
-                                                {{increment @index}}
-                                            {{/if}}
-                                            " class="btn btn-circle">❮
-                                        </a>
-
-                                        <a href="#slide
-                                            {{#if (eq @index 4)}}
-                                                1
-                                            {{else}}
-                                                {{@index}}
-                                            {{/if}}
-                                            " class="btn btn-circle">❯
-                                        </a>
-                                    </div>
-                                </div>
-                            {{/each}}
-                        </div>
-                    {{else}}
+                    <p class="card-text pb-4">Recommended plants for your garden</p>
+                    <a href="/reccommendations">
                         <img class="bg-base-200 rounded-lg" src="/img/leaf_logo.png">
-                    {{/if}}
+                    </a>
                 </div>
             </div>
 
@@ -73,7 +34,7 @@ NOTES:
                 <div class="card-body">
                     <h2 class="card-title">My Garden</h2>
                     <p class="card-text pb-4">Track plants in my garden</p>
-                    <a href="{{#if user}}/garden{{else}}/login{{/if}}">
+                    <a href="/garden">
                         <img class="bg-base-200 rounded-lg" src="/img/leaf_logo.png">
                     </a>
                 </div>

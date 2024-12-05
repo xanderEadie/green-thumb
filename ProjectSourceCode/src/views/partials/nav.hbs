@@ -27,8 +27,8 @@
       <ul
         tabindex="0"
         class="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li><a>Home</a></li>
-        <li><a>Plant Search</a></li>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/search">Plant Search</a></li>
         <li><a href="
         {{#if user}}
           /garden
@@ -63,13 +63,14 @@
         tabindex="0"
         class="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow">
         <!-- display options when logged in vs logged out -->
-        {{#if user}}
+
+        {{#if staticData.user}}
           <li><a href="/profile">Profile</a></li>
           <li><a href="/settings">Settings</a></li>
           <li><a href="/logout">Logout</a></li>
         {{else}}
           <li><a href="/login">Login</a></li>
-          <li><a href="/register">Register</a></li>
+          <li><a href="/register">Register</a></li> 
         {{/if}}
       </ul>
     </div>

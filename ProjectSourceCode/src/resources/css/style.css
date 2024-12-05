@@ -14,3 +14,20 @@
     color: #A5CA7A;
     font-size: 30px;
 }
+
+.hidden 
+{
+    visibility: hidden;
+    height: 0;
+}
+
+#alert
+{
+    position: absolute;
+}
+
+#plant_reccs_title
+{
+    color: #A5CA7A;
+    font-size: 50px;
+}

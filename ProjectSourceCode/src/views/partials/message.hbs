@@ -1,5 +1,20 @@
 {{#if message}}
-  <div class="alert alert-{{#if error}}danger{{else}}success{{/if}}" role="alert">
-    {{ message }}
+  {{!-- <script>
+    document.addEventListener('click', hideAlert)
+    function hideAlert()
+    {
+      console.log("hideAlert function called");
+      const alert = document.getElementById('alert');
+      alert.style.display = "none";
+    }
+  </script> --}}
+  <div id="alert" role="alert" class="max-w-fit m-2 p-2 alert hover:z-50">
+    <div id="close-alert" role="button" class="btn btn-ghost btn-circle">
+      <!-- icon from heroicons.com -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+    </div>
+    <span class="pr-5">{{message}}</span>
   </div>
 {{/if}}
