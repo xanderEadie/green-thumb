@@ -14,18 +14,21 @@
             {{> sidebar}}
         </aside>
         
-        <!-- Favorite Plants -->
-        <div class="card bg-base-100 shadow-lg p-4">
-            <h2 class="card-title text-xl">Favorite Plants</h2>
-            <ul class="space-y-2">
-                {{#each favoritePlants}}
-                <li class="flex items-center space-x-4">
-                    <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
-                    <div>{{this.name}}</div>
-                    <button class="btn btn-sm btn-error">Remove</button>
-                </li>
-                {{/each}}
-            </ul>
+        <!-- Centered Content Wrapper -->
+        <div class="flex flex-1 items-center justify-center">
+            <!-- Favorite Plants -->
+            <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full">
+                <h2 class="card-title text-xl mb-4">Favorite Plants</h2>
+                <ul class="space-y-4">
+                    {{#each favoritePlants}}
+                    <li class="flex items-center space-x-4">
+                        <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
+                        <div class="flex-1">{{this.name}}</div>
+                        <button class="btn btn-sm btn-error">Remove</button>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
         </div>
     </div>
 </body>

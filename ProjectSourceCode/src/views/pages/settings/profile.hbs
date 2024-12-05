@@ -12,12 +12,14 @@
 <body class="bg-base-200">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        {{> sidebar}}
-        
-        <!-- Content -->
-        <div class="flex-grow p-6 bg-base-100 shadow-xl rounded-lg space-y-6 overflow-y-auto">
+        <aside class="w-1/4">
+            {{> sidebar}}
+        </aside>
+
+        <!-- Centered Content -->
+        <div class="flex-grow p-6 bg-base-100 shadow-xl rounded-lg space-y-6 overflow-y-auto flex flex-col items-center">
             <!-- User Info -->
-            <div class="card bg-base-100 shadow-lg p-4">
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
                 <h2 class="card-title text-xl">User Information</h2>
                 <p><strong>Name:</strong> {{user.name}}</p>
                 <p><strong>Username:</strong> {{user.username}}</p>
@@ -25,7 +27,7 @@
             </div>
 
             <!-- Location Information -->
-            <div class="card bg-base-100 shadow-lg p-4">
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
                 <h2 class="card-title text-xl">Location Information</h2>
                 <p><strong>Average Humidity:</strong> {{location.avgHumidity}}%</p>
                 <p><strong>Rainfall:</strong> {{location.rainfall}} mm</p>
@@ -35,7 +37,7 @@
             </div>
 
             <!-- Plants Being Grown -->
-            <div class="card bg-base-100 shadow-lg p-4">
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
                 <h2 class="card-title text-xl">Plants Currently Being Grown</h2>
                 <ul class="space-y-4">
                     {{#each userPlants}}
@@ -58,7 +60,7 @@
             </div>
 
             <!-- Favorite Plants -->
-            <div class="card bg-base-100 shadow-lg p-4">
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
                 <h2 class="card-title text-xl">Favorite Plants</h2>
                 <ul class="space-y-2">
                     {{#each favoritePlants}}
@@ -72,7 +74,7 @@
             </div>
 
             <!-- Account Settings -->
-            <div class="card bg-base-100 shadow-lg p-4">
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
                 <h2 class="card-title text-xl">Account Settings</h2>
                 <div class="form-control w-full mb-4">
                     <label class="label" for="username">Username</label>
@@ -86,7 +88,7 @@
             </div>
 
             <!-- Delete Account -->
-            <div class="card bg-base-100 shadow-lg p-4">
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
                 <button class="btn btn-error w-full">Delete Account</button>
             </div>
         </div>

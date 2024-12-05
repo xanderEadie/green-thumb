@@ -13,21 +13,23 @@
         <aside>
             {{> sidebar}}
         </aside>
-        
-        <!-- Account Settings -->
-        <div class="card bg-base-100 shadow-lg p-4">
-            <h2 class="card-title text-xl">Account Settings</h2>
-            <div class="form-control w-full mb-4">
-                <label class="label" for="username">Username</label>
-                <input type="text" id="username" class="input input-bordered w-full" value="{{user.username}}">
+
+        <!-- Centered Content Wrapper -->
+        <div class="flex flex-1 items-center justify-center">
+            <!-- Account Settings -->
+            <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full">
+                <h2 class="card-title text-xl mb-4">Account Settings</h2>
+                <div class="form-control w-full mb-4">
+                    <label class="label" for="username">Username</label>
+                    <input type="text" id="username" class="input input-bordered w-full" value="{{user.username}}">
+                </div>
+                <div class="form-control w-full mb-4">
+                    <label class="label" for="email">Email</label>
+                    <input type="email" id="email" class="input input-bordered w-full" value="{{user.email}}">
+                </div>
+                <button class="btn btn-primary w-full">Update Account</button>
             </div>
-            <div class="form-control w-full mb-4">
-                <label class="label" for="email">Email</label>
-                <input type="email" id="email" class="input input-bordered w-full" value="{{user.email}}">
-            </div>
-            <button class="btn btn-primary">Update Account</button>
         </div>
-        
     </div>
 </body>
 </html>
