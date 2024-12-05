@@ -238,26 +238,27 @@ app.get('/logout', async (req,res) => {
 })
 
 app.post('/location/add', async (req, res) => {
-  const avgHumidity = req.body.avgHumidity;
-  const rainfall = req.body.rainfall;
-  const avgTemp = req.body.avgTemp;
-  const lightAmount = req.body.lightAmount;
-  const elevation = req.body.elevation;
+  const minHardiness = req.body.minHardiness;
+  const maxHardiness = req.body.maxHardiness;
+  const watering = req.body.watering;
+  const sunlight = req.body.sunlight;
+  const user = req.session.user.user_id;
 
   db.task('create-location', task => {
-      const insertLocation = 'INSERT INTO location (avgHumidity, rainfall, avgTemp, lightAmount, elevation) VALUES ($1, $2, $3, $4, $5) RETURNING id;';
-      const location = task.one(insertLocation, [avgHumidity, rainfall, avgTemp, lightAmount, elevation]);
+      const insertLocation = 'INSERT INTO location (user_id, minHardiness, maxHardiness, watering, sunlight) VALUES ($1, $2, $3, $4) RETURNING id;';
+      const location = task.one(insertLocation, [user, minHardiness, maxHardiness, watering, sunlight]);
 
-      const toOtherTable = 'INSERT INTO user_to_location (user_id, location_id) VALUES ($1, $2);';
-      return task.none(toOtherTable, [req.session.user.student_id, location]);
+      // const toOtherTable = 'INSERT INTO user_to_location (user_id, location_id) VALUES ($1, $2);';
+      // return task.none(toOtherTable, [req.session.user.student_id, location]);
   })
   .then(location => {
-    res.redirect('/home', {
+    res.status(200).redirect('/home', {
       message: `Successfully added location ${req.body.location_id}`,
     });
+    console.log("successfully added location")
   })
   .catch(function (err){
-      console.log(err)
+      console.log(err, " error adding location")
   });
 });
 
