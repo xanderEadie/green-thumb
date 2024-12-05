@@ -24,19 +24,23 @@
                     <li class="flex items-center space-x-4">
                         <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
                         <div>
-                            <p><strong>Name:</strong> {{this.name}}</p>
-                            <p><strong>Moisture Need:</strong> {{this.moistureNeed}}%</p>
-                            <p><strong>Comfort Temperature:</strong> {{this.comfTemp}} °C</p>
-                            <p><strong>Light Level:</strong> {{this.lightLevel}}</p>
-                            <p><strong>Lifespan:</strong> {{this.lifespan}} days</p>
-                            <p><strong>Size:</strong> {{this.SIZE}} cm</p>
-                            <p><strong>Rain Requirement:</strong> {{this.rainReq}} mm</p>
+                            <p><strong>Plant Name:</strong> {{this.common_name}}</p>
+                            <p><strong>Scientific Name:</strong> {{this.scientific_name}}</p>
+                            <p><strong>Height:</strong> {{this.height}} ft</p>
+                            <p><strong>Cycle:</strong> {{this.cycle}}</p>
+                            <p><strong>Hardiness:</strong> {{this.hardiness}}</p>
+                            <p><strong>Watering:</strong> {{this.watering}}</p>
+                            <p><strong>Sunlight:</strong> {{this.sunlight}}</p>
+                            <p><strong>Flowers:</strong> {{this.flowers}}</p>
+                            <p><strong>Edible:</strong> {{this.edible}}</p>
                         </div>
                         <button class="btn btn-sm btn-error">Remove</button>
                     </li>
                     {{/each}}
                 </ul>
-                <button class="btn btn-primary mt-4 w-full">Add New Plant</button>
+                <form action="/search">
+                    <button type="submit" class="btn btn-primary mt-4 w-full">Add New Plant</button>
+                </form>
             </div>
         </div>
     </div>
