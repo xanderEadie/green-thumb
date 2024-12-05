@@ -4,16 +4,6 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
-#home-title
-{
-    color: #A5CA7A;
-    font-size: 100px;
-}
-#home-title-caption
-{
-    color: #A5CA7A;
-    font-size: 30px;
-}
 
 .hidden 
 {
@@ -26,10 +16,20 @@
     position: absolute;
 }
 
-#plant_reccs_title
+.green-title
+{
+    color: #A5CA7A;
+    font-size: 100px;
+}
+.green-sub-title
 {
     color: #A5CA7A;
     font-size: 50px;
+}
+.green-sub-title-2
+{
+    color: #A5CA7A;
+    font-size: 30px;
 }
 
 .bg-green
@@ -46,4 +46,23 @@
 {
     font-size: 40px;
     color:#aed581;
+}
+
+#garden-menu-container
+{
+    width: 30%;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    /* z-index: 1;  */
+    top: 0; /* Stay at the top */
+    left: 0;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    /* padding-top: 20px; */
+}
+
+#garden-menu
+{
+    overflow: auto;
+    scroll-behavior: smooth;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    overflow-x: hidden; /* Disable horizontal scroll */
 }
