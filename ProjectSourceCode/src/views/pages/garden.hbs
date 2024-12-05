@@ -1,22 +1,10 @@
-{{!-- <div id="garden-menu-container" class="container h-full flex-none place-content-center w-1/4 m-5">
-  <div class="container h-7/8 bg-base-500 rounded-lg">
-    <div id="garden-menu" class="grid grid-cols-1">
-      {{#each plants}}
-        <div class="card card-compact bg-base-200 h-10 shadow-l m-2">
-          <div class="card-body">
-              <h2 class="card-title">{{this.common_name}}</h2>
-          </div>
-        </div> 
-      {{/each}}
-    </div>
-  </div>
-</div> --}}
-<div id="garden" class="container h-full flex-none place-content-center m-5">
-  <h1 class="green-sub-title">Garden</h1>
+<div id="garden" class="container h-full w-full flex-none place-content-center m-5">
+  <div class="container justify-between items-center"></div>
+  <h1 class="green-sub-title m-5">Garden</h1>
   <div class="drawer drawer-end z-50 m-5">
     <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content">
-      <!-- Page content here -->
+      <!-- Page content -->
       <label for="my-drawer-4" class="drawer-button btn btn-primary bg-light-green"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
       </svg>
@@ -31,7 +19,7 @@
           <div class="card m-1 bg-base-300 rounded-lg flex justify-between">
             
             <div class="card-actions justify-between items-center m-1">
-              <a class="btn" href="/plantInformation?plant_id={{this.plant_id}}">
+              <a class="btn flex-grow" href="/plantInformation?plant_id={{this.plant_id}}">
                   {{this.common_name}}
               </a>
               <form action="/removePlant" method="POST">
@@ -52,7 +40,7 @@
 
   <div class="grid md:grid-cols-{{col}} place-content-center">
     {{#each plants}}
-      <div class="card card-compact bg-base-200 w-50 shadow-l m-5">
+      <div class="card card-compact bg-base-300 w-50 shadow-l m-5">
         <figure>
             <a href="/plantInformation?plant_id={{this.plant_id}}">
                 <img src="{{this.img}}"/>
@@ -65,80 +53,3 @@
     {{/each}}
   </div>
 </div>
-
-{{!-- 
-
-<body class="bg-gray-200 min-h-screen grid place-items-center p-10">
-
-  <div class="flex gap-10 w-full max-w-screen-lg">
-    <!-- Left Section: Grid of Plant Photos -->
-    <div class="grid grid-cols-4 gap-4 bg-purple-100 p-4 rounded-lg shadow-lg">
-      <div class="card bg-white rounded-lg shadow-md p-4 hover:shadow-lg">
-        <img class="w-16 h-16 mx-auto mb-2" src="{{this.img}}" alt="Plant photo">
-        <p class="text-center text-gray-700 font-medium">{{this.common_name}}</p>
-      </div>
-      <div class="card bg-white rounded-lg shadow-md p-4 hover:shadow-lg">
-        <img class="w-16 h-16 mx-auto mb-2" src="{{this.img}}" alt="Plant photo">
-        <p class="text-center text-gray-700 font-medium">{{this.common_name}}</p>
-      </div>
-      <div class="card bg-white rounded-lg shadow-md p-4 hover:shadow-lg">
-        <img class="w-16 h-16 mx-auto mb-2" src="{{this.img}}" alt="Plant photo">
-        <p class="text-center text-gray-700 font-medium">{{this.common_name}}</p>
-      </div>
-      <div class="card bg-white rounded-lg shadow-md p-4 hover:shadow-lg">
-        <img class="w-16 h-16 mx-auto mb-2" src="{{this.img}}" alt="Plant photo">
-        <p class="text-center text-gray-700 font-medium">{{this.common_name}}</p>
-      </div>
-      <div class="card bg-white rounded-lg shadow-md p-4 hover:shadow-lg">
-        <img class="w-16 h-16 mx-auto mb-2" src="{{this.img}}" alt="Plant photo">
-        <p class="text-center text-gray-700 font-medium">{{this.common_name}}</p>
-      </div>
-      <div class="card bg-white rounded-lg shadow-md p-4 hover:shadow-lg">
-        <img class="w-16 h-16 mx-auto mb-2" src="{{this.img}}" alt="Plant photo">
-        <p class="text-center text-gray-700 font-medium">{{this.common_name}}</p>
-      </div>
-      <!-- Repeat similar cards for other plants -->
-    </div>
-
-    <!-- Right Section: Sidebar with List of Plant Names -->
-    <div class="bg-white w-60 rounded-lg shadow-lg p-4 overflow-y-auto">
-      <h2 class="text-xl font-bold text-gray-800 mb-4">My Garden</h2>
-      <ul class="space-y-3">
-        <li class="flex items-center justify-between bg-purple-100 p-3 rounded-lg hover:bg-purple-200">
-          <span class="text-gray-800 font-medium">{{this.common_name}}</span>
-          <button class="btn btn-ghost btn-xs text-lg text-gray-600 hover:text-red-500" onclick="toggleFavorite('{{this.common_name}}', this)">&#9825;</button>
-        </li>
-        <li class="flex items-center justify-between bg-purple-100 p-3 rounded-lg hover:bg-purple-200">
-          <span class="text-gray-800 font-medium">{{this.common_name}}</span>
-          <button class="btn btn-ghost btn-xs text-lg text-gray-600 hover:text-red-500" onclick="toggleFavorite('{{this.common_name}}', this)">&#9825;</button>
-        </li>
-        <li class="flex items-center justify-between bg-purple-100 p-3 rounded-lg hover:bg-purple-200">
-          <span class="text-gray-800 font-medium">{{this.common_name}}</span>
-          <button class="btn btn-ghost btn-xs text-lg text-gray-600 hover:text-red-500" onclick="toggleFavorite('{{this.common_name}}', this)">&#9825;</button>
-        </li>
-        <!-- Repeat for other plants -->
-      </ul>
-    </div>
-  </div>
-
-  <script>
-    // JavaScript for managing favorites
-    let favoritePlants = [];
-
-    function toggleFavorite(plantName, buttonElement) {
-      const index = favoritePlants.indexOf(plantName);
-
-      if (index === -1) {
-        // Add to favorites
-        favoritePlants.push(plantName);
-        buttonElement.innerHTML = '&#9829;'; // Filled heart
-        buttonElement.classList.add('text-red-500');
-      } else {
-        // Remove from favorites
-        favoritePlants.splice(index, 1);
-        buttonElement.innerHTML = '&#9825;'; // Empty heart
-        buttonElement.classList.remove('text-red-500');
-      }
-    }
-  </script>
-</body> --}}
