@@ -10,7 +10,7 @@
 <body class="bg-gray-100 p-4">
   <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
     <h1 class="text-2xl font-bold mb-4 text-center">Plant Search</h1>
-
+    <form action="/searchResults">
     <!-- Plant Name Search -->
     <div class="form-control mb-4">
       <label class="label" for="plantName">
@@ -21,86 +21,100 @@
 
     <h3 class="text-xl font-semibold mb-4">Filters</h3>
 
-    <!-- Light Level Filter -->
+    <!-- Height Filter (Range) -->
     <div class="form-control mb-4">
-      <label class="label" for="lightLevel">
-        <span class="label-text">Light Level</span>
+      <label class="label">
+        <span class="label-text">Height (ft)</span>
       </label>
-      <select id="lightLevel" class="select select-bordered">
-        <option value="">Any</option>
-        <option value="1">Low</option>
-        <option value="2">Medium</option>
-        <option value="3">High</option>
-      </select>
+      <div class="flex gap-2">
+        <input type="number" id="sizeMin" class="input input-bordered w-1/2" placeholder="Min" step="0.5" />
+        <input type="number" id="sizeMax" class="input input-bordered w-1/2" placeholder="Max" step="0.5" />
+      </div>
     </div>
 
-    <!-- Moisture Need Filter -->
+    <!-- Cycle Filter -->
     <div class="form-control mb-4">
-      <label class="label" for="moistureNeed">
-        <span class="label-text">Moisture Need</span>
+      <label class="label" for="cycle">
+        <span class="label-text">Cycle</span>
       </label>
       <select id="moistureNeed" class="select select-bordered">
         <option value="">Any</option>
-        <option value="1">Low</option>
-        <option value="2">Medium</option>
-        <option value="3">High</option>
+        <option value="Annual">Annual</option>
+        <option value="Perennial">Perennial</option>
       </select>
     </div>
 
-    <!-- Comfort Temperature Filter (Range) -->
+    <!-- Hardiness Filter (Range) -->
     <div class="form-control mb-4">
       <label class="label">
-        <span class="label-text">Comfort Temperature (°C)</span>
+        <span class="label-text">Hardiness</span>
       </label>
       <div class="flex gap-2">
-        <input type="number" id="comfTempMin" class="input input-bordered w-1/2" placeholder="Min" step="0.1" />
-        <input type="number" id="comfTempMax" class="input input-bordered w-1/2" placeholder="Max" step="0.1" />
+        <input type="number" id="minHardiness" class="input input-bordered w-1/2" placeholder="Min" />
+        <input type="number" id="maxHardiness" class="input input-bordered w-1/2" placeholder="Max" />
       </div>
     </div>
 
-    <!-- Lifespan Filter (Range) -->
+    <!-- Sunlight Level Filter -->
     <div class="form-control mb-4">
-      <label class="label">
-        <span class="label-text">Lifespan (years)</span>
+      <label class="label" for="sunlight">
+        <span class="label-text">Sunlight</span>
       </label>
-      <div class="flex gap-2">
-        <input type="number" id="lifespanMin" class="input input-bordered w-1/2" placeholder="Min" />
-        <input type="number" id="lifespanMax" class="input input-bordered w-1/2" placeholder="Max" />
-      </div>
+      <select id="sunlight" class="select select-bordered">
+        <option value="">Any</option>
+        <option value="Full Shade">Full Shade</option>
+        <option value="Part Shade">Part Shade</option>
+        <option value="Full Sun">Full Sun</option>
+      </select>
     </div>
 
-    <!-- Size Filter (Range) -->
+    <!-- Watering Filter -->
     <div class="form-control mb-4">
-      <label class="label">
-        <span class="label-text">Size (cm)</span>
+      <label class="label" for="watering">
+        <span class="label-text">Watering</span>
       </label>
-      <div class="flex gap-2">
-        <input type="number" id="sizeMin" class="input input-bordered w-1/2" placeholder="Min" step="0.1" />
-        <input type="number" id="sizeMax" class="input input-bordered w-1/2" placeholder="Max" step="0.1" />
-      </div>
+      <select id="watering" class="select select-bordered">
+        <option value="">Any</option>
+        <option value="Minimum">Minimum</option>
+        <option value="Average">Average</option>
+        <option value="Frequent">Frequent</option>
+      </select>
     </div>
 
-    <!-- Rain Requirement Filter (Range) -->
+    <!-- Flowers Filter -->
     <div class="form-control mb-4">
-      <label class="label">
-        <span class="label-text">Rain Requirement (mm)</span>
+      <label class="label" for="flowers">
+        <span class="label-text">Flowers</span>
       </label>
-      <div class="flex gap-2">
-        <input type="number" id="rainReqMin" class="input input-bordered w-1/2" placeholder="Min" step="0.1" />
-        <input type="number" id="rainReqMax" class="input input-bordered w-1/2" placeholder="Max" step="0.1" />
-      </div>
+      <select id="flowers" class="select select-bordered">
+        <option value="">Any</option>
+        <option value="true">True</option>
+        <option value="false">False</option>
+      </select>
+    </div>
+
+    <!-- Edible Filter -->
+    <div class="form-control mb-4">
+      <label class="label" for="edible">
+        <span class="label-text">Edible</span>
+      </label>
+      <select id="edible" class="select select-bordered">
+        <option value="">Any</option>
+        <option value="true">True</option>
+        <option value="false">False</option>
+      </select>
     </div>
 
     <!-- Search Button -->
     <div class="form-control mt-4">
-      <button onclick="performSearch()" class="btn btn-primary w-full">Search</button>
+      <button type="submit" class="w-full btn bg-green-300">Search</button>
     </div>
-
+  </form>
     <!-- Results Section -->
-    <div id="results" class="mt-6"></div>
+    <!--div id="results" class="mt-6"></div-->
   </div>
 
-  <script>
+  <!--script>
     async function performSearch() {
       const searchParams = {
         name: document.getElementById('plantName').value,
@@ -118,6 +132,6 @@
 
       document.getElementById('results').innerHTML = output;
     }
-  </script>
+  </script-->
 </body>
 </html>

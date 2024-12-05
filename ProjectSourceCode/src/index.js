@@ -265,6 +265,175 @@ app.get('/search',(req,res) => {
   res.render('pages/search',{plants: []});
 });
 
+app.get('/searchResults', async (req,res) => {
+  
+  const plant_name = req.body.plantName;
+  const minHeight = req.body.sizeMin;
+  const maxHeight = req.body.sizeMax;
+  const cycle = req.body.cycle;
+  const minHardiness = req.body.minHardiness;
+  const maxHardiness = req.body.maxHardiness;
+  const sunlight = req.body.sunlight;
+  const watering = req.body.watering;
+  const flowers = req.body.flowers;
+  const edible = req.body.edible;
+
+  console.log("writing plant search query");
+        // append the non-null search values to the query - if all values are null or location data does not exist select all plants
+        let q_get_plants = "SELECT * FROM plants";
+        // if query specifiers is true, add an AND before appending next parameter
+        let query_specifiers = false;
+
+        let q_name = "";
+        let q_height = "";
+        let q_cycle = "";
+        let q_hardiness = "";
+        let q_watering = "";
+        let q_sunlight = "";
+        let q_flowers = "";
+        let q_edible = "";
+
+        if(plant_name != null)
+        {
+          q_name = `watering = '${plant_name}'`;
+          query_specifiers = true;
+        }
+
+        // have both min and max height - search for plants between min and max
+        if(minHeight != null && maxHeight != null)
+        {
+          if (query_specifiers) q_height = ` AND height BETWEEN ${minHeight} AND ${maxHeight}`;
+          else{
+            q_height = ` height BETWEEN ${minHeight} AND ${maxHeight}`;
+            query_specifiers = true;
+          }
+        }
+          // have only min height - search for plants with height greater than min
+        else if(minHeight != null){
+          if (query_specifiers) q_height = ` AND height >= ${minHeight}`;
+          else{
+            q_height = ` height >= ${minHeight}`;
+            query_specifiers = true;
+          }
+        }
+          // have only max height - search for plants with height less than max
+        else if(maxHeight != null){
+          if (query_specifiers) q_height = ` AND height <= ${maxHeight}`;
+          else{
+            q_height = ` height <= ${maxHeight}`;
+            query_specifiers = true;
+          }
+        }
+
+        if(cycle != null)
+        {
+          if (query_specifiers) q_cycle = `AND watering = '${cycle}'`;
+          else{
+            q_cycle = `watering = '${cycle}'`;
+            query_specifiers = true;
+          }
+        }
+
+        // have both min and max hardiness - search for plants between min and max
+        if(minHardiness != null && maxHeardiness != null)
+        {
+          if (query_specifiers) q_hardiness = ` AND hardiness BETWEEN ${minHardiness} AND ${maxHardiness}`;
+          else{
+            q_hardiness = ` hardiness BETWEEN ${minHardiness} AND ${maxHardiness}`;
+            query_specifiers = true;            
+          }
+        }
+          // have only min hardiness - search for plants with hardiness greater than min
+        else if(minHardiness != null){
+          if (query_specifiers) q_hardiness = ` AND hardiness >= ${minHardiness}`;
+          else{
+            q_hardiness = ` hardiness >= ${minHardiness}`;
+            query_specifiers = true;
+          }
+        }
+          // have only max hardiness - search for plants with hardiness less than max
+        else if(maxHardiness != null){
+          if (query_specifiers) q_hardiness = ` AND hardiness <= ${maxHardiness}`;
+          else{
+            q_hardiness = ` hardiness <= ${maxHardiness}`;
+            query_specifiers = true;
+          }
+        }
+
+        // search for watering value 'Minimum', 'Average', or 'Frequent'
+        if(watering != null)
+        {
+          if (query_specifiers) q_watering = ` AND watering = '${watering}'`;
+          else{
+            q_watering = ` watering = '${watering}'`;
+            query_specifiers = true;
+          }
+        }
+
+        // search for sunlight value 'Full Shade', 'Part Shade', or 'Full Sun'
+        if(sunlight != null)
+        {
+          if (query_specifiers) q_sunlight = ` AND sunlight = '${sunlight}'`;
+          else{
+            q_sunlight = ` sunlight = '${sunlight}'`;
+            query_specifiers = true;
+          }
+          q_sunlight = ` AND sunlight = '${sunlight}'`;
+        }
+
+        if (flowers != null)
+        {
+          if (query_specifiers) q_flowers = ` AND flowers = '${flowers}'`;
+          else{
+            q_flowers = ` flowers = '${flowers}'`;
+            query_specifiers = true;
+          }
+        }
+        
+        if (edible != null)
+        {
+          if (query_specifiers) q_edible = ` AND edible = '${edible}'`;
+          else{
+            q_edible = ` edible = '${edible}'`;
+            query_specifiers = true;
+          }
+        }
+
+        if(query_specifiers) q_get_plants = q_get_plants + " WHERE" + q_name + q_height + q_cycle + q_hardiness + q_watering + q_sunlight + q_flowers + q_edible;
+        q_get_plants = q_get_plants + ";"
+
+        try
+        {
+          console.log("attempting to retrieve matching plants from database");
+          const plant_data = await db.any(q_get_plants);
+          //console.log("successfully retrieved plants\n",plant_data);
+
+          let plant_search = [];
+          if(plant_data.length > 12)
+          // select random plants from selected plants
+          {
+            
+            let max_idx = plant_data.length - 1;
+            let idx = 0;
+            for(let i = 0; i < 25; i++)
+            {
+              idx = Math.floor(Math.random() * max_idx);
+              let plant = plant_data[idx];
+              if(plant_search.includes(plant)) i--;
+              else plant_search.push(plant);
+            }
+          }
+          else plant_search = plant_data;
+
+          res.status(200).render('pages/searchResults',{plants:plant_search})
+        }
+        catch (err)
+        {
+          console.log(err);
+          res.status(500).render('pages/searchResults',{message:"Server failed to retrieve plants from database"});
+        }
+});
+
 app.get('/plantInformation', async (req,res) => {
   // get plantID from URL query
   const plant_id = req.query.plant_id;
@@ -275,7 +444,7 @@ app.get('/plantInformation', async (req,res) => {
     console.log("attempting to retrieve plant from database")
     const plant = await db.one(plantQuery, [plant_id]);
     console.log("successfully retrieved plant ", plant_id, "\n", plant)
-    res.render('pages/plantInformation',{plant: plant});
+    res.status(200).render('pages/plantInformation',{plant: plant});
   }
   catch (error){
     res.status(404).json({ message: 'Plant not found' });
