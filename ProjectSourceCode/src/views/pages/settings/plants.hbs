@@ -1,33 +1,44 @@
-<!-- Flex container for sidebar and main content -->
-<div class="flex min-h-screen bg-gray-300">
-    <!-- Sidebar -->
-    <aside>
-        {{> sidebar}}
-    </aside>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../resources/css/style.css" rel="stylesheet"/>
+    <title>Location</title>
+</head>
+<body>
+    <!-- Flex container for sidebar and main content -->
+    <div class="flex min-h-screen bg-gray-300">
+        <!-- Sidebar -->
+        <aside>
+            {{> sidebar}}
+        </aside>
 
-    <!-- Centered Content Wrapper -->
-    <div class="flex flex-1 items-center justify-center p-10">
-        <!-- Plants Currently Being Grown -->
-        <div class="card bg-base-100 shadow-lg p-6 w-full max-w-3xl">
-            <h2 class="card-title text-xl mb-4">Plants Currently Being Grown</h2>
-            <ul class="space-y-4">
-                {{#each userPlants}}
-                <li class="flex items-center space-x-4">
-                    <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
-                    <div>
-                        <p><strong>Name:</strong> {{this.name}}</p>
-                        <p><strong>Moisture Need:</strong> {{this.moistureNeed}}%</p>
-                        <p><strong>Comfort Temperature:</strong> {{this.comfTemp}} °C</p>
-                        <p><strong>Light Level:</strong> {{this.lightLevel}}</p>
-                        <p><strong>Lifespan:</strong> {{this.lifespan}} days</p>
-                        <p><strong>Size:</strong> {{this.SIZE}} cm</p>
-                        <p><strong>Rain Requirement:</strong> {{this.rainReq}} mm</p>
-                    </div>
-                    <button class="btn btn-sm btn-error">Remove</button>
-                </li>
-                {{/each}}
-            </ul>
-            <button class="btn btn-primary mt-4 w-full">Add New Plant</button>
+        <!-- Centered Content Wrapper -->
+        <div class="flex flex-1 items-center justify-center">
+            <!-- Plants Currently Being Grown -->
+            <div class="card bg-base-100 shadow-lg p-6 w-full max-w-3xl">
+                <h2 class="card-title text-xl mb-4">Plants Currently Being Grown</h2>
+                <ul class="space-y-4">
+                    {{#each userPlants}}
+                    <li class="flex items-center space-x-4">
+                        <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
+                        <div>
+                            <p><strong>Name:</strong> {{this.name}}</p>
+                            <p><strong>Moisture Need:</strong> {{this.moistureNeed}}%</p>
+                            <p><strong>Comfort Temperature:</strong> {{this.comfTemp}} °C</p>
+                            <p><strong>Light Level:</strong> {{this.lightLevel}}</p>
+                            <p><strong>Lifespan:</strong> {{this.lifespan}} days</p>
+                            <p><strong>Size:</strong> {{this.SIZE}} cm</p>
+                            <p><strong>Rain Requirement:</strong> {{this.rainReq}} mm</p>
+                        </div>
+                        <button class="btn btn-sm btn-error">Remove</button>
+                    </li>
+                    {{/each}}
+                </ul>
+                <button class="btn btn-primary mt-4 w-full">Add New Plant</button>
+            </div>
         </div>
     </div>
-</div>
+</body>
+</html>

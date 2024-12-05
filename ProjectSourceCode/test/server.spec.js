@@ -61,39 +61,39 @@ describe('test register API', () => {
   //       done();
   //     });
   // });
-  // it('[negative : /register] register an invalid user - password and confirm password fields are different', done => {
-  //   chai
-  //     .request(server)
-  //     .post('/register')
-  //     .send({username: 'bob_ross',password:'12345', cpassword: '54321',first_name: 'bob', last_name: 'ross', email: 'bross@gmail.com'})
-  //     .end((err, res) => {
-  //       expect(res).to.have.status(409);
-  //       done();
-  //     });
-  // });
+  it('[negative : /register] register an invalid user - password and confirm password fields are different', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({username: 'bob_ross',password:'12345', cpassword: '54321',first_name: 'bob', last_name: 'ross', email: 'bross@gmail.com'})
+      .end((err, res) => {
+        expect(res).to.have.status(409);
+        done();
+      });
+  });
 });
 
 
-// describe('test login API', () => {
-//   it('[positive : /login] login a valid user', done => {
-//     chai
-//     .request(server)
-//     .post('/login')
-//     .send({username: 'john_doe',password:'12345', cpassword: '12345',first_name: 'john', last_name: 'doe', email: 'jdoe@gmail.com'})
-//     .end((err, res) => {
-//       expect(res).to.have.status(200);
-//       done();
-//     });
-//   });
-//   it('[negative : /login] login an invalid user - user does not exist', done => {
-//     chai
-//     .request(server)
-//     .post('/login')
-//     .send({username: 'some_guy',password:'h@ck3r', cpassword: 'h@ck3r',first_name: 'john', last_name: 'smith', email: 'jsm@gmail.com'})
-//     .end((err, res) => {
-//       expect(res).to.have.status(404);
-//       done();
-//     });
-//   });
-// })
+describe('test login API', () => {
+  it('[positive : /login] login a valid user', done => {
+    chai
+    .request(server)
+    .post('/login')
+    .send({username: 'john_doe',password:'12345', cpassword: '12345',first_name: 'john', last_name: 'doe', email: 'jdoe@gmail.com'})
+    .end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+  });
+  it('[negative : /login] login an invalid user - user does not exist', done => {
+    chai
+    .request(server)
+    .post('/login')
+    .send({username: 'some_guy',password:'h@ck3r', cpassword: 'h@ck3r',first_name: 'john', last_name: 'smith', email: 'jsm@gmail.com'})
+    .end((err, res) => {
+      expect(res).to.have.status(404);
+      done();
+    });
+  });
+})
 // ********************************************************************************
