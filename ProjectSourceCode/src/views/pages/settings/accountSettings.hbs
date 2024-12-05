@@ -1,35 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../../resources/css/style.css" rel="stylesheet"/>
-    <title>Location</title>
-</head>
-<body>
-    <!-- Flex container for sidebar and main content -->
-    <div class="flex min-h-screen bg-gray-300">
-        <!-- Sidebar -->
-        <aside>
-            {{> sidebar}}
-        </aside>
+<!-- Flex container for sidebar and main content -->
+<div class="flex min-h-screen bg-gray-300">
+    <!-- Sidebar -->
+    <aside>
+        {{> sidebar}}
+    </aside>
 
-        <!-- Centered Content Wrapper -->
-        <div class="flex flex-1 items-center justify-center">
-            <!-- Account Settings -->
-            <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full">
-                <h2 class="card-title text-xl mb-4">Account Settings</h2>
-                <div class="form-control w-full mb-4">
-                    <label class="label" for="username">Username</label>
-                    <input type="text" id="username" class="input input-bordered w-full" value="{{user.username}}">
-                </div>
-                <div class="form-control w-full mb-4">
-                    <label class="label" for="email">Email</label>
-                    <input type="email" id="email" class="input input-bordered w-full" value="{{user.email}}">
-                </div>
-                <button class="btn btn-primary w-full">Update Account</button>
+    <!-- Centered Content Wrapper -->
+    <div class="flex flex-1 items-center justify-center p-10">
+        <!-- Account Settings -->
+        <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full">
+            <h2 class="card-title text-xl mb-4">Account Settings</h2>
+            <div class="form-control w-full mb-4">
+                <label class="label" for="username">Username</label>
+                <input type="text" id="username" class="input input-bordered w-full" value="{{user.username}}">
             </div>
+            <div class="form-control w-full mb-4">
+                <label class="label" for="email">Email</label>
+                <input type="email" id="email" class="input input-bordered w-full" value="{{user.email}}">
+            </div>
+            <button class="btn btn-primary w-full">Update Account</button>
         </div>
     </div>
-</body>
-</html>
+</div>

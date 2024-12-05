@@ -1,53 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../../resources/css/style.css" rel="stylesheet"/>
-    <title>Location</title>
-</head>
-<body>
-    <!-- Flex container for sidebar and main content -->
-    <div class="flex min-h-screen bg-gray-300">
-        <!-- Sidebar -->
-        <aside>
-            {{> sidebar}}
-        </aside>
-        
-        <!-- Main content -->
-        <div class="flex-1 flex items-center justify-center">
-            <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-                <form action="/location/add">
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700" for="avgHumidity">Min Hardiness</label>
-                        <input type="text" id="avgHumidity" name="avgHumidity" placeholder="Enter a decimal" class="w-full mt-1 input input-bordered" />
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700" for="rainfall">Max Hardiness</label>
-                        <input type="text" id="rainfall" name="avgTemp" placeholder="Enter a decimal" class="w-full mt-1 input input-bordered" />
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700" for="sunlight">Sunlight</label>
-                        <select id="sunlight" name="sunlight" class="w-full mt-1 input input-bordered">
-                            <option value="">Select an option:</option>
-                            <option value="full-shade">Full Shade</option>
-                            <option value="part-shade">Part Shade</option>
-                            <option value="sun">Full Sun</option>
-                        </select>
-                    </div>
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700" for="watering">Watering</label>
-                        <select id="watering" name="watering" class="w-full mt-1 input input-bordered">
-                            <option value="">Select an option:</option>
-                            <option value="minimum">Minimum</option>
-                            <option value="average">Average</option>
-                            <option value="frequent">Frequent</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="w-full btn bg-green-300">Confirm</button>
-                </form>
-            </div>
+<!-- Flex container for sidebar and main content -->
+<div class="flex min-h-screen bg-gray-300">
+    <!-- Sidebar -->
+    <aside>
+        {{> sidebar}}
+    </aside>
+    
+    <!-- Main content -->
+    <div class="flex-1 flex items-center justify-center p-10">
+        <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+            <form action="/location/add">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="avgHumidity">Min Hardiness</label>
+                    <input type="text" id="avgHumidity" name="avgHumidity" placeholder="Enter a decimal" class="w-full mt-1 input input-bordered" />
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="rainfall">Max Hardiness</label>
+                    <input type="text" id="rainfall" name="avgTemp" placeholder="Enter a decimal" class="w-full mt-1 input input-bordered" />
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="sunlight">Sunlight</label>
+                    <select id="sunlight" name="sunlight" class="w-full mt-1 input input-bordered">
+                        <option value="">Select an option:</option>
+                        <option value="full-shade">Full Shade</option>
+                        <option value="part-shade">Part Shade</option>
+                        <option value="sun">Full Sun</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700" for="watering">Watering</label>
+                    <select id="watering" name="watering" class="w-full mt-1 input input-bordered">
+                        <option value="">Select an option:</option>
+                        <option value="minimum">Minimum</option>
+                        <option value="average">Average</option>
+                        <option value="frequent">Frequent</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full btn bg-green-300">Confirm</button>
+            </form>
         </div>
     </div>
-</body>
-</html>
+</div>
+

@@ -1,35 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../../resources/css/style.css" rel="stylesheet"/>
-    <title>Location</title>
-</head>
-<body>
-    <!-- Flex container for sidebar and main content -->
-    <div class="flex min-h-screen bg-gray-300">
-        <!-- Sidebar -->
-        <aside>
-            {{> sidebar}}
-        </aside>
-        
-        <!-- Centered Content Wrapper -->
-        <div class="flex flex-1 items-center justify-center">
-            <!-- Favorite Plants -->
-            <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full">
-                <h2 class="card-title text-xl mb-4">Favorite Plants</h2>
-                <ul class="space-y-4">
-                    {{#each favoritePlants}}
-                    <li class="flex items-center space-x-4">
-                        <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
-                        <div class="flex-1">{{this.name}}</div>
-                        <button class="btn btn-sm btn-error">Remove</button>
-                    </li>
-                    {{/each}}
-                </ul>
-            </div>
+<!-- Flex container for sidebar and main content -->
+<div class="flex min-h-screen bg-gray-300">
+    <!-- Sidebar -->
+    <aside>
+        {{> sidebar}}
+    </aside>
+    
+    <!-- Centered Content Wrapper -->
+    <div class="flex flex-1 items-center justify-center p-10">
+        <!-- Favorite Plants -->
+        <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full">
+            <h2 class="card-title text-xl mb-4">Favorite Plants</h2>
+            <ul class="space-y-4">
+                {{#each favoritePlants}}
+                <li class="flex items-center space-x-4">
+                    <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
+                    <div class="flex-1">{{this.name}}</div>
+                    <button class="btn btn-sm btn-error">Remove</button>
+                </li>
+                {{/each}}
+            </ul>
         </div>
     </div>
-</body>
-</html>
+</div>
