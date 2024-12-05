@@ -1,4 +1,72 @@
+{{!-- <div id="garden-menu-container" class="container h-full flex-none place-content-center w-1/4 m-5">
+  <div class="container h-7/8 bg-base-500 rounded-lg">
+    <div id="garden-menu" class="grid grid-cols-1">
+      {{#each plants}}
+        <div class="card card-compact bg-base-200 h-10 shadow-l m-2">
+          <div class="card-body">
+              <h2 class="card-title">{{this.common_name}}</h2>
+          </div>
+        </div> 
+      {{/each}}
+    </div>
+  </div>
+</div> --}}
+<div id="garden" class="container h-full flex-none place-content-center m-5">
+  <h1 class="green-sub-title">Garden</h1>
+  <div class="drawer drawer-end z-50 m-5">
+    <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content">
+      <!-- Page content here -->
+      <label for="my-drawer-4" class="drawer-button btn btn-primary bg-light-green"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+      Garden Menu
+      </label>
+    </div>
+    <div class="drawer-side">
+      <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
+      <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-5">
+        <!-- Sidebar content here -->
+        {{#each plants}}
+          <div class="card m-1 bg-base-300 rounded-lg flex justify-between">
+            
+            <div class="card-actions justify-between items-center m-1">
+              <a class="btn" href="/plantInformation?plant_id={{this.plant_id}}">
+                  {{this.common_name}}
+              </a>
+              <form action="/removePlant" method="POST">
+                <input type="hidden" name="plant_id" value="{{this.plant_id}}">
+                <button type="submit" class="btn btn-circle bg-base-300 border-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
+                  
+                </button>
+              </form>
+            </div>
+          </div>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
 
+  <div class="grid md:grid-cols-{{col}} place-content-center">
+    {{#each plants}}
+      <div class="card card-compact bg-base-200 w-50 shadow-l m-5">
+        <figure>
+            <a href="/plantInformation?plant_id={{this.plant_id}}">
+                <img src="{{this.img}}"/>
+            </a>
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title">{{this.common_name}}</h2>
+        </div>
+      </div> 
+    {{/each}}
+  </div>
+</div>
+
+{{!-- 
 
 <body class="bg-gray-200 min-h-screen grid place-items-center p-10">
 
@@ -73,4 +141,4 @@
       }
     }
   </script>
-</body>
+</body> --}}
