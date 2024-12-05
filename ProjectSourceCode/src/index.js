@@ -616,6 +616,30 @@ app.get('/reccommendations', async (req,res) => {
   }
 })
 
+app.get('/profile',(req,res) => {
+  res.render('pages/settings/profile', { title: 'Profile' });
+})
+
+app.get('/p-location',(req,res) => {
+  res.render('pages/settings/location', { title: 'Location Settings' });
+})
+
+app.get('/account-settings',(req,res) => {
+  res.render('pages/settings/accountSettings', { title: 'Account Settings' });
+})
+
+app.get('/favorite-plants',(req,res) => {
+  res.render('pages/settings/favoritePlants', { title: 'Favorite Plants' });
+})
+
+app.get('/delete-account',(req,res) => {
+  res.render('pages/settings/deleteAccount', { title: 'Delete Account' });
+})
+
+app.get('/my-garden',(req,res) => {
+  res.render('pages/settings/plants', { title: 'Current Plants' });
+})
+
 // *****************************************************
 // <!-- Section 5 : Start Server-->
 // *****************************************************
