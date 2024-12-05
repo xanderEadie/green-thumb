@@ -1113,3 +1113,11 @@ VALUES ('John', 'Doe', 'jdoe', 'johndoe@example.com','$2a$12$bzVplFpQhE5Dectai0e
 INSERT INTO location (user_id, minHardiness, maxHardiness, watering, sunlight)
 VALUES ((SELECT user_id FROM userInfo 
 WHERE username = 'jdoe'), 5, 8, 'Average', 'Full Sun');
+
+INSERT INTO user_to_plants (user_id,plant_id) VALUES 
+((SELECT user_id FROM userInfo 
+WHERE username = 'jdoe'),1),
+((SELECT user_id FROM userInfo 
+WHERE username = 'jdoe'),2),
+((SELECT user_id FROM userInfo 
+WHERE username = 'jdoe'),3)
