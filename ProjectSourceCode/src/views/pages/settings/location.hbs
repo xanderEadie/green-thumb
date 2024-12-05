@@ -19,24 +19,28 @@
             <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
                 <form action="/location/add">
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700" for="avgHumidity">Avg. Humidity</label>
+                        <label class="block text-sm font-medium text-gray-700" for="avgHumidity">Min Hardiness</label>
                         <input type="text" id="avgHumidity" name="avgHumidity" placeholder="Percent" class="w-full mt-1 input input-bordered" />
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700" for="rainfall">Rainfall</label>
+                        <label class="block text-sm font-medium text-gray-700" for="rainfall">Max Hardiness</label>
                         <input type="text" id="rainfall" name="avgTemp" placeholder="Decimal" class="w-full mt-1 input input-bordered" />
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700" for="avgTemp">Avg. Temperature</label>
-                        <input type="text" id="avgTemp" name="avgTemp" placeholder="Enter your location's Avg. Temperature" class="w-full mt-1 input input-bordered" />
+                        <label class="block text-sm font-medium text-gray-700" for="sunlight">Sunlight</label>
+                        <select id="sunlight" name="sunlight" class="w-full mt-1 input input-bordered">
+                            <option value="full-shade">Full Shade</option>
+                            <option value="part-shade">Part Shade</option>
+                            <option value="sun">Sun</option>
+                        </select>
                     </div>
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700" for="lightAmount">Light Level</label>
-                        <input type="text" id="lightAmount" name="lightAmount" placeholder="Enter light level here" class="w-full mt-1 input input-bordered" />
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700" for="elevation">Elevation</label>
-                        <input type="text" id="elevation" name="elevation" placeholder="Your elevation" class="w-full mt-1 input input-bordered" />
+                        <label class="block text-sm font-medium text-gray-700" for="watering">Watering</label>
+                        <select id="watering" name="watering" class="w-full mt-1 input input-bordered">
+                            <option value="minimum">Minimum</option>
+                            <option value="average">Average</option>
+                            <option value="frequent">Frequent</option>
+                        </select>
                     </div>
                     <button type="submit" class="w-full btn bg-green-300">Confirm</button>
                 </form>
