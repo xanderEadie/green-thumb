@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../resources/css/style.css" rel="stylesheet"/>
+    <title>Location</title>
+</head>
+<body>
+    <!-- Flex container for sidebar and main content -->
+    <div class="flex min-h-screen bg-gray-300">
+        <!-- Sidebar -->
+        <aside>
+            {{> sidebar}}
+        </aside>
+
+        <!-- Centered Content Wrapper -->
+        <div class="flex flex-1 items-center justify-center">
+            <!-- Delete Account -->
+            <div class="card bg-base-100 shadow-lg p-6 max-w-sm w-full">
+                <button class="btn btn-error w-full">Delete Account</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
