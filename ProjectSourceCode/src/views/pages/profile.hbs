@@ -7,28 +7,6 @@
     <title>Profile Settings</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/daisyui@2.14.0/dist/full.js"></script>
-    <script>
-        async function removePlant(plantId, type) {
-            try {
-                const response = await fetch('/removePlant', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ plant_id: plantId }), // Sending plant ID and type
-                });
-
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    const errorMessage = await response.json();
-                    console.error('Error removing plant:', errorMessage.message);
-                }
-            } catch (error) {
-                console.error('Error removing plant:', error);
-            }
-        }
-    </script>
 </head>
 
 <body class="bg-base-200">
@@ -68,7 +46,10 @@
                         <p><strong>Size:</strong> {{this.SIZE}} cm</p>
                         <p><strong>Rain Requirement:</strong> {{this.rainReq}} mm</p>
                     </div>
-                    <button class="btn btn-sm btn-error" onclick="removePlant('{{this.id}}')">Remove</button>
+                    <form action="/removePlant" method="DELETE">
+                        <input type="hidden" name="plant_id" value="{{plant_id}}">
+                        <button type="submit">Remove</button>
+                    </form>
                 </li>
                 {{/each}}
             </ul>
