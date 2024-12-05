@@ -467,22 +467,19 @@ app.post('/setting', (req, res) => {
   
 });
 
-app.delete('/removePlant', async (req,res) => {
+app.get('/removePlant', async (req,res) => {
   const plant_id = req.query.plant_id;
-
-  try{
+  try
+  {
     const plantAlreadyIn = 'SELECT * FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
-    const inGarden = db.oneOrNone(plantAlreadyIn, [req.session.user.user_id, plant_id]);
-    if(!inGarden){
-      return res.status(400).json({ message: 'Not in your garden' });
-    }
+    const inGarden = await db.one(plantAlreadyIn,[req.session.user.user_id, plant_id]);
 
     const remove = 'DELETE FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
     await db.none(remove, [req.session.user.user_id, plant_id]);
-    res.status(200).redirect(`/pages/profile`);
+    res.status(200).redirect('garden');
   }
   catch (error){
-    res.status(500).json({ message: 'Failed to remove plant' });
+    res.status(404).render('pages/garden',{message:'This plant is not in your garden!',plants:user_plants});
   }
 });
 
