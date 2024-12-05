@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/daisyui@2.14.0/dist/full.js"></script>
+</head>
+
+<body class="bg-base-200">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-1/4">
+            {{> sidebar}}
+        </aside>
+
+        <!-- Centered Content -->
+        <div class="flex-grow p-6 bg-base-100 shadow-xl rounded-lg space-y-6 overflow-y-auto flex flex-col items-center">
+            <!-- User Info -->
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
+                <h2 class="card-title text-xl">User Information</h2>
+                <p><strong>Name:</strong> {{user.name}}</p>
+                <p><strong>Username:</strong> {{user.username}}</p>
+                <p><strong>Email:</strong> {{user.email}}</p>
+            </div>
+
+            <!-- Location Information -->
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
+                <h2 class="card-title text-xl">Location Information</h2>
+                <p><strong>Average Humidity:</strong> {{location.avgHumidity}}%</p>
+                <p><strong>Rainfall:</strong> {{location.rainfall}} mm</p>
+                <p><strong>Average Temperature:</strong> {{location.avgTemp}} °C</p>
+                <p><strong>Days of Sun:</strong> {{location.daysOfSun}}</p>
+                <p><strong>Elevation:</strong> {{location.elevation}} meters</p>
+            </div>
+
+            <!-- Plants Being Grown -->
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
+                <h2 class="card-title text-xl">Plants Currently Being Grown</h2>
+                <ul class="space-y-4">
+                    {{#each userPlants}}
+                    <li class="flex items-center space-x-4">
+                        <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
+                        <div>
+                            <p><strong>Name:</strong> {{this.name}}</p>
+                            <p><strong>Moisture Need:</strong> {{this.moistureNeed}}%</p>
+                            <p><strong>Comfort Temperature:</strong> {{this.comfTemp}} °C</p>
+                            <p><strong>Light Level:</strong> {{this.lightLevel}}</p>
+                            <p><strong>Lifespan:</strong> {{this.lifespan}} days</p>
+                            <p><strong>Size:</strong> {{this.SIZE}} cm</p>
+                            <p><strong>Rain Requirement:</strong> {{this.rainReq}} mm</p>
+                        </div>
+                        <button class="btn btn-sm btn-error">Remove</button>
+                    </li>
+                    {{/each}}
+                </ul>
+                <button class="btn btn-primary mt-4">Add New Plant</button>
+            </div>
+
+            <!-- Favorite Plants -->
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
+                <h2 class="card-title text-xl">Favorite Plants</h2>
+                <ul class="space-y-2">
+                    {{#each favoritePlants}}
+                    <li class="flex items-center space-x-4">
+                        <img src="{{this.image_url}}" alt="{{this.name}}" class="w-12 h-12 rounded-md object-cover">
+                        <div>{{this.name}}</div>
+                        <button class="btn btn-sm btn-error">Remove</button>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
+                <h2 class="card-title text-xl">Account Settings</h2>
+                <div class="form-control w-full mb-4">
+                    <label class="label" for="username">Username</label>
+                    <input type="text" id="username" class="input input-bordered w-full" value="{{user.username}}">
+                </div>
+                <div class="form-control w-full mb-4">
+                    <label class="label" for="email">Email</label>
+                    <input type="email" id="email" class="input input-bordered w-full" value="{{user.email}}">
+                </div>
+                <button class="btn btn-primary">Update Account</button>
+            </div>
+
+            <!-- Delete Account -->
+            <div class="card bg-base-100 shadow-lg p-4 w-full max-w-3xl">
+                <button class="btn btn-error w-full">Delete Account</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

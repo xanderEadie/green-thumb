@@ -1,29 +1,4 @@
-<script>
-    async function addToGarden(plantId){
-        const plant_id = plantId;
-        try {
-            const response = await fetch('/addPlant', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(plantData),
-            });
 
-            if (response.ok) {
-                window.location.href = '/pages/profile'; // Redirect on success
-            } else {
-                const errorMessage = await response.json();
-                console.error('Error adding plant:', errorMessage.message);
-            }
-        } catch (error) {
-            console.error('Error adding plant:', error);
-        }
-        catch(error){
-            console.error(error);
-        }
-    } //function to help use addPlant in index.js, help from Zhuoheng with the idea and formatting
-</script>
 {{> message}}
 <div id="plantInfo-container" class="container w-screen max-w-full flex-none place-content-center">
     <div class="container mx-auto m-10 place-content-center">
@@ -89,6 +64,43 @@
         </svg>
     Add to Garden
     </button>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const addButton = document.getElementById("add");
+            const plantId = {{ plant.plant_id }};
+
+            if (addButton) {
+                addButton.addEventListener("click", () => addToGarden(plantId));
+            } else {
+                    console.error("Add button not found in the DOM.");
+            }
+        });
+        async function addToGarden(plantId) {
+            console.log("addToGarden called with plantId:", plantId); // Debugging log
+
+            const plantData = { plant_id: plantId };
+
+            try {
+                const response = await fetch('/addPlant', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(plantData),
+                });
+
+                if (response.ok) {
+                    console.log("Plant successfully added to the garden.");
+                    window.location.href = '/pages/profile'; // Redirect on success
+                } else {
+                    const errorMessage = await response.json();
+                    console.error('Error adding plant:', errorMessage.message);
+                }
+            } catch (error) {
+                console.error('Error adding plant:', error);
+            }
+        } //function to help use addPlant in index.js, help from Zhuoheng with the idea and formatting
+    </script>
     </body>
     </div>
 </div>

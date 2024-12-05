@@ -409,13 +409,13 @@ app.get('/searchResults', async (req,res) => {
           //console.log("successfully retrieved plants\n",plant_data);
 
           let plant_search = [];
-          if(plant_data.length > 12)
+          if(plant_data.length > 15)
           // select random plants from selected plants
           {
             
             let max_idx = plant_data.length - 1;
             let idx = 0;
-            for(let i = 0; i < 25; i++)
+            for(let i = 0; i < 15; i++)
             {
               idx = Math.floor(Math.random() * max_idx);
               let plant = plant_data[idx];
@@ -614,6 +614,30 @@ app.get('/reccommendations', async (req,res) => {
     console.log(err); 
     res.status(500).render('pages/reccommendations',{message:"Server failed to retrieve user location data."})
   }
+})
+
+app.get('/profile',(req,res) => {
+  res.render('pages/settings/profile', { title: 'Profile' });
+})
+
+app.get('/p-location',(req,res) => {
+  res.render('pages/settings/location', { title: 'Location Settings' });
+})
+
+app.get('/account-settings',(req,res) => {
+  res.render('pages/settings/accountSettings', { title: 'Account Settings' });
+})
+
+app.get('/favorite-plants',(req,res) => {
+  res.render('pages/settings/favoritePlants', { title: 'Favorite Plants' });
+})
+
+app.get('/delete-account',(req,res) => {
+  res.render('pages/settings/deleteAccount', { title: 'Delete Account' });
+})
+
+app.get('/my-garden',(req,res) => {
+  res.render('pages/settings/plants', { title: 'Current Plants' });
 })
 
 // *****************************************************
