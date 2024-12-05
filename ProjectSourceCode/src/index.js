@@ -409,13 +409,13 @@ app.get('/searchResults', async (req,res) => {
           //console.log("successfully retrieved plants\n",plant_data);
 
           let plant_search = [];
-          if(plant_data.length > 12)
+          if(plant_data.length > 15)
           // select random plants from selected plants
           {
             
             let max_idx = plant_data.length - 1;
             let idx = 0;
-            for(let i = 0; i < 25; i++)
+            for(let i = 0; i < 15; i++)
             {
               idx = Math.floor(Math.random() * max_idx);
               let plant = plant_data[idx];
