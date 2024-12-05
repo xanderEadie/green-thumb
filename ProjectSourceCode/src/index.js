@@ -26,15 +26,15 @@ const hbs = handlebars.create({
 });
 
 // database configuration
-// const dbConfig = {
-//   host: 'dpg-ct8chg3qf0us73en2tq0-a', // the database server
-//   port: 5432, // the database port
-//   database: process.env.POSTGRES_DB, // the database name
-//   user: process.env.POSTGRES_USER, // the user account to connect with
-//   password: process.env.POSTGRES_PASSWORD, // the password of the user account
-// };
+const dbConfig = {
+  host: 'dpg-ct8chg3qf0us73en2tq0-a', // the database server
+  port: 5432, // the database port
+  database: process.env.POSTGRES_DB, // the database name
+  user: process.env.POSTGRES_USER, // the user account to connect with
+  password: process.env.POSTGRES_PASSWORD, // the password of the user account
+};
 
-// const db = pgp(dbConfig);
+const db = pgp(dbConfig);
 
 // test your database
 db.connect()
