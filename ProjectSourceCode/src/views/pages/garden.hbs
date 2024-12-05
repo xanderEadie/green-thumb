@@ -1,14 +1,14 @@
-<div id="garden" class="container h-full w-full flex-none place-content-center m-5">
+<div id="garden" class="container h-full w-full flex-none m-5">
   <div class="container justify-between items-center"></div>
   <h1 class="green-sub-title m-5">Garden</h1>
   <div class="drawer drawer-end z-50 m-5">
     <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content">
       <!-- Page content -->
-      <label for="my-drawer-4" class="drawer-button btn btn-primary bg-light-green"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <label for="my-drawer-4" class="drawer-button btn btn-primary bg-light-green border-none"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
       </svg>
-      Garden Menu
+      <h1>Garden Menu</h1>
       </label>
     </div>
     <div class="drawer-side">
@@ -22,7 +22,7 @@
               <a class="btn flex-grow" href="/plantInformation?plant_id={{this.plant_id}}">
                   {{this.common_name}}
               </a>
-              <form action="/removePlant" method="POST">
+              <form action="/removePlant" method="GET">
                 <input type="hidden" name="plant_id" value="{{this.plant_id}}">
                 <button type="submit" class="btn btn-circle bg-base-300 border-none">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
