@@ -696,18 +696,19 @@ true,
 false,
 'https://perenual.com/storage/species_image/1259_bergenia_cordifolia/regular/15401481825_f296996885_b.jpg'
 ),
-(
-'Bergenia',
-'Bergenia Silberlicht SILVERLIGHT',
-1.5,
-'Perennial',
-6,
-'Average',
-'Full Shade',
-true,
-false,
-'https://perenual.com/storage/species_image/1268_bergenia_silberlicht_silverlight/regular/bergenia-flower-shrub-flowers.jpg'
-),
+-- IMAGE LINK DEFUNCT
+-- (
+-- 'Bergenia',
+-- 'Bergenia Silberlicht SILVERLIGHT',
+-- 1.5,
+-- 'Perennial',
+-- 6,
+-- 'Average',
+-- 'Full Shade',
+-- true,
+-- false,
+-- 'https://perenual.com/storage/species_image/1268_bergenia_silberlicht_silverlight/regular/bergenia-flower-shrub-flowers.jpg'
+-- ),
 (
 'Green Eyes',
 'Berlandiera texana',

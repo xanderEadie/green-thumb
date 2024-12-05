@@ -1,36 +1,13 @@
-<script>
-    async function addToGarden(plantId){
-        const plant_id = plantId;
-        try {
-            const response = await fetch('/addPlant', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(plantData),
-            });
-
-            if (response.ok) {
-                window.location.href = '/pages/profile'; // Redirect on success
-            } else {
-                const errorMessage = await response.json();
-                console.error('Error adding plant:', errorMessage.message);
-            }
-        } catch (error) {
-            console.error('Error adding plant:', error);
-        }
-        catch(error){
-            console.error(error);
-        }
-    } //function to help use addPlant in index.js, help from Zhuoheng with the idea and formatting
-</script>
-<div id="plantInfo-container" class="container w-screen max-w-full flex-none place-content-center">
-    <body>
-        <h2 id="plant-name"> {{ plant.common_name }} </h2>
-        <h6 id="scientific-name"> {{ plant.scientific_name }}</h6>
-        <!--img src="{{ plant.img }}"/-->
-        <div class="overflow-x-auto">
-            <table class="table table-zebra">
+{{> message}}
+<div id="plantInfo-container" class="container h-screen max-auto max-w-screen w-full flex-none">
+    <div class="container m-10 items-center">
+        <div class="pb-5">
+            <h1><b id="plant-name"> {{ plant.common_name }} </b></h1>
+            <i id="scientific-name"> {{ plant.scientific_name }}</i>
+        </div>
+        <img src="{{ plant.img }}" width="400px" class="rounded-lg"/>
+        <div class="pt-5 mx-auto container w-full overflow-x-auto">
+            <table class="table table-zebra w-full">
                 <tbody>
                 <!-- row 1 -->
                 <tr>
@@ -68,23 +45,24 @@
                 </tbody>
             </table>
         </div>
-
-    <br>
-
-    <button id='add' class="btn" onclick="addToGarden({{plant.plant_id}})">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-        </svg>
-    Add to Garden
-    </button>
-    </body>
+        <br>
+        <form action="/addPlant" method="POST">
+            <input type="hidden" name="plant_id" value="{{plant.plant_id}}">
+            <button type="submit" class="btn">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            Add to Garden
+            </button>
+        </form>
+    </div>
 </div>
