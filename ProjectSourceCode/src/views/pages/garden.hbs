@@ -1,5 +1,4 @@
 <div id="garden" class="container h-full w-full flex-none m-5">
-  <div class="container justify-between items-center"></div>
   <h1 class="green-sub-title m-5">Garden</h1>
   <div class="drawer drawer-end z-50 m-5">
     <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
@@ -8,7 +7,7 @@
       <label for="my-drawer-4" class="drawer-button btn btn-primary bg-light-green border-none"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
       </svg>
-      <h1>Garden Menu</h1>
+      <h1 class="text-gray-900">Garden Menu</h1>
       </label>
     </div>
     <div class="drawer-side">
@@ -38,7 +37,7 @@
     </div>
   </div>
 
-  <div class="grid md:grid-cols-{{col}} place-content-center">
+  <div class="grid md:grid-cols-{{col}} place-content-center w-full">
     {{#each plants}}
       <div class="card card-compact bg-base-300 w-50 shadow-l m-5">
         <figure>
