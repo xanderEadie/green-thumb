@@ -27,7 +27,7 @@ const hbs = handlebars.create({
 
 // database configuration
 const dbConfig = {
-  host: 'dpg-ct8chg3qf0us73en2tq0-a', // the database server
+  host: 'db', // the database server
   port: 5432, // the database port
   database: process.env.POSTGRES_DB, // the database name
   user: process.env.POSTGRES_USER, // the user account to connect with
@@ -123,6 +123,8 @@ app.post('/login', async (req, res) =>
             //save user details in session
             req.session.user = found_user;
             req.session.username = req.body.username;
+            req.session.user_id = req.body.user_id;
+            
             req.session.save((err) => {
                 if (err) {
                     console.log('session save error:', err);
@@ -486,15 +488,14 @@ app.delete('/removePlant', async (req,res) => {
 
 app.post('/addPlant', async (req,res) => {
   const plant_id = req.body.plant_id;
-  console.log("inside addPlant\n",plant_id);
-
+  console.log("attempting to add plant to user garden");
   try
   {
     let q_get_plant = "SELECT * FROM plants WHERE plant_id = $1;";
     const search_plant = await db.one(q_get_plant,[plant_id]);
 
     const plantAlreadyIn = 'SELECT * FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
-    // const plantAlreadyIn = 'SELECT * FROM userInfo INNER JOIN user_to_plants ON userInfo.user_id = user_to_plants.user_id INNER JOIN plants ON user_to_plants.plant_id = plants.plant_id WHERE plants.plant_id;';
+    
 
     const inGarden = await db.oneOrNone(plantAlreadyIn, [req.session.user.user_id, plant_id]);
     if(inGarden){
@@ -652,8 +653,28 @@ app.get('/delete-account',(req,res) => {
   res.render('pages/settings/deleteAccount', { title: 'Delete Account' });
 })
 
-app.get('/my-garden',(req,res) => {
-  res.render('pages/settings/plants', { title: 'Current Plants' });
+app.get('/garden', async (req,res) => {
+  console.log("attempting to retrieve plants for garden");
+
+  console.log(req.session.user.user_id)
+  try 
+  {
+    let q_get_plants = "SELECT * FROM user_to_plants INNER JOIN plants ON user_to_plants.plant_id = plants.plant_id WHERE user_to_plants.user_id = $1;";
+    const user_plants = await db.many(q_get_plants,[req.session.user.user_id]);
+
+    // calculate number of columns
+    let cols = Math.floor(Math.sqrt(user_plants.length));
+    if(cols > 5) cols = 5;
+    console.log(cols);
+
+    console.log("successfully retrieved plants");
+    res.status(200).render('pages/garden',{plants:user_plants,col:cols});
+  } 
+  catch (err) 
+  {
+    console.log(err);
+    res.status(404).render('pages/garden',{message:"No plant data found"})
+  }
 })
 
 // *****************************************************
