@@ -484,22 +484,37 @@ app.delete('/removePlant', async (req,res) => {
 });
 
 app.post('/addPlant', async (req,res) => {
-  const plant_id = req.query.plant_id;
+  const plant_id = req.body.plant_id;
+  console.log("inside addPlant\n",plant_id);
 
-  try{
+  try
+  {
+    let q_get_plant = "SELECT * FROM plants WHERE plant_id = $1;";
+    const search_plant = await db.one(q_get_plant,[plant_id]);
+
     const plantAlreadyIn = 'SELECT * FROM user_to_plants WHERE user_id = $1 AND plant_id = $2;';
-    const inGarden = db.oneOrNone(plantAlreadyIn, [req.session.user.user_id, plant_id]);
+    // const plantAlreadyIn = 'SELECT * FROM userInfo INNER JOIN user_to_plants ON userInfo.user_id = user_to_plants.user_id INNER JOIN plants ON user_to_plants.plant_id = plants.plant_id WHERE plants.plant_id;';
+
+    const inGarden = await db.oneOrNone(plantAlreadyIn, [req.session.user.user_id, plant_id]);
     if(inGarden){
-      return res.status(400).json({ message: 'Already in your garden' });
+      return res.status(400).render('pages/plantInformation',{message: 'Already in your garden',plant:search_plant});
     }
 
-    const insert = 'INSERT INTO user_to_plants (user_id, plant_id) VALUES ($1, $2);';
-    await db.none(insert, [req.session.user.user_id, plant_id]);
-    res.status(200).json({ message: 'Plant added successfully' });
+    try
+    {
+      const insert = 'INSERT INTO user_to_plants (user_id, plant_id) VALUES ($1, $2);';
+      await db.none(insert, [req.session.user.user_id, plant_id]);
+      res.status(200).render('pages/plantInformation',{message: 'Plant added successfully',plant:search_plant});
+    }
+    catch (err)
+    {
+      console.log(err);
+      res.status(500).render('pages/plantInformation',{message:"insert plant failed",plant:search_plant})
+    }
   }
   catch (error){
     console.error('Failed to add plant:', error);
-    res.status(500).json({ message: 'Failed to add plant' });
+    res.status(500).render('pages/plantInformation',{message: 'Failed to add plant',plant:search_plant});
   }
 });
 
