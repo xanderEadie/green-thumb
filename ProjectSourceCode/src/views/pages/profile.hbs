@@ -46,7 +46,7 @@
                         <p><strong>Size:</strong> {{this.SIZE}} cm</p>
                         <p><strong>Rain Requirement:</strong> {{this.rainReq}} mm</p>
                     </div>
-                    <form action="/courses/add" method="POST">
+                    <form action="/removePlant" method="DELETE">
                         <input type="hidden" name="plant_id" value="{{plant_id}}">
                         <button type="submit">Remove</button>
                     </form>
