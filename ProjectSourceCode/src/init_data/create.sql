@@ -20,7 +20,8 @@ CREATE TABLE userInfo(
     last_name VARCHAR(100),
     username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    password CHAR(60) NOT NULL
+    password CHAR(60) NOT NULL,
+    profile_photo VARCHAR(1000) 
 );
 CREATE TABLE location(
     location_id SERIAL PRIMARY KEY NOT NULL,
