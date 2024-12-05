@@ -453,11 +453,11 @@ app.get('/plantInformation', async (req,res) => {
 });
 
 app.get('/profile',(req,res) => {
-  res.render('pages/profile', { title: 'Profile' });
+  res.render('pages/settings/profile', { title: 'Profile' });
 });
 
 app.get('/setting',(req,res) => {
-  res.render('pages/setting', { title: 'Setting' });
+  res.render('pages/settings/profile', { title: 'Setting' });
 });
 
 app.post('/setting', (req, res) => {
