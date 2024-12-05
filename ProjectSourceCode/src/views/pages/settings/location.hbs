@@ -20,28 +20,28 @@
                 <form action="/location/add">
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700" for="avgHumidity">Min Hardiness</label>
-                        <input type="text" id="avgHumidity" name="avgHumidity" placeholder="Enter a decimal" class="w-full mt-1 input input-bordered" />
+                        <input type="text" id="avgHumidity" name="avgHumidity" placeholder="Enter an integer 1-12" class="w-full mt-1 input input-bordered" />
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700" for="rainfall">Max Hardiness</label>
-                        <input type="text" id="rainfall" name="avgTemp" placeholder="Enter a decimal" class="w-full mt-1 input input-bordered" />
+                        <input type="text" id="rainfall" name="avgTemp" placeholder="Enter an integer 1-12" class="w-full mt-1 input input-bordered" />
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700" for="sunlight">Sunlight</label>
                         <select id="sunlight" name="sunlight" class="w-full mt-1 input input-bordered">
                             <option value="">Select an option:</option>
-                            <option value="full-shade">Full Shade</option>
-                            <option value="part-shade">Part Shade</option>
-                            <option value="sun">Full Sun</option>
+                            <option value="Full shade">Full Shade</option>
+                            <option value="Part shade">Part Shade</option>
+                            <option value="Full Sun">Full Sun</option>
                         </select>
                     </div>
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700" for="watering">Watering</label>
                         <select id="watering" name="watering" class="w-full mt-1 input input-bordered">
                             <option value="">Select an option:</option>
-                            <option value="minimum">Minimum</option>
-                            <option value="average">Average</option>
-                            <option value="frequent">Frequent</option>
+                            <option value="Minimum">Minimum</option>
+                            <option value="Average">Average</option>
+                            <option value="Frequent">Frequent</option>
                         </select>
                     </div>
                     <button type="submit" class="w-full btn bg-green-300">Confirm</button>
