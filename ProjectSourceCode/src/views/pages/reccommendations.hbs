@@ -1,7 +1,7 @@
 <!-- TODO: randomize plant selection, add links to plant information pages -->
 {{> message}}
 {{#if plants}}
-    <div class="container w-screen max-w-full max-h-full flex-none place-content-center">
+    <div class="container w-full h-full max-w-full max-h-full flex-none place-content-center">
         <div class="container mx-auto m-10 place-content-center">
             <div class="container mx-auto">
                 <h1 class="text-center green-sub-title">Plant Reccommendations</h1>
@@ -21,6 +21,18 @@
                             </div>
                         </div>
                     </div> 
+
+                    <!-- TEST VERSION -->
+                    {{!-- <div class="flex flex-col h-full w-full bg-base-300 rounded-xl">
+                        <figure class="flex-grow">
+                        <a href="/plantInformation?plant_id={{this.plant_id}}">
+                            <img class="object-cover w-full h-full max-w-full max-h-50 rounded-t-xl" src="{{this.img}}" />
+                        </a>
+                        </figure>
+                        <div class="card-body">
+                        <h2 class="card-title">{{this.common_name}}</h2>
+                        </div>
+                    </div> --}}
                 {{/each}}
             </div>
         </div>
