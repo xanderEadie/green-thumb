@@ -516,18 +516,19 @@ false,
 false,
 'https://perenual.com/storage/species_image/725_aloe_sabaea/regular/488c2e98bae5c75ae8edcb2901f56875341dae17.jpg'
 ),
-(
-'Mountain Spinach',
-'Atriplex hortensis',
-6,
-'Perennial',
-6,
-'Average',
-'Part Shade',
-false,
-true,
-'https://perenual.com/storage/species_image/1144_atriplex_hortensis/og/29489868944_06b587da94_b.jpg'
-),
+-- removed plant for now, image size is taller than the others and it's screwing up the formatting
+-- (
+-- 'Mountain Spinach',
+-- 'Atriplex hortensis',
+-- 6,
+-- 'Perennial',
+-- 6,
+-- 'Average',
+-- 'Part Shade',
+-- false,
+-- true,
+-- 'https://perenual.com/storage/species_image/1144_atriplex_hortensis/og/29489868944_06b587da94_b.jpg'
+-- ),
 (
 'Spotted Laurel',
 'Aucuba japonica',
