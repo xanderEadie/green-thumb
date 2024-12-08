@@ -246,6 +246,8 @@ app.post('/location/add', async (req, res) => {
   const sunlight = req.body.sunlight;
   const user = req.session.user.user_id;
 
+  console.log(minHardiness, maxHardiness, watering, sunlight, user)
+
   db.task('create-location', task => {
       const insertLocation = 'INSERT INTO location (user_id, minHardiness, maxHardiness, watering, sunlight) VALUES ($1, $2, $3, $4) RETURNING id;';
       const location = task.one(insertLocation, [user, minHardiness, maxHardiness, watering, sunlight]);
@@ -268,7 +270,7 @@ app.get('/search',(req,res) => {
   res.render('pages/search',{plants: []});
 });
 
-app.get('/searchResults', async (req,res) => {
+app.post('/search', async (req,res) => {
   
   const plant_name = req.body.plantName;
   const minHeight = req.body.sizeMin;
@@ -281,8 +283,11 @@ app.get('/searchResults', async (req,res) => {
   const flowers = req.body.flowers;
   const edible = req.body.edible;
 
-  console.log("writing plant search query");
-        // append the non-null search values to the query - if all values are null or location data does not exist select all plants
+  console.log(plant_name, " ", minHeight, " ", maxHeight, " ", cycle, " ", minHardiness, " ", maxHardiness, " ", watering, " ", sunlight, " ", flowers, " ", edible)
+
+    try{  
+      console.log("writing plant search query");
+        // append the non-null search values to the query - if all values are null select all plants
         let q_get_plants = "SELECT * FROM plants";
         // if query specifiers is true, add an AND before appending next parameter
         let query_specifiers = false;
@@ -296,49 +301,51 @@ app.get('/searchResults', async (req,res) => {
         let q_flowers = "";
         let q_edible = "";
 
-        if(plant_name != null)
+        
+
+        if(plant_name)
         {
-          q_name = `watering = '${plant_name}'`;
+          q_name = ` common_name LIKE '%${plant_name}%'`;
           query_specifiers = true;
         }
 
         // have both min and max height - search for plants between min and max
-        if(minHeight != null && maxHeight != null)
+        if(minHeight && maxHeight)
         {
-          if (query_specifiers) q_height = ` AND height BETWEEN ${minHeight} AND ${maxHeight}`;
+          if (query_specifiers) q_height = ` AND height BETWEEN ${minHeight} AND ${maxHeight} `;
           else{
-            q_height = ` height BETWEEN ${minHeight} AND ${maxHeight}`;
+            q_height = ` height BETWEEN ${minHeight} AND ${maxHeight} `;
             query_specifiers = true;
           }
         }
           // have only min height - search for plants with height greater than min
-        else if(minHeight != null){
-          if (query_specifiers) q_height = ` AND height >= ${minHeight}`;
+        else if(minHeight){
+          if (query_specifiers) q_height = ` AND height >= ${minHeight} `;
           else{
-            q_height = ` height >= ${minHeight}`;
+            q_height = ` height >= ${minHeight} `;
             query_specifiers = true;
           }
         }
           // have only max height - search for plants with height less than max
-        else if(maxHeight != null){
-          if (query_specifiers) q_height = ` AND height <= ${maxHeight}`;
+        else if(maxHeight){
+          if (query_specifiers) q_height = ` AND height <= ${maxHeight} `;
           else{
-            q_height = ` height <= ${maxHeight}`;
+            q_height = ` height <= ${maxHeight} `;
             query_specifiers = true;
           }
         }
 
-        if(cycle != null)
+        if(cycle)
         {
-          if (query_specifiers) q_cycle = `AND watering = '${cycle}'`;
+          if (query_specifiers) q_cycle = `AND cycle = '${cycle}'`;
           else{
-            q_cycle = `watering = '${cycle}'`;
+            q_cycle = ` cycle = '${cycle}'`;
             query_specifiers = true;
           }
         }
 
         // have both min and max hardiness - search for plants between min and max
-        if(minHardiness != null && maxHeardiness != null)
+        if(minHardiness && maxHardiness)
         {
           if (query_specifiers) q_hardiness = ` AND hardiness BETWEEN ${minHardiness} AND ${maxHardiness}`;
           else{
@@ -347,7 +354,7 @@ app.get('/searchResults', async (req,res) => {
           }
         }
           // have only min hardiness - search for plants with hardiness greater than min
-        else if(minHardiness != null){
+        else if(minHardiness){
           if (query_specifiers) q_hardiness = ` AND hardiness >= ${minHardiness}`;
           else{
             q_hardiness = ` hardiness >= ${minHardiness}`;
@@ -355,7 +362,7 @@ app.get('/searchResults', async (req,res) => {
           }
         }
           // have only max hardiness - search for plants with hardiness less than max
-        else if(maxHardiness != null){
+        else if(maxHardiness){
           if (query_specifiers) q_hardiness = ` AND hardiness <= ${maxHardiness}`;
           else{
             q_hardiness = ` hardiness <= ${maxHardiness}`;
@@ -364,7 +371,7 @@ app.get('/searchResults', async (req,res) => {
         }
 
         // search for watering value 'Minimum', 'Average', or 'Frequent'
-        if(watering != null)
+        if(watering)
         {
           if (query_specifiers) q_watering = ` AND watering = '${watering}'`;
           else{
@@ -374,7 +381,7 @@ app.get('/searchResults', async (req,res) => {
         }
 
         // search for sunlight value 'Full Shade', 'Part Shade', or 'Full Sun'
-        if(sunlight != null)
+        if(sunlight)
         {
           if (query_specifiers) q_sunlight = ` AND sunlight = '${sunlight}'`;
           else{
@@ -384,7 +391,8 @@ app.get('/searchResults', async (req,res) => {
           q_sunlight = ` AND sunlight = '${sunlight}'`;
         }
 
-        if (flowers != null)
+        // search for flowers true/false
+        if (flowers)
         {
           if (query_specifiers) q_flowers = ` AND flowers = '${flowers}'`;
           else{
@@ -393,7 +401,8 @@ app.get('/searchResults', async (req,res) => {
           }
         }
         
-        if (edible != null)
+        // search for edible true/false
+        if (edible)
         {
           if (query_specifiers) q_edible = ` AND edible = '${edible}'`;
           else{
@@ -407,13 +416,13 @@ app.get('/searchResults', async (req,res) => {
 
         try
         {
-          console.log("attempting to retrieve matching plants from database");
+          console.log("attempting to retrieve matching plants from database", q_get_plants);
           const plant_data = await db.any(q_get_plants);
-          //console.log("successfully retrieved plants\n",plant_data);
+          // console.log("successfully retrieved plants\n",plant_data);
 
           let plant_search = [];
           if(plant_data.length > 15)
-          // select random plants from selected plants
+          // select random plants from selected plants if there are more than 15
           {
             
             let max_idx = plant_data.length - 1;
@@ -430,11 +439,15 @@ app.get('/searchResults', async (req,res) => {
 
           res.status(200).render('pages/searchResults',{plants:plant_search})
         }
-        catch (err)
-        {
+        catch (err){
           console.log(err);
           res.status(500).render('pages/searchResults',{message:"Server failed to retrieve plants from database"});
         }
+      } 
+      catch (err){
+          console.log(err);
+          res.status(500).render('pages/searchResults',{message:"Server failed to retrieve plants from database"});
+        }   
 });
 
 app.get('/plantInformation', async (req,res) => {
@@ -583,7 +596,7 @@ app.get('/reccommendations', async (req,res) => {
 
         try
         {
-          console.log("attempting to retrieve matching plants from database");
+          console.log("attempting to retrieve matching plants from database query ", q_get_plants);
           const plant_data = await db.any(q_get_plants);
           //console.log("successfully retrieved plants\n",plant_data);
 

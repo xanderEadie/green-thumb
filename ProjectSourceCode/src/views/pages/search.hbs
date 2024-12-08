@@ -1,13 +1,13 @@
 <div class="container w-screen max-w-full max-h-full flex-none place-content-center p-10">
   <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
     <h1 class="text-2xl font-bold mb-4 text-center text-gray-800">Plant Search</h1>
-    <form action="/searchResults">
+    <form action="/search" method="POST">
     <!-- Plant Name Search -->
     <div class="form-control mb-4">
       <label class="label" for="plantName">
         <span class="label-text text-gray-700">Plant Name</span>
       </label>
-      <input type="text" id="plantName" class="input input-bordered" placeholder="Enter plant name" />
+      <input type="text" id="plantName" name="plantName" class="input input-bordered" placeholder="Enter plant name" />
     </div>
 
     <h3 class="text-xl font-semibold mb-4 text-gray-700">Filters</h3>
@@ -18,8 +18,8 @@
         <span class="label-text text-gray-700">Height (ft)</span>
       </label>
       <div class="flex gap-2">
-        <input type="number" id="sizeMin" class="input input-bordered w-1/2" placeholder="Min" step="0.5" />
-        <input type="number" id="sizeMax" class="input input-bordered w-1/2" placeholder="Max" step="0.5" />
+        <input type="number" id="sizeMin" name="sizeMin" class="input input-bordered w-1/2" placeholder="Min" step="0.5" />
+        <input type="number" id="sizeMax" name="sizeMax" class="input input-bordered w-1/2" placeholder="Max" step="0.5" />
       </div>
     </div>
 
@@ -28,7 +28,7 @@
       <label class="label" for="cycle">
         <span class="label-text text-gray-700">Cycle</span>
       </label>
-      <select id="moistureNeed" class="select select-bordered">
+      <select id="cycle" name="cycle" class="select select-bordered">
         <option value="">Any</option>
         <option value="Annual">Annual</option>
         <option value="Perennial">Perennial</option>
@@ -41,8 +41,8 @@
         <span class="label-text text-gray-700">Hardiness</span>
       </label>
       <div class="flex gap-2">
-        <input type="number" id="minHardiness" class="input input-bordered w-1/2" placeholder="Min" />
-        <input type="number" id="maxHardiness" class="input input-bordered w-1/2" placeholder="Max" />
+        <input type="number" id="minHardiness" name="minHardiness" class="input input-bordered w-1/2" placeholder="Min" />
+        <input type="number" id="maxHardiness" name="maxHardiness" class="input input-bordered w-1/2" placeholder="Max" />
       </div>
     </div>
 
@@ -51,7 +51,7 @@
       <label class="label" for="sunlight">
         <span class="label-text text-gray-700">Sunlight</span>
       </label>
-      <select id="sunlight" class="select select-bordered">
+      <select id="sunlight" name="sunlight" class="select select-bordered">
         <option value="">Any</option>
         <option value="Full Shade">Full Shade</option>
         <option value="Part Shade">Part Shade</option>
@@ -64,7 +64,7 @@
       <label class="label" for="watering">
         <span class="label-text text-gray-700">Watering</span>
       </label>
-      <select id="watering" class="select select-bordered">
+      <select id="watering" name="watering" class="select select-bordered">
         <option value="">Any</option>
         <option value="Minimum">Minimum</option>
         <option value="Average">Average</option>
@@ -77,7 +77,7 @@
       <label class="label" for="flowers">
         <span class="label-text text-gray-700">Flowers</span>
       </label>
-      <select id="flowers" class="select select-bordered">
+      <select id="flowers" name="flowers" class="select select-bordered">
         <option value="">Any</option>
         <option value="true">True</option>
         <option value="false">False</option>
@@ -89,7 +89,7 @@
       <label class="label" for="edible">
         <span class="label-text text-gray-700">Edible</span>
       </label>
-      <select id="edible" class="select select-bordered">
+      <select id="edible" name="edible" class="select select-bordered">
         <option value="">Any</option>
         <option value="true">True</option>
         <option value="false">False</option>
