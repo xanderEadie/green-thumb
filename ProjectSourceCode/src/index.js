@@ -662,6 +662,7 @@ app.get('/garden', async (req,res) => {
     // calculate number of columns
     let cols = Math.floor(Math.sqrt(user_plants.length));
     if(cols > 5) cols = 5;
+    if(cols < 2) cols = 2;
     console.log(cols);
 
     console.log("successfully retrieved plants");
