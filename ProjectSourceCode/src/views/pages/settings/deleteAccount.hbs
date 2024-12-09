@@ -8,8 +8,10 @@
     <!-- Centered Content Wrapper -->
     <div class="flex flex-1 items-center justify-center">
         <!-- Delete Account -->
-        <div class="card bg-base-100 shadow-lg p-6 max-w-sm w-full">
-            <button class="btn btn-error w-full">Delete Account</button>
-        </div>
+        <form action="/delete" method="GET">
+            <div class="card bg-base-100 shadow-lg p-6 max-w-sm w-full">
+                <button type="submit" class="btn btn-error w-full">Delete Account</button>
+            </div>
+        </form>
     </div>
 </div>
