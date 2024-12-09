@@ -881,7 +881,7 @@ app.post('/updateAccount', async (req,res) => {
     return;
   }
   // check if a valid email was entered - look for @ symbol and .
-  if(email.match(/^.+@{1}.+\..+/) == null)
+  if(email != null && email.match(/^.+@{1}.+\..+/) == null)
   {
     console.log("email is invalid:",email);
     res.status(400).render('pages/settings/accountSettings',{message:"Please enter a valid email"})
