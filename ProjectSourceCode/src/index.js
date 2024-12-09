@@ -252,17 +252,17 @@ app.post('/location/add', async (req, res) => {
   function checkNull(value) 
   {
     if (typeof value === 'string') return (value === undefined || value === null || value.match(/^ *$/) !== null) ? null : value;
-    else return isNaN(value) ? null : parseInt(value);
+    else return null;
   }
 
   let minHardiness = checkNull(req.body.minHardiness);
   let maxHardiness = checkNull(req.body.maxHardiness);
   let watering = checkNull(req.body.watering);
   let sunlight = checkNull(req.body.sunlight);
-  const user_id = checkNull(req.session.user.user_id);
+  const user_id = req.session.user.user_id;
 
-  minHardiness = parseInt(minHardiness);
-  maxHardiness = parseInt(maxHardiness);
+  if(minHardiness != null) minHardiness = parseInt(minHardiness);
+  if(maxHardiness != null) maxHardiness = parseInt(maxHardiness);
 
   console.log(`input data:\n minHardiness: ${minHardiness}\n maxHardiness: ${maxHardiness}\n watering: ${watering}\n sunlight: ${sunlight}\n user_id: ${user_id}`);
 
