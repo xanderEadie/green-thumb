@@ -1107,7 +1107,7 @@ true,
 'https://perenual.com/storage/species_image/1595_capsicum_annuum/regular/51677548162_b86511d0e5_b.jpg'
 );
 
--- TEST USER
+-- TEST USER 1
 INSERT INTO userInfo (first_name, last_name, username, email, password)
 VALUES ('John', 'Doe', 'jdoe', 'johndoe@example.com','$2a$12$bzVplFpQhE5Dectai0eRQuqpv2Z6RgRXgMdFXNd5ffJm8jfJmeAfm');
 
@@ -1121,4 +1121,16 @@ WHERE username = 'jdoe'),1),
 ((SELECT user_id FROM userInfo 
 WHERE username = 'jdoe'),2),
 ((SELECT user_id FROM userInfo 
-WHERE username = 'jdoe'),3)
+WHERE username = 'jdoe'),3);
+
+-- TEST USER 2
+INSERT INTO userInfo (first_name, last_name, username, email, password)
+VALUES ('Bob', 'Ross', 'bross', 'happytrees@example.com','$2a$12$bzVplFpQhE5Dectai0eRQuqpv2Z6RgRXgMdFXNd5ffJm8jfJmeAfm');
+
+INSERT INTO user_to_plants (user_id,plant_id) VALUES 
+((SELECT user_id FROM userInfo 
+WHERE username = 'bross'),1),
+((SELECT user_id FROM userInfo 
+WHERE username = 'bross'),2),
+((SELECT user_id FROM userInfo 
+WHERE username = 'bross'),3);
