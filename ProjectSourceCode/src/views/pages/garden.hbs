@@ -1,17 +1,23 @@
-<div id="garden" class="container h-full w-full flex-none p-5 mx-auto pb-5">
+<div id="garden" class="container h-full w-full min-h-screen min-w-screen flex-none p-5 mx-auto pb-5">
   <h1 class="green-sub-title ">Garden</h1>
   <!-- Garden Menu -->
   <div class="drawer drawer-end z-50 mb-5">
     <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content">
-      <!-- Page content -->
-      <label for="my-drawer-4" class="drawer-button btn btn-primary bg-light-green border-none"> 
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-      </svg>
-      <h1 class="text-gray-900">Garden Menu</h1>
-      </label>
-    </div>
+    {{#if plants}}
+      <div class="drawer-content">
+        <!-- Page content -->
+        <label for="my-drawer-4" class="drawer-button btn btn-primary bg-light-green border-none"> 
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+          <h1 class="text-gray-900">Garden Menu</h1>
+        </label>
+      </div>
+    {{else}}
+      <div class="text-xl font-bold text-gray-200 min-h-screen">
+      No plants in your garden!
+      </div>
+    {{/if}}
     <div class="drawer-side">
       <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
       <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-5">
