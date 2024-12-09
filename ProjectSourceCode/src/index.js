@@ -247,23 +247,17 @@ app.post('/location/add', async (req, res) => {
   const user = req.session.user.user_id;
 
   console.log(minHardiness, maxHardiness, watering, sunlight, user)
-
-  db.task('create-location', task => {
-      const insertLocation = 'INSERT INTO location (user_id, minHardiness, maxHardiness, watering, sunlight) VALUES ($1, $2, $3, $4) RETURNING id;';
-      const location = task.one(insertLocation, [user, minHardiness, maxHardiness, watering, sunlight]);
-
-      // const toOtherTable = 'INSERT INTO user_to_location (user_id, location_id) VALUES ($1, $2);';
-      // return task.none(toOtherTable, [req.session.user.student_id, location]);
-  })
-  .then(location => {
-    res.status(200).redirect('/home', {
-      message: `Successfully added location ${req.body.location_id}`,
-    });
+  try{
+    // insert location based on user passed parameters which links to user id
+    const insertLocation = 'INSERT INTO location (user_id, minHardiness, maxHardiness, watering, sunlight) VALUES ($1, $2, $3, $4, $5) RETURNING location_id;';
+    const location = await db.one(insertLocation, [user, minHardiness, maxHardiness, watering, sunlight]);
+  
+    res.status(200).render('pages/home', {message: `Successfully added location!`});
     console.log("successfully added location")
-  })
-  .catch(function (err){
+  }
+  catch(err){
       console.log(err, " error adding location")
-  });
+  }
 });
 
 app.get('/search',(req,res) => {
