@@ -296,7 +296,7 @@ app.post('/location/add', async (req, res) => {
       if(isInt(maxHardiness))
       {
         maxHardiness = parseInt(maxHardiness);
-        if(maxHardiness <= 0 || minHardiness > 12)
+        if(maxHardiness <= 0 || maxHardiness > 12)
         {
           res.status(400).render('pages/settings/location', {message: "Please enter a whole number from 1-12 for Max Hardiness",location:location});
           console.log("max hardiness invalid:",maxHardiness);
