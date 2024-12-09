@@ -8,15 +8,15 @@
     <!-- Centered Content Wrapper -->
     <div class="flex flex-1 flex-col items-center justify-center p-5">
         <!-- Account Information -->
-        <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full mb-5">
-            <h1 class="card-title text-xl mb-4">{{staticData.user.first_name}} {{staticData.user.last_name}}</h1>
-            <h2><b>Username:</b> {{staticData.user.username}}</h2>
-            <h2><b>Email:</b> {{staticData.user.email}}</h2>
+        <div class="card bg-white shadow-lg p-6 max-w-md w-full mb-5">
+            <h1 class="card-title text-xl mb-4 text-gray-700">{{staticData.user.first_name}} {{staticData.user.last_name}}</h1>
+            <h2 class="text-gray-700"><b>Username:</b> {{staticData.user.username}}</h2>
+            <h2 class="text-gray-700"><b>Email:</b> {{staticData.user.email}}</h2>
         </div>
         <!-- Account Settings -->
-        <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full">
+        <div class="card bg-white shadow-lg p-6 max-w-md w-full">
 
-            <h1 class="card-title text-xl mb-4">Account Settings</h1>
+            <h1 class="card-title text-xl mb-4 text-gray-700">Account Settings</h1>
             <form method="POST" action="/updateAccount">
                 <div class="mb-4 form-control">
                     <label class="block text-sm font-medium text-gray-700" for="fname">First Name</label>
