@@ -245,7 +245,7 @@ app.post('/location/add', async (req, res) => {
 
   function isInt(value) 
   {
-    if (value % 1 == 0) return value;
+    if (value.match(/^\d+$/) !== null) return value;
     else return false;
   }
 
@@ -255,41 +255,73 @@ app.post('/location/add', async (req, res) => {
     else return null;
   }
 
+  let new_location =
+  {
+    minhardiness: null,
+    maxhardiness: null,
+    watering: null,
+    sunlight: null
+  }
+
   let minHardiness = checkNull(req.body.minHardiness);
   let maxHardiness = checkNull(req.body.maxHardiness);
   let watering = checkNull(req.body.watering);
   let sunlight = checkNull(req.body.sunlight);
   const user_id = req.session.user.user_id;
 
-  if(minHardiness != null) minHardiness = parseInt(minHardiness);
-  if(maxHardiness != null) maxHardiness = parseInt(maxHardiness);
-
-  console.log(`input data:\n minHardiness: ${minHardiness}\n maxHardiness: ${maxHardiness}\n watering: ${watering}\n sunlight: ${sunlight}\n user_id: ${user_id}`);
-
-  // validate parameters
-  if(minHardiness != null && !isInt(req.body.minHardiness))
+  function validateInput(location)
   {
-    res.status(400).render('pages/settings/location', {message: "Please enter a whole number from 1-12 for Min Hardiness"});
-    console.log("min hardiness invalid:",minHardiness);
-    return;
-  }
-  if(maxHardiness != null && !isInt(req.body.maxHardiness))
-  {
-    res.status(400).render('pages/settings/location', {message: "Please enter a whole number from 1-12 for Max Hardiness"});
-    console.log("max hardiness invalid:",maxHardiness);
-    return;
-  }
-  if(minHardiness != null && maxHardiness != null && minHardiness > maxHardiness)
-  {
-    res.status(400).render('pages/settings/location', {message: "Min Hardiness must be less than or equal to Max Hardiness"});
-    console.log("min hardiness greater than max hardiness");
-    return;
-  }
-  if(minHardiness == null && maxHardiness == null && watering == null && sunlight == null)
-  {
-    res.status(400).render('pages/settings/location', {message: "Please enter valid location values"});
-    console.log("no valid location values");
-    return;
+    // validate parameters
+    if(minHardiness != null)
+    {
+      if(isInt(minHardiness)) 
+      {
+        minHardiness = parseInt(minHardiness);
+        if(minHardiness <= 0 || minHardiness > 12)
+        {
+          res.status(400).render('pages/settings/location', {message: "Please enter a whole number from 1-12 for Min Hardiness",location:location});
+          console.log("min hardiness invalid:",minHardiness);
+          return false;
+        }
+      }
+      else
+      {
+        res.status(400).render('pages/settings/location', {message: "Min Hardiness must be a number",location:location});
+        console.log("min hardiness invalid:",minHardiness);
+        return false;
+      }
+    }
+    if(maxHardiness != null)
+    {
+      if(isInt(maxHardiness))
+      {
+        maxHardiness = parseInt(maxHardiness);
+        if(maxHardiness <= 0 || minHardiness > 12)
+        {
+          res.status(400).render('pages/settings/location', {message: "Please enter a whole number from 1-12 for Max Hardiness",location:location});
+          console.log("max hardiness invalid:",maxHardiness);
+          return false;
+        }
+      }
+      else
+      {
+        res.status(400).render('pages/settings/location', {message: "Max Hardiness must be a number",location:location});
+        console.log("max hardiness invalid:",minHardiness);
+        return false;
+      }
+    }
+    if(minHardiness != null && maxHardiness != null && minHardiness > maxHardiness)
+    {
+      res.status(400).render('pages/settings/location', {message: "Min Hardiness must be less than or equal to Max Hardiness",location:location});
+      console.log("min hardiness greater than max hardiness");
+      return false;
+    }
+    if(minHardiness == null && maxHardiness == null && watering == null && sunlight == null)
+    {
+      res.status(400).render('pages/settings/location', {message: "Please enter valid location values",location:location});
+      console.log("no valid location values");
+      return false;
+    }
   }
 
   function appendQuery(query,add_comma,str)
@@ -308,22 +340,31 @@ app.post('/location/add', async (req, res) => {
     console.log("get location query:",q_get_location_data)
     const location_data = await db.one(q_get_location_data,[user_id]);
 
+    if(validateInput(location_data) == false) return;
+
+    // update new location data
+    new_location.maxhardiness = location_data.maxhardiness;
+    new_location.minhardiness = location_data.minhardiness;
+    new_location.watering = location_data.watering;
+    new_location.sunlight = location_data.sunlight;
+
+    //console.log("new location data:",new_location);
+
     // if only minHardiness or maxHardiness is entered, check value gainst current location data
-    if(minHardiness != null && minHardiness > location_data.minhardiness && maxHardiness == null)
+    if(minHardiness != null && maxHardiness == null && minHardiness > location_data.maxhardiness)
     {
       console.log("entered minHardiness is greater than current maxHardiness");
-      res.status(400).render('pages/settings/location', {message: "Min Hardiness cannot be greater than Max Hardiness"})
+      res.status(400).render('pages/settings/location', {message: "Min Hardiness cannot be greater than Max Hardiness",location:location_data})
       return;
     }
-    if(maxHardiness != null && maxHardiness < location_data.minhardiness && minHardiness == null)
+    if(maxHardiness != null && minHardiness == null  && maxHardiness < location_data.minhardiness)
     {
       console.log("entered mmaxHardiness is less than current minHardiness");
-      res.status(400).render('pages/settings/location', {message: "Max Hardiness cannot be less than Min Hardiness"})
+      res.status(400).render('pages/settings/location', {message: "Max Hardiness cannot be less than Min Hardiness",location:location_data})
       return;
     }
 
     console.log("location data exists, parsing location data into update query");
-    console.log(location_data);
 
     // parse location parameters into query
     let q_update_location = "UPDATE location SET ";
@@ -333,32 +374,45 @@ app.post('/location/add', async (req, res) => {
     {
       q_update_location = appendQuery(q_update_location,add_comma,`minHardiness = ${minHardiness}`);
       add_comma = true;
+      new_location.minhardiness = minHardiness;
     }
     if(maxHardiness != null)
     {
       q_update_location = appendQuery(q_update_location,add_comma,`maxHardiness = ${maxHardiness}`);
       add_comma = true;
+      new_location.maxhardiness = maxHardiness;
     }
     if(watering != null)
     {
       q_update_location = appendQuery(q_update_location,add_comma,`watering = '${watering}'`);
       add_comma = true;
+      new_location.watering = watering;
     }
     if(sunlight != null)
     {
       q_update_location = appendQuery(q_update_location,add_comma,`sunlight = '${sunlight}'`);
       add_comma = true;
+      new_location.sunlight = sunlight;
     }
     q_update_location += ` WHERE user_id = ${user_id};`;
 
-    console.log("update location query:",q_update_location);
+    //console.log("update location query:",q_update_location);
+    //console.log("new location data:",new_location);
     await db.none(q_update_location);
-    res.status(200).render('pages/settings/location', {message: "Successfully updated user location data"});
+    res.status(200).render('pages/settings/location', {message: "Successfully updated user location data",location:new_location});
     console.log("successfully updated location data");
   }
   catch
   { 
     console.log("location data does not exist, parsing location data into insert query");
+
+    new_location.minhardiness = minHardiness;
+    new_location.maxhardiness = maxHardiness;
+    new_location.watering = watering;
+    new_location.sunlight = sunlight;
+
+    if(validateInput(new_location) == false) return;
+
     // user does not have an entry in the location table, insert location data instead
     let col_names = "";
     let values = "";
@@ -393,11 +447,11 @@ app.post('/location/add', async (req, res) => {
     //console.log("col_names:",col_names,"\nvalues:",values);
 
     q_insert_location = "INSERT INTO location " + col_names + " VALUES " + values + ";";
-    console.log("insert location query:",q_insert_location);
+    //console.log("insert location query:",q_insert_location);
 
     await db.none(q_insert_location);
     console.log("successfully inserted user location data");
-    res.status(200).render('pages/settings/location', {message: "Successfully added user location data"});
+    res.status(200).render('pages/settings/location', {message: "Successfully added user location data",location:new_location});
     console.log("successfully inserted location data");
   }
 });
@@ -779,8 +833,20 @@ app.get('/profile',(req,res) => {
   res.render('pages/settings/profile', { title: 'Profile' });
 })
 
-app.get('/p-location',(req,res) => {
-  res.render('pages/settings/location', { title: 'Location Settings' });
+app.get('/location', async (req,res) => {
+  try
+  {
+    let q_get_location_data = `SELECT * FROM location WHERE user_id = $1;`;
+    console.log("get location query:",q_get_location_data)
+    const location_data = await db.one(q_get_location_data,[req.session.user.user_id]);
+    console.log("location data:\n",location_data);
+
+    res.render('pages/settings/location', {location:location_data});
+  }
+  catch
+  {
+    res.render('pages/settings/location');
+  }
 })
 
 app.get('/account-settings',(req,res) => {

@@ -7,8 +7,21 @@
         </aside>
         
         <!-- Main content -->
-        <div class="flex-1 flex items-center justify-center">
-            <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+        <div class="flex flex-1 flex-col items-center justify-center p-5">
+            {{#if location}}
+                <div class="card bg-white shadow-lg p-6 max-w-md w-full mb-5">
+                    <h1 class="card-title text-xl mb-4 text-gray-700">Location</h1>
+                    {{#if location.minhardiness}}<h2 class="text-gray-700"><b>Min Hardiness: </b>{{location.minhardiness}}</h2>{{/if}}
+
+                    {{#if location.maxhardiness}}<h2 class="text-gray-700"><b>Max Hardiness: </b>{{location.maxhardiness}}</h2>{{/if}}
+
+                    {{#if location.sunlight}}<h2 class="text-gray-700"><b>Sunlight: </b>{{location.sunlight}}</h2>{{/if}}
+
+                    {{#if location.watering}}<h2 class="text-gray-700"><b>Watering: </b>{{location.watering}}</h2>{{/if}}
+                </div>
+            {{/if}}
+            <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md m-5">
+                <h1 class="card-title text-xl mb-4 text-gray-700">Location Settings</h1>
                 <form action="/location/add" method="POST">
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700" for="minHardiness">Min Hardiness</label>
@@ -36,7 +49,7 @@
                             <option value="Frequent">Frequent</option>
                         </select>
                     </div>
-                    <button type="submit" class="w-full btn bg-green-300">Confirm</button>
+                    <button type="submit" class="w-full btn bg-green-300 text-gray-700">Confirm</button>
                 </form>
             </div>
         </div>
