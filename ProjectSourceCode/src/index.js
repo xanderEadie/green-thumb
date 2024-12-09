@@ -775,8 +775,29 @@ app.get('/favorite-plants',(req,res) => {
 })
 
 app.get('/delete-account',(req,res) => {
-  res.render('pages/settings/deleteAccount', { title: 'Delete Account' });
+  res.render('pages/settings/deleteAccount');
 })
+
+app.get('/delete', async (req,res) => {
+  const user_id = req.session.user.user_id;
+
+  try
+  {
+    // remove all entries with references to user_id in location and plant tables, then remove user
+    const removeLocation = 'DELETE FROM location WHERE user_id = $1;';
+    await db.none(removeLocation, [user_id]);
+    const removePlant = 'DELETE FROM user_to_plants WHERE user_id = $1;';
+    await db.none(removePlant, [user_id]);
+    const removeUser = 'DELETE FROM userInfo WHERE user_id = $1;';
+    await db.none(removeUser, [user_id]);
+    console.log("user deleted successfully")
+    res.status(200).redirect('logout');
+  }
+  catch (err){
+    console.log(err)
+    res.status(500).render('pages/home',{message:'Error deleting user'});
+  }
+});
 
 app.get('/garden', async (req,res) => {
   console.log("attempting to retrieve plants for garden");
