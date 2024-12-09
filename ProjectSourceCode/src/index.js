@@ -865,8 +865,6 @@ app.post('/updateAccount', async (req,res) => {
   let email = checkNull(req.body.email);
   let password = checkNull(req.body.password);
   let cpassword = checkNull(req.body.cpassword);
-
-  // console.log(` fname: ${fname} \n lname: ${lname} \n username: ${username} \n email: ${email} \n password: ${password} \n cpassword: ${cpassword}`);
   
   // check if any data was entered
   if(!(fname || lname || username || email || password || cpassword))
@@ -875,11 +873,18 @@ app.post('/updateAccount', async (req,res) => {
     res.status(608).render('pages/settings/accountSettings',{message:"Must enter new user data"})
     return;
   }
-
   // check if password matches confirm password
   if(password != cpassword) 
   {
+    console.log("password does not match confirm password");
     res.status(400).render('pages/settings/accountSettings',{message:"Password and confirm password fields do not match"})
+    return;
+  }
+  // check if a valid email was entered - look for @ symbol and .
+  if(email.match(/^.+@{1}.+\..+/) == null)
+  {
+    console.log("email is invalid:",email);
+    res.status(400).render('pages/settings/accountSettings',{message:"Please enter a valid email"})
     return;
   }
  
