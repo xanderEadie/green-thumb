@@ -236,6 +236,7 @@ app.use(auth);
 
 app.get('/logout', async (req,res) => {
   req.session.destroy();
+  res.locals.staticData.user = null;
   res.status(200).render('pages/home',{message:"Logged out successfully"});
 })
 
@@ -639,7 +640,127 @@ app.get('/p-location',(req,res) => {
 })
 
 app.get('/account-settings',(req,res) => {
-  res.render('pages/settings/accountSettings', { title: 'Account Settings' });
+  res.render('pages/settings/accountSettings', { title: 'Account Settings'});
+})
+
+app.post('/updateAccount', async (req,res) => {
+  console.log("attempting to update user account");
+  // if string is null or all whitespace, return null, else return the string
+  function checkNull(str){
+    return (str=== undefined || str === null || str.match(/^ *$/) !== null) ? null : str;
+  }
+  let fname = checkNull(req.body.first_name);
+  let lname = checkNull(req.body.last_name);
+  let username = checkNull(req.body.username);
+  let email = checkNull(req.body.email);
+  let password = checkNull(req.body.password);
+  let cpassword = checkNull(req.body.cpassword);
+
+  // console.log(` fname: ${fname} \n lname: ${lname} \n username: ${username} \n email: ${email} \n password: ${password} \n cpassword: ${cpassword}`);
+  
+  // check if any data was entered
+  if(!(fname || lname || username || email || password || cpassword))
+  {
+    console.log("no valid fields");
+    res.status(608).render('pages/settings/accountSettings',{message:"Must enter new user data"})
+    return;
+  }
+
+  // check if password matches confirm password
+  if(password != cpassword) 
+  {
+    res.status(400).render('pages/settings/accountSettings',{message:"Password and confirm password fields do not match"})
+    return;
+  }
+ 
+  try
+  {
+    // make sure the user account exists
+    q_get_user = "SELECT * FROM userInfo WHERE user_id = $1;";
+    const user_info = await db.one(q_get_user,[req.session.user.user_id]);
+
+    try 
+    {
+      // check if new username is already taken
+      if(username != "")
+      {
+        q_check4username = "SELECT * FROM userInfo WHERE username = $1;";
+        await db.none(q_check4username,[username]);
+      }
+      
+      try
+      {
+        let updated_user = res.locals.staticData.user;
+        function appendQuery(query,add_comma,str)
+        {
+          if(add_comma) query = query + ", ";
+          query = query + str;
+          console.log("appended '" + str + "' to query")
+          return query;
+        }
+        // construct query to update user account
+        let q_update_user = "UPDATE userInfo SET ";
+        let add_comma = false;
+        if(fname != null) 
+        {
+          q_update_user = appendQuery(q_update_user,add_comma,`first_name = '${fname}'`);
+          add_comma = true;
+          req.session.first_name = fname;
+          updated_user.first_name = fname;
+        }
+        if(lname != null) 
+        {
+          q_update_user = appendQuery(q_update_user,add_comma,`last_name = '${lname}'`);
+          add_comma = true;
+          req.session.last_name = lname;
+          updated_user.last_name = lname;
+        }
+        if(username != null)
+        {
+          q_update_user = appendQuery(q_update_user,add_comma,`username = '${username}'`);
+          add_comma = true;
+          req.session.username = username;
+          updated_user.username = username;
+        }
+        if(email != null)
+        {
+          q_update_user = appendQuery(q_update_user,add_comma,`email = '${email}'`);
+          add_comma = true;
+          req.session.email = email;
+          updated_user.email = email;
+        }
+        if(password != null)
+        {
+          const hash = await bcrypt.hash(req.body.password, 10);
+          q_update_user = appendQuery(q_update_user,add_comma,`password = '${hash}'`);
+          add_comma = true;
+        }
+        q_update_user = q_update_user + ';';
+
+        // update user account
+        await db.none(q_update_user);
+        req.session.save();
+        res.locals.staticData.user = updated_user;
+        console.log("successfully updated user info");
+        res.status(200).render('pages/settings/accountSettings',{message:"Successfully updated user information"});
+      }
+      catch (err)
+      {
+        console.log(err);
+        res.status(200).render('pages/settings/accountSettings',{message:"Failed to update user information"});
+      }
+    } 
+    catch (err) 
+    {
+      console.log(err);
+      res.status(403).render('pages/settings/accountSettings',{message:"Username is already taken"});
+    }
+  }
+  catch (err)
+  {
+    console.log(err);
+    res.status(404).render('pages/settings/accountSettings',{message:"User does not exist"});
+  }
 })
 
 app.get('/favorite-plants',(req,res) => {
