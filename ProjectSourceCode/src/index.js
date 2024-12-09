@@ -464,15 +464,11 @@ app.get('/plantInformation', async (req,res) => {
 });
 
 app.get('/profile',(req,res) => {
-  res.render('pages/settings/accountSettings', { title: 'Profile' });
+  res.render('pages/settings/accountSettings');
 });
 
 app.get('/setting',(req,res) => {
-  res.render('pages/settings/accountSettings', { title: 'Setting' });
-});
-
-app.post('/setting', (req, res) => {
-  
+  res.render('pages/settings/accountSettings');
 });
 
 app.get('/removePlant', async (req,res) => {
