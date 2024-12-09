@@ -18,29 +18,35 @@
 
             <h1 class="card-title text-xl mb-4 text-gray-700">Account Settings</h1>
             <form method="POST" action="/updateAccount">
+                <!-- First Name -->
                 <div class="mb-4 form-control">
                     <label class="block text-sm font-medium text-gray-700" for="fname">First Name</label>
                     <input name="first_name" type="text" id="fname" placeholder="First name" class="w-full mt-1 input input-bordered" />
                 </div>
+                <!-- Last Name -->
                 <div class="mb-4 form-control">
                     <label class="block text-sm font-medium text-gray-700" for="lname">Last Name</label>
                     <input name="last_name" type="text" id="lname" placeholder="First name" class="w-full mt-1 input input-bordered" />
                 </div>
+                <!-- Username -->
                 <div class="mb-4 form-control">
                     <label class="block text-sm font-medium text-gray-700" for="username">Username</label>
                     <input name="username" type="text" id="lname" placeholder="Username" class="w-full mt-1 input input-bordered" />
                 </div>
+                <!-- Email -->
                 <div class="mb-4 form-control">
                     <label class="block text-sm font-medium text-gray-700" for="email">Email</label>
                     <input name="email" type="email" id="email" placeholder="Enter username here" class="w-full mt-1 input input-bordered" />
                 </div>
+                <!-- Password -->
                 <div class="mb-4 form-control">
                     <label class="block text-sm font-medium text-gray-700" for="password">Password</label>
                     <input name="password" type="password" id="password" placeholder="Enter password here" class="w-full mt-1 input input-bordered" />
                 </div>
+                <!-- Confirm Password -->
                 <div class="mb-4 form-control">
                     <label class="block text-sm font-medium text-gray-700" for="cpassword">Confirm Password</label>
-                    <input name="cpassword" type="text" id="cpassword" placeholder="Confirm password here" class="w-full mt-1 input input-bordered" />
+                    <input name="cpassword" type="password" id="cpassword" placeholder="Confirm password here" class="w-full mt-1 input input-bordered" />
                 </div>
                 <button type="submit" class="w-full btn bg-light-green text-gray-900">Update</button>
             </form>
