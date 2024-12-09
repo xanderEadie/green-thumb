@@ -6,19 +6,45 @@
     </aside>
 
     <!-- Centered Content Wrapper -->
-    <div class="flex flex-1 items-center justify-center">
+    <div class="flex flex-1 flex-col items-center justify-center p-5">
+        <!-- Account Information -->
+        <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full mb-5">
+            <h1 class="card-title text-xl mb-4">{{staticData.user.first_name}} {{staticData.user.last_name}}</h1>
+            <h2><b>Username:</b> {{staticData.user.username}}</h2>
+            <h2><b>Email:</b> {{staticData.user.email}}</h2>
+        </div>
         <!-- Account Settings -->
         <div class="card bg-base-100 shadow-lg p-6 max-w-md w-full">
-            <h2 class="card-title text-xl mb-4">Account Settings</h2>
-            <div class="form-control w-full mb-4">
-                <label class="label" for="username">Username</label>
-                <input type="text" id="username" class="input input-bordered w-full" value="{{user.username}}">
-            </div>
-            <div class="form-control w-full mb-4">
-                <label class="label" for="email">Email</label>
-                <input type="email" id="email" class="input input-bordered w-full" value="{{user.email}}">
-            </div>
-            <button class="btn btn-primary w-full">Update Account</button>
+
+            <h1 class="card-title text-xl mb-4">Account Settings</h1>
+            <form method="POST" action="/updateAccount">
+                <div class="mb-4 form-control">
+                    <label class="block text-sm font-medium text-gray-700" for="fname">First Name</label>
+                    <input name="first_name" type="text" id="fname" placeholder="First name" class="w-full mt-1 input input-bordered" />
+                </div>
+                <div class="mb-4 form-control">
+                    <label class="block text-sm font-medium text-gray-700" for="lname">Last Name</label>
+                    <input name="last_name" type="text" id="lname" placeholder="First name" class="w-full mt-1 input input-bordered" />
+                </div>
+                <div class="mb-4 form-control">
+                    <label class="block text-sm font-medium text-gray-700" for="username">Username</label>
+                    <input name="username" type="text" id="lname" placeholder="Username" class="w-full mt-1 input input-bordered" />
+                </div>
+                <div class="mb-4 form-control">
+                    <label class="block text-sm font-medium text-gray-700" for="email">Email</label>
+                    <input name="email" type="email" id="email" placeholder="Enter username here" class="w-full mt-1 input input-bordered" />
+                </div>
+                <div class="mb-4 form-control">
+                    <label class="block text-sm font-medium text-gray-700" for="password">Password</label>
+                    <input name="password" type="password" id="password" placeholder="Enter password here" class="w-full mt-1 input input-bordered" />
+                </div>
+                <div class="mb-4 form-control">
+                    <label class="block text-sm font-medium text-gray-700" for="cpassword">Confirm Password</label>
+                    <input name="cpassword" type="text" id="cpassword" placeholder="Confirm password here" class="w-full mt-1 input input-bordered" />
+                </div>
+                <button type="submit" class="w-full btn bg-light-green text-gray-900">Update</button>
+            </form>
+
         </div>
     </div>
 </div>
