@@ -29,7 +29,13 @@ Prerequisites to run the application
 - You will need to have Docker installed on your computer to run this application. Installation instructions can be found at https://docs.docker.com/get-started/get-docker/
 
 How to run the application locally
-- Download the program, navigate to the source folder, and run docker compose up to start the application. It will be accessible via http://localhost:3000
+- Clone this GitHub repository and navigate to green-thumb/ProjectSourceCode
+- Create a .env file with the following contents:
+  - POSTGRES_USER="postgres"
+  - POSTGRES_PASSWORD="pwd"
+  - POSTGRES_DB="users_db"
+  - SESSION_SECRET="super duper secret!"
+- Start the Docker engine and run docker compose up to start the application. The application will be accessible via http://localhost:3000
 - To close the program, run docker compose down
 
 How to run the tests
