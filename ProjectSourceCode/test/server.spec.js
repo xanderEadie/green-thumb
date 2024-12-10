@@ -97,10 +97,10 @@ describe('test login API', () => {
   });
 })
 
-// THE BELOW TESTS WILL ALL FAIL IF THE AUTHENTICATION MIDDLEWARE IS NOT COMMENTED OUT
+// THE BELOW TESTS WILL ALL FAIL OR NOT WORK CORRECTLY IF THE AUTHENTICATION MIDDLEWARE IS NOT COMMENTED OUT
 // COMMENT OUT THE AUTHENTICATION MIDDLEWARE AND AUTHENTICATION REQUIRED SECTIONS OF THE INDEX.JS FILE FOR THE BELOW CASES TO WORK
 describe('test search API', () => {
-    it('[positive : /search] search for a known plant', done => {
+    it('[positive : /search] search with valid criteria', done => {
      chai
       .request(server)
       .post('/search')
