@@ -813,13 +813,13 @@ app.get('/reccommendations', async (req,res) => {
       }
       else
       {
-        throw new Error("No location data found for user " + res.session.user);
+        throw new Error("Please set location data in settings. No location data found for user " + res.session.user);
       }
     } 
     catch (err) 
     {
       console.log(err);
-      res.status(404).render('pages/reccommendations',{message:"No location data found"});
+      res.status(404).render('pages/reccommendations',{message:"No location data found. Please set location data in settings"});
     }
   }
   catch(err)
