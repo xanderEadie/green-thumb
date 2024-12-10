@@ -1,8 +1,18 @@
 # Green Thumb
 To help our neighbors make our Earth a greener place. 
 
-Application Description:
-- Green Thumb is a home gardening application designed to assist home gardeners with tracking and finding new plants for their garden. Users are able to search for plants using filters such as height, cycle, hardiness, sunlight, watering, flowers, and edible to find the best plants to match their garden. Users can then view all of these plants' attributes in a more detailed view, and add plants to their garden. Users can also view their garden, as well as get recommendations for new plants based on user-specified location attributes. This application is powered by data from the Perenual API, more information can be found at perenual.com. 
+Application Description
+- Green Thumb is a home gardening application designed to assist home gardeners with tracking and finding new plants for their garden. Users are able to search for plants using filters such as height, cycle, hardiness, sunlight, watering, flowers, and edible to find the best plants to match their garden. Users can then view all of these plants' attributes in a more detailed view, and add plants to their garden. Users can also view their garden, as well as get recommendations for new plants based on user-specified location attributes. This application is powered by data from the Perenual API, more information can be found at perenual.com.
+
+Directory Structure
+- MilestoneSubmissions: Contains information related to project submissions and planning information
+- ProjectSourceCode: Contains all code related to the project
+  - src: Contains most code related to the deployment of the website
+    - init_data: Contains create/insert queries for database tables
+    - resources: Contains stylization, image, and other resources used
+    - views: Contains all page layouts, pages, and partials
+  - test: Contains file to run test cases
+- TeamMeetingLogs: Contains notes from each of the four meetings conducted throughout the project
 
 Contributors/Team Members  
   - Alexander Eadie - xanderEadie 
