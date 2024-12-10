@@ -36,7 +36,7 @@ How to run the application locally
   - POSTGRES_DB="users_db"
   - SESSION_SECRET="super duper secret!"
 - Start the Docker engine and run docker compose up to start the application. The application will be accessible via http://localhost:3000
-- To close the program, run docker compose down
+- To close the program, run docker compose down -v
 
 How to run the tests
 - The tests should run automatically each time the application is launched.
