@@ -43,5 +43,8 @@ How to run the tests
 - Please note that after the first launch of the application, one of the register test cases will fail on subsequent launches due to the user already existing in the database. To resolve this issue, you will need to restart the databases along with the application by closing the application with docker compose down -v
 - For the search and plantInformation tests, the authentication middleware breaks the tests as it redirects to the login page. To fix this, comment out the authentication middleware and required sections of the index.js file from lines 223-235, then uncomment the negative plantInformation tests.
   - By default the authentication middleware is enabled and plantInformation is commented out so the application will run just fine without doing anything.
+ 
+Demo link
+https://www.youtube.com/watch?v=WFUObjQTSmY
 
-https://green-thumb-bx45.onrender.com/
+https://green-thumb-bx45.onrender.com/ (no longer works)
